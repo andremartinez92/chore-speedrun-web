@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import './globals.css';
 import Head from 'next/head';
+import { ApolloWrapper } from '@/lib/ApolloWrapper';
 
 const textFont = Roboto({
   subsets: ['latin'],
@@ -26,7 +27,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
       </Head>
-      <body className={textFont.className}>{children}</body>
+      <body className={textFont.className}>
+        <ApolloWrapper>{children}</ApolloWrapper>
+      </body>
     </html>
   );
 }
