@@ -28,7 +28,7 @@ const defaultOptions: DefaultOptions = {
 };
 
 const getToken = () => {
-  const sessionToken = localStorage.getItem('sessionToken');
+  const sessionToken = window?.localStorage.getItem('sessionToken');
 
   if (sessionToken) {
     return {
