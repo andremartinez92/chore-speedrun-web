@@ -1,6 +1,5 @@
 'use client';
 
-import { SupabaseProvider } from '@/lib/SupabaseProvider';
 import apolloClient from '@/lib/apolloClient';
 import { ApolloNextAppProvider } from '@apollo/experimental-nextjs-app-support/ssr';
 import { Roboto } from 'next/font/google';
@@ -25,11 +24,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
       </Head>
-      <SupabaseProvider>
-        <ApolloNextAppProvider makeClient={apolloClient}>
-          <body className={textFont.className}>{children}</body>
-        </ApolloNextAppProvider>
-      </SupabaseProvider>
+      <ApolloNextAppProvider makeClient={apolloClient}>
+        <body className={textFont.className}>{children}</body>
+      </ApolloNextAppProvider>
     </html>
   );
 }

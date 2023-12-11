@@ -11,7 +11,6 @@ import {
   NextSSRInMemoryCache,
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
-import { supabase } from './supabase';
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {
@@ -53,13 +52,13 @@ const httpLink = new HttpLink({
 });
 
 const authLink = setContext(async (_, { headers }) => {
-  const token = (await supabase.auth.getSession()).data.session?.access_token;
+  // const token = (await supabase.auth.getSession()).data.session?.access_token;
 
   return {
     headers: {
       ...headers,
       apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      Authorization: token ? `Bearer ${token}` : '',
+      // Authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
