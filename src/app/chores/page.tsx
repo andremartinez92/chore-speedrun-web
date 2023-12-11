@@ -1,20 +1,14 @@
-import readUserSession from '@/lib/actions';
-import { redirect } from 'next/navigation';
-import SignOut from './SignOut';
+'use server';
 
-const Chores = async () => {
-  const { data } = await readUserSession();
+import { SessionType } from '@/types/types';
+import ChoresClient from './ChoresClient';
 
-  if (!data.session) {
-    return redirect('/auth-server-action');
-  }
+type Props = {
+  session: SessionType;
+};
 
-  return (
-    <div>
-      Hello authed
-      <SignOut />
-    </div>
-  );
+const Chores = ({ session }: Props) => {
+  return <ChoresClient session={session} />;
 };
 
 export default Chores;

@@ -1,7 +1,6 @@
 'use client';
 
-import apolloClient from '@/lib/apolloClient';
-import { ApolloNextAppProvider } from '@apollo/experimental-nextjs-app-support/ssr';
+import { ApolloWrapper } from '@/lib/apollo/ApolloWrapper';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
 import './globals.css';
@@ -24,9 +23,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
       </Head>
-      <ApolloNextAppProvider makeClient={apolloClient}>
+      <ApolloWrapper>
         <body className={textFont.className}>{children}</body>
-      </ApolloNextAppProvider>
+      </ApolloWrapper>
     </html>
   );
 }

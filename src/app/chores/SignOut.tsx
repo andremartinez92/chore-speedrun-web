@@ -1,21 +1,18 @@
-import createSupabaseServerClient from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
+'use client';
 
-const logout = async () => {
-  'use server';
-  console.log('logout');
-  const supabase = await createSupabaseServerClient();
-  await supabase.auth.signOut();
-  redirect('/auth-server-action');
-};
+import createSupabaseClientClient from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
 
 const SignOut = () => {
-  return (
-    // @ts-expect-error wut
-    <form action={logout}>
-      <button>Sign out</button>
-    </form>
-  );
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const supabase = await createSupabaseClientClient();
+    await supabase.auth.signOut();
+    router.push('/auth-server-action');
+  };
+
+  return <button onClick={handleLogout}>Sign out</button>;
 };
 
 export default SignOut;

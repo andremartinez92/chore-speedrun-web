@@ -9,7 +9,7 @@ const config: CodegenConfig = {
       },
     },
   ],
-  documents: 'src/api/**/*.graphql',
+  documents: 'src/**/*.graphql',
   ignoreNoDocuments: true,
   generates: {
     'src/graphql/generated.ts': {

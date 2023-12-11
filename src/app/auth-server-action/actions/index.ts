@@ -15,14 +15,6 @@ export async function signUpWithEmailAndPassword({
     password,
   });
 
-  if (!result.error) {
-    const newResult = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return JSON.stringify(newResult);
-  }
-
   return JSON.stringify(result);
 }
 

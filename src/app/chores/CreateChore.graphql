@@ -1,0 +1,13 @@
+mutation CreateChore(
+  $name: String!
+  $recurringDays: Int!
+  $isPriority: Boolean!
+) {
+  insertIntoChoreCollection(
+    objects: [
+      { name: $name, recurring_days: $recurringDays, is_priority: $isPriority }
+    ]
+  ) {
+    affectedCount
+  }
+}
