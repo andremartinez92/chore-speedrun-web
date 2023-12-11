@@ -1,16 +1,23 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
-import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-preset';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/graphql/v1`,
-  documents: 'src/api/**/*.ts',
+  schema: [
+    {
+      [`${process.env.NEXT_PUBLIC_SUPABASE_URL}/graphql/v1`]: {
+        headers: { apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY },
+      },
+    },
+  ],
+  documents: 'src/api/**/*.graphql',
   ignoreNoDocuments: true,
   generates: {
-    'src/gql/': {
-      preset: 'client',
-      documentTransforms: [addTypenameSelectionDocumentTransform],
-      plugins: [],
+    'src/graphql/generated.ts': {
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo',
+      ],
       config: {
         scalars: {
           UUID: 'string',

@@ -1,0 +1,9 @@
+query Profiles {
+  profilesCollection {
+    edges {
+      node {
+        username
+      }
+    }
+  }
+}

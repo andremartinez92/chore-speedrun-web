@@ -5,7 +5,7 @@
     "prettier"
   ],
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["*.js", "*.mjs"],
+  "ignorePatterns": ["*.js", "*.mjs", "src/graphql/**/*.ts"],
   "rules": {
     "@typescript-eslint/no-floating-promises": ["warn"],
     "@typescript-eslint/no-unused-vars": ["warn"]

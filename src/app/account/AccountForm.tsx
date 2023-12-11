@@ -1,13 +1,9 @@
 'use client';
-import { Database } from '@/types/supabase';
-import {
-  Session,
-  createClientComponentClient,
-} from '@supabase/auth-helpers-nextjs';
+import { supabase } from '@/lib/supabase';
+import { Session } from '@supabase/auth-helpers-nextjs';
 import { useCallback, useEffect, useState } from 'react';
 
 const AccountForm = ({ session }: { session: Session | null }) => {
-  const supabase = createClientComponentClient<Database>();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState<string | null>(null);
   const user = session?.user;
@@ -34,7 +30,7 @@ const AccountForm = ({ session }: { session: Session | null }) => {
     } finally {
       setLoading(false);
     }
-  }, [user, supabase]);
+  }, [user]);
 
   useEffect(() => {
     void getProfile();

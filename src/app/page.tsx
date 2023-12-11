@@ -1,26 +1,11 @@
-import { gql, useQuery } from '@apollo/client';
+'use client';
+
+import { useProfilesQuery } from '@/graphql/generated';
 import AuthForm from './AuthForm';
 
-const allTodosQueryDocument = gql(/* GraphQL */ `
-  query AllTodos($cursor: Cursor) {
-    profilesCollection(first: 10, after: $cursor) {
-      edges {
-        node {
-          username
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-`);
-
 export default function Home() {
-  const { data } = useQuery(allTodosQueryDocument);
-
-  console.log(data);
+  const { data } = useProfilesQuery();
+  console.log('data', data);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

@@ -9,7 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.+(js|ts|tsx|css|json)\"",
     "typecheck": "tsc",
-    "generate": "graphql-codegen --config codegen.ts",
+    "generate": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env",
     "compile": "npm run generate && tsc"
   },
   "dependencies": {
@@ -34,6 +34,8 @@
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.0",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@types/node": "20.10.3",
     "@types/react": "18.2.0",
