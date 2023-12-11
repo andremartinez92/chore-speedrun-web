@@ -1,9 +1,8 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      EXPO_PUBLIC_B4A_APP_ID: string;
-      EXPO_PUBLIC_B4A_JS_KEY: string;
-      EXPO_PUBLIC_B4A_CLIENT_KEY: string;
+      NEXT_PUBLIC_SUPABASE_URL: string;
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
     }
   }
 }
