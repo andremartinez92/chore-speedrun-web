@@ -130,30 +130,30 @@ export type IntFilter = {
 /** The root type for creating and mutating data */
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Deletes zero or more records from the `profiles` collection */
-  deleteFromprofilesCollection: ProfilesDeleteResponse;
-  /** Adds one or more `profiles` records to the collection */
-  insertIntoprofilesCollection?: Maybe<ProfilesInsertResponse>;
-  /** Updates zero or more records in the `profiles` collection */
-  updateprofilesCollection: ProfilesUpdateResponse;
+  /** Deletes zero or more records from the `profile` collection */
+  deleteFromprofileCollection: ProfileDeleteResponse;
+  /** Adds one or more `profile` records to the collection */
+  insertIntoprofileCollection?: Maybe<ProfileInsertResponse>;
+  /** Updates zero or more records in the `profile` collection */
+  updateprofileCollection: ProfileUpdateResponse;
 };
 
 /** The root type for creating and mutating data */
-export type MutationDeleteFromprofilesCollectionArgs = {
+export type MutationDeleteFromprofileCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<ProfilesFilter>;
+  filter?: InputMaybe<ProfileFilter>;
 };
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntoprofilesCollectionArgs = {
-  objects: Array<ProfilesInsertInput>;
+export type MutationInsertIntoprofileCollectionArgs = {
+  objects: Array<ProfileInsertInput>;
 };
 
 /** The root type for creating and mutating data */
-export type MutationUpdateprofilesCollectionArgs = {
+export type MutationUpdateprofileCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<ProfilesFilter>;
-  set: ProfilesUpdateInput;
+  filter?: InputMaybe<ProfileFilter>;
+  set: ProfileUpdateInput;
 };
 
 export type Node = {
@@ -192,8 +192,8 @@ export type Query = {
   __typename?: 'Query';
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>;
-  /** A pagable collection of type `profiles` */
-  profilesCollection?: Maybe<ProfilesConnection>;
+  /** A pagable collection of type `profile` */
+  profileCollection?: Maybe<ProfileConnection>;
 };
 
 /** The root type for querying data */
@@ -202,13 +202,13 @@ export type QueryNodeArgs = {
 };
 
 /** The root type for querying data */
-export type QueryProfilesCollectionArgs = {
+export type QueryProfileCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<ProfilesFilter>;
+  filter?: InputMaybe<ProfileFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<ProfilesOrderBy>>;
+  orderBy?: InputMaybe<Array<ProfileOrderBy>>;
 };
 
 /** Boolean expression comparing fields on type "String" */
@@ -248,8 +248,8 @@ export type UuidFilter = {
   neq?: InputMaybe<Scalars['UUID']['input']>;
 };
 
-export type Profiles = Node & {
-  __typename?: 'profiles';
+export type Profile = Node & {
+  __typename?: 'profile';
   id: Scalars['UUID']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -257,89 +257,89 @@ export type Profiles = Node & {
   username?: Maybe<Scalars['String']['output']>;
 };
 
-export type ProfilesConnection = {
-  __typename?: 'profilesConnection';
-  edges: Array<ProfilesEdge>;
+export type ProfileConnection = {
+  __typename?: 'profileConnection';
+  edges: Array<ProfileEdge>;
   pageInfo: PageInfo;
 };
 
-export type ProfilesDeleteResponse = {
-  __typename?: 'profilesDeleteResponse';
+export type ProfileDeleteResponse = {
+  __typename?: 'profileDeleteResponse';
   /** Count of the records impacted by the mutation */
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
-  records: Array<Profiles>;
+  records: Array<Profile>;
 };
 
-export type ProfilesEdge = {
-  __typename?: 'profilesEdge';
+export type ProfileEdge = {
+  __typename?: 'profileEdge';
   cursor: Scalars['String']['output'];
-  node: Profiles;
+  node: Profile;
 };
 
-export type ProfilesFilter = {
+export type ProfileFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<ProfilesFilter>>;
+  and?: InputMaybe<Array<ProfileFilter>>;
   id?: InputMaybe<UuidFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
-  not?: InputMaybe<ProfilesFilter>;
+  not?: InputMaybe<ProfileFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<ProfilesFilter>>;
+  or?: InputMaybe<Array<ProfileFilter>>;
   updated_at?: InputMaybe<DatetimeFilter>;
   username?: InputMaybe<StringFilter>;
 };
 
-export type ProfilesInsertInput = {
+export type ProfileInsertInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ProfilesInsertResponse = {
-  __typename?: 'profilesInsertResponse';
+export type ProfileInsertResponse = {
+  __typename?: 'profileInsertResponse';
   /** Count of the records impacted by the mutation */
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
-  records: Array<Profiles>;
+  records: Array<Profile>;
 };
 
-export type ProfilesOrderBy = {
+export type ProfileOrderBy = {
   id?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
   username?: InputMaybe<OrderByDirection>;
 };
 
-export type ProfilesUpdateInput = {
+export type ProfileUpdateInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ProfilesUpdateResponse = {
-  __typename?: 'profilesUpdateResponse';
+export type ProfileUpdateResponse = {
+  __typename?: 'profileUpdateResponse';
   /** Count of the records impacted by the mutation */
   affectedCount: Scalars['Int']['output'];
   /** Array of records impacted by the mutation */
-  records: Array<Profiles>;
+  records: Array<Profile>;
 };
 
-export type ProfilesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetProfilesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ProfilesQuery = {
+export type GetProfilesQuery = {
   __typename?: 'Query';
-  profilesCollection?: {
-    __typename?: 'profilesConnection';
+  profileCollection?: {
+    __typename?: 'profileConnection';
     edges: Array<{
-      __typename?: 'profilesEdge';
-      node: { __typename?: 'profiles'; username?: string | null };
+      __typename?: 'profileEdge';
+      node: { __typename?: 'profile'; username?: string | null };
     }>;
   } | null;
 };
 
-export const ProfilesDocument = gql`
-  query Profiles {
-    profilesCollection {
+export const GetProfilesDocument = gql`
+  query GetProfiles {
+    profileCollection {
       edges {
         node {
           username
@@ -350,61 +350,64 @@ export const ProfilesDocument = gql`
 `;
 
 /**
- * __useProfilesQuery__
+ * __useGetProfilesQuery__
  *
- * To run a query within a React component, call `useProfilesQuery` and pass it any options that fit your needs.
- * When your component renders, `useProfilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetProfilesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProfilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useProfilesQuery({
+ * const { data, loading, error } = useGetProfilesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useProfilesQuery(
-  baseOptions?: Apollo.QueryHookOptions<ProfilesQuery, ProfilesQueryVariables>
+export function useGetProfilesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetProfilesQuery,
+    GetProfilesQueryVariables
+  >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProfilesQuery, ProfilesQueryVariables>(
-    ProfilesDocument,
+  return Apollo.useQuery<GetProfilesQuery, GetProfilesQueryVariables>(
+    GetProfilesDocument,
     options
   );
 }
-export function useProfilesLazyQuery(
+export function useGetProfilesLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    ProfilesQuery,
-    ProfilesQueryVariables
+    GetProfilesQuery,
+    GetProfilesQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProfilesQuery, ProfilesQueryVariables>(
-    ProfilesDocument,
+  return Apollo.useLazyQuery<GetProfilesQuery, GetProfilesQueryVariables>(
+    GetProfilesDocument,
     options
   );
 }
-export function useProfilesSuspenseQuery(
+export function useGetProfilesSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    ProfilesQuery,
-    ProfilesQueryVariables
+    GetProfilesQuery,
+    GetProfilesQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<ProfilesQuery, ProfilesQueryVariables>(
-    ProfilesDocument,
+  return Apollo.useSuspenseQuery<GetProfilesQuery, GetProfilesQueryVariables>(
+    GetProfilesDocument,
     options
   );
 }
-export type ProfilesQueryHookResult = ReturnType<typeof useProfilesQuery>;
-export type ProfilesLazyQueryHookResult = ReturnType<
-  typeof useProfilesLazyQuery
+export type GetProfilesQueryHookResult = ReturnType<typeof useGetProfilesQuery>;
+export type GetProfilesLazyQueryHookResult = ReturnType<
+  typeof useGetProfilesLazyQuery
 >;
-export type ProfilesSuspenseQueryHookResult = ReturnType<
-  typeof useProfilesSuspenseQuery
+export type GetProfilesSuspenseQueryHookResult = ReturnType<
+  typeof useGetProfilesSuspenseQuery
 >;
-export type ProfilesQueryResult = Apollo.QueryResult<
-  ProfilesQuery,
-  ProfilesQueryVariables
+export type GetProfilesQueryResult = Apollo.QueryResult<
+  GetProfilesQuery,
+  GetProfilesQueryVariables
 >;

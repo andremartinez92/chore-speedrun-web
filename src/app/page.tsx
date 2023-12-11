@@ -1,10 +1,10 @@
 'use client';
 
-import { useProfilesQuery } from '@/graphql/generated';
+import { useGetProfilesQuery } from '@/graphql/generated';
 import AuthForm from './AuthForm';
 
 export default function Home() {
-  const { data } = useProfilesQuery();
+  const { data } = useGetProfilesQuery();
   console.log('data', data);
 
   return (

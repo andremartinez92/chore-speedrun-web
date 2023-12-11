@@ -1,5 +1,5 @@
-query Profiles {
-  profilesCollection {
+query GetProfiles {
+  profileCollection {
     edges {
       node {
         username
