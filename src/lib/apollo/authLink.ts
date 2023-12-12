@@ -11,7 +11,6 @@ export const serverAuthLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-
       apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       Authorization: token ? `Bearer ${token}` : '',
     },
@@ -27,9 +26,6 @@ export const clientAuthLink = setContext(async (_, { headers }) => {
   return {
     headers: {
       ...headers,
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers':
-        'authorization, x-client-info, apikey, content-type',
       apiKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       Authorization: token ? `Bearer ${token}` : '',
     },
