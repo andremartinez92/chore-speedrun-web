@@ -1,4 +1,4 @@
-import { readUserSession } from '@/lib/actions/readUserSession';
+import { readUserSession } from '@/lib/supabase/readUserSession';
 import { SIGN_IN_ROUTE } from '@/routes';
 import { redirect } from 'next/navigation';
 

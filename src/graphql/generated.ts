@@ -1,5 +1,5 @@
-import * as Apollo from '@apollo/client';
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -755,19 +755,6 @@ export type UuidFilter = {
   neq?: InputMaybe<Scalars['UUID']['input']>;
 };
 
-export type GetProfilesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetProfilesQuery = {
-  __typename?: 'Query';
-  profileCollection?: {
-    __typename?: 'ProfileConnection';
-    edges: Array<{
-      __typename?: 'ProfileEdge';
-      node: { __typename?: 'Profile'; username?: string | null };
-    }>;
-  } | null;
-};
-
 export type CreateChoreMutationVariables = Exact<{
   name: Scalars['String']['input'];
   recurringDays: Scalars['Int']['input'];
@@ -782,80 +769,6 @@ export type CreateChoreMutation = {
   } | null;
 };
 
-export const GetProfilesDocument = gql`
-  query GetProfiles {
-    profileCollection {
-      edges {
-        node {
-          username
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetProfilesQuery__
- *
- * To run a query within a React component, call `useGetProfilesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProfilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetProfilesQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetProfilesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetProfilesQuery,
-    GetProfilesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetProfilesQuery, GetProfilesQueryVariables>(
-    GetProfilesDocument,
-    options
-  );
-}
-export function useGetProfilesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetProfilesQuery,
-    GetProfilesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetProfilesQuery, GetProfilesQueryVariables>(
-    GetProfilesDocument,
-    options
-  );
-}
-export function useGetProfilesSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetProfilesQuery,
-    GetProfilesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetProfilesQuery, GetProfilesQueryVariables>(
-    GetProfilesDocument,
-    options
-  );
-}
-export type GetProfilesQueryHookResult = ReturnType<typeof useGetProfilesQuery>;
-export type GetProfilesLazyQueryHookResult = ReturnType<
-  typeof useGetProfilesLazyQuery
->;
-export type GetProfilesSuspenseQueryHookResult = ReturnType<
-  typeof useGetProfilesSuspenseQuery
->;
-export type GetProfilesQueryResult = Apollo.QueryResult<
-  GetProfilesQuery,
-  GetProfilesQueryVariables
->;
 export const CreateChoreDocument = gql`
   mutation CreateChore(
     $name: String!

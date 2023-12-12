@@ -1,4 +1,4 @@
-import { readUserSession } from '@/lib/actions/readUserSession';
+import { readUserSession } from '@/lib/supabase/readUserSession';
 import { CHORES_ROUTE } from '@/routes';
 import { redirect } from 'next/navigation';
 import AuthForm from './components/AuthForm';
