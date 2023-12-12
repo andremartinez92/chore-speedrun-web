@@ -1,14 +1,14 @@
 'use client';
 
 import { GRAPHQL_URL } from '@/constants';
-import { ApolloLink, HttpLink, defaultDataIdFromObject } from '@apollo/client';
+import { ApolloLink, HttpLink } from '@apollo/client';
 import {
   ApolloNextAppProvider,
   NextSSRApolloClient,
-  NextSSRInMemoryCache,
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import { clientAuthLink, serverAuthLink } from './authLink';
+import { createCache } from './createCache';
 import { errorLink } from './errorLink';
 
 function makeClient() {
@@ -16,19 +16,8 @@ function makeClient() {
     uri: GRAPHQL_URL,
   });
 
-  const cache = new NextSSRInMemoryCache({
-    dataIdFromObject(responseObject) {
-      if ('nodeId' in responseObject) {
-        return `${responseObject.nodeId}`;
-      }
-
-      return defaultDataIdFromObject(responseObject);
-    },
-  });
-
   return new NextSSRApolloClient({
-    // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
-    cache,
+    cache: createCache(),
     link: ApolloLink.from([
       // in a SSR environment, if you use multipart features like
       // @defer, you need to decide how to handle these.

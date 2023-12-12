@@ -6,7 +6,6 @@ import CreateForm from './components/CreateForm';
 const Chores = () => {
   return (
     <div>
-      Hello authed
       <SignOut />
       <CreateForm />
     </div>
