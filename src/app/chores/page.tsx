@@ -1,14 +1,16 @@
 'use server';
 
-import { SessionType } from '@/types/types';
-import ChoresClient from './ChoresClient';
+import SignOut from './SignOut';
+import CreateForm from './components/CreateForm';
 
-type Props = {
-  session: SessionType;
-};
-
-const Chores = ({ session }: Props) => {
-  return <ChoresClient session={session} />;
+const Chores = () => {
+  return (
+    <div>
+      Hello authed
+      <SignOut />
+      <CreateForm />
+    </div>
+  );
 };
 
 export default Chores;

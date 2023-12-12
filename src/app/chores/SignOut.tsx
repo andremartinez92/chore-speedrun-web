@@ -1,15 +1,16 @@
 'use client';
 
-import createSupabaseClientClient from '@/lib/supabase/client';
+import createSupabaseBrowserClient from '@/lib/supabase/client';
+import { SIGN_IN_ROUTE } from '@/routes';
 import { useRouter } from 'next/navigation';
 
 const SignOut = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const supabase = await createSupabaseClientClient();
+    const supabase = await createSupabaseBrowserClient();
     await supabase.auth.signOut();
-    router.push('/auth-server-action');
+    router.push(SIGN_IN_ROUTE);
   };
 
   return <button onClick={handleLogout}>Sign out</button>;

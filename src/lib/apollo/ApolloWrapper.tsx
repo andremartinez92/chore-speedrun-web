@@ -29,27 +29,17 @@ function makeClient() {
   return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
     cache,
-    link:
-      typeof window === 'undefined'
-        ? ApolloLink.from([
-            // in a SSR environment, if you use multipart features like
-            // @defer, you need to decide how to handle these.
-            // This strips all interfaces with a `@defer` directive from your queries.
-            new SSRMultipartLink({
-              stripDefer: true,
-            }),
-            errorLink,
-            serverAuthLink,
-            httpLink,
-          ])
-        : ApolloLink.from([
-            new SSRMultipartLink({
-              stripDefer: true,
-            }),
-            errorLink,
-            clientAuthLink,
-            httpLink,
-          ]),
+    link: ApolloLink.from([
+      // in a SSR environment, if you use multipart features like
+      // @defer, you need to decide how to handle these.
+      // This strips all interfaces with a `@defer` directive from your queries.
+      new SSRMultipartLink({
+        stripDefer: true,
+      }),
+      errorLink,
+      typeof window === 'undefined' ? serverAuthLink : clientAuthLink,
+      httpLink,
+    ]),
   });
 }
 

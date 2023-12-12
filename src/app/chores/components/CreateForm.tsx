@@ -1,11 +1,10 @@
 'use client';
 
-import { CreateChoreDocument } from '@/graphql/generated';
-import { useMutation } from '@apollo/client';
+import { useCreateChoreMutation } from '@/graphql/generated';
 import { FormEvent, useState } from 'react';
 
 const CreateForm = () => {
-  const [createChore] = useMutation(CreateChoreDocument, {
+  const [createChore] = useCreateChoreMutation({
     onCompleted: () => console.log('created'),
     onError: (e) => {
       console.log(e);
