@@ -1,15 +1,16 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
-import { signInWithEmailAndPassword } from '../actions';
+import { signUpWithEmailAndPassword } from '../helpers';
 
-const SignIn = () => {
+const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await signInWithEmailAndPassword({
+    console.log(email, password);
+    const result = await signUpWithEmailAndPassword({
       email,
       password,
     });
@@ -43,4 +44,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default RegisterForm;

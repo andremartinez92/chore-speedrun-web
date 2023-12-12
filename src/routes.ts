@@ -1,6 +1,6 @@
 export const HOME_ROUTE = '/';
 
-export const SIGN_IN_ROUTE = '/sign-in';
+export const SIGN_IN_ROUTE = '/auth/sign-in';
 
 export const CHORES_ROUTE = '/chores';
 export const CHORE_ROUTE = `${CHORES_ROUTE}/[id]`;

@@ -1,9 +1,0 @@
-query GetProfiles {
-  profileCollection {
-    edges {
-      node {
-        username
-      }
-    }
-  }
-}
