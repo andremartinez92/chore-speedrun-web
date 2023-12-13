@@ -1,19 +1,25 @@
 'use client';
 
 import createSupabaseBrowserClient from '@/lib/supabase/client';
-import { SIGN_IN_ROUTE } from '@/routes';
+import { Button, ButtonProps } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
-const SignOut = () => {
+type Props = Omit<ButtonProps, 'onClick'>;
+
+const SignOutButton = (props: Props) => {
   const router = useRouter();
 
   const handleLogout = async () => {
     const supabase = await createSupabaseBrowserClient();
     await supabase.auth.signOut();
-    router.push(SIGN_IN_ROUTE);
+    router.refresh();
   };
 
-  return <button onClick={handleLogout}>Sign out</button>;
+  return (
+    <Button {...props} onClick={handleLogout}>
+      Sign out
+    </Button>
+  );
 };
 
-export default SignOut;
+export default SignOutButton;

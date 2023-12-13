@@ -2,8 +2,7 @@
 
 import { createInputErrorProps } from '@/utils/createInputErrorProps';
 import { zodResolver } from '@hookform/resolvers/zod';
-import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signInWithEmailAndPassword } from '../helpers';
@@ -25,7 +24,7 @@ const validationSchema = z.object({
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-const SignInForm = ({ className = '' }: { className?: string }) => {
+const LoginForm = ({ className = '' }: { className?: string }) => {
   const {
     control,
     handleSubmit,
@@ -89,12 +88,11 @@ const SignInForm = ({ className = '' }: { className?: string }) => {
         )}
       />
 
-      <LoadingButton loading={isSubmitting} type="submit" variant="contained">
-        {/* https://mui.com/material-ui/react-button/#loading-button */}
-        <span>Submit</span>
-      </LoadingButton>
+      <Button disabled={isSubmitting} type="submit" variant="contained">
+        Submit
+      </Button>
     </form>
   );
 };
 
-export default SignInForm;
+export default LoginForm;

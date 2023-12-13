@@ -3,7 +3,7 @@
 import { useCreateChoreMutation } from '@/graphql/generated';
 import { FormEvent, useState } from 'react';
 
-const CreateForm = () => {
+const CreateChoreForm = () => {
   const [createChore] = useCreateChoreMutation({
     onCompleted: () => console.log('created'),
     onError: (e) => {
@@ -52,4 +52,4 @@ const CreateForm = () => {
   );
 };
 
-export default CreateForm;
+export default CreateChoreForm;

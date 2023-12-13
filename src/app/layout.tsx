@@ -1,6 +1,6 @@
 import { ApolloWrapper } from '@/lib/apollo/ApolloWrapper';
 // https://mui.com/material-ui/about-the-lab/#typescript
-import type {} from '@mui/lab/themeAugmentation';
+import NavBar from '@/components/Navbar';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
@@ -32,7 +32,10 @@ export default function RootLayout({
 
       <ApolloWrapper>
         <AppRouterCacheProvider>
-          <body className={textFont.className}>{children}</body>
+          <body className={textFont.className}>
+            <NavBar />
+            {children}
+          </body>
         </AppRouterCacheProvider>
       </ApolloWrapper>
     </html>

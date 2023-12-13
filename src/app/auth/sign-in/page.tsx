@@ -1,9 +1,9 @@
+import Tabs from '@/components/Tabs';
 import { readUserSession } from '@/lib/supabase/readUserSession';
 import { CHORES_ROUTE } from '@/routes';
 import { redirect } from 'next/navigation';
+import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
-import SignInForm from './components/SignInForm';
-
 const PAGE_TITLE_ID = 'sign-in-title';
 
 const Page = async () => {
@@ -19,8 +19,22 @@ const Page = async () => {
         Sign In
       </h1>
       <div className="mt-20 flex gap-72 items-center justify-center">
-        <RegisterForm />
-        <SignInForm className="self-center" />
+        <Tabs
+          tabsData={[
+            {
+              label: 'Register',
+              tabId: 'register-tab',
+              tabPanelId: 'register-tabpanel',
+              children: <RegisterForm />,
+            },
+            {
+              label: 'Login',
+              tabId: 'login-tab',
+              tabPanelId: 'login-tabpanel',
+              children: <LoginForm />,
+            },
+          ]}
+        />
       </div>
     </section>
   );
