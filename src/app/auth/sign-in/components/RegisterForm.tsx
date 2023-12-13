@@ -74,6 +74,7 @@ const RegisterForm = () => {
       <Controller
         name={FormField.email}
         control={control}
+        rules={{ required: true }}
         render={({ field }) => (
           <TextField
             {...field}
@@ -87,6 +88,7 @@ const RegisterForm = () => {
       <Controller
         name={FormField.password}
         control={control}
+        rules={{ required: true }}
         render={({ field }) => (
           <TextField
             {...field}
@@ -100,6 +102,7 @@ const RegisterForm = () => {
       <Controller
         name={FormField.confirmPassword}
         control={control}
+        rules={{ required: true }}
         render={({ field }) => (
           <TextField
             {...field}

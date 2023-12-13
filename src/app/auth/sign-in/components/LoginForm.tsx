@@ -65,6 +65,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
       <Controller
         name={FormField.email}
         control={control}
+        rules={{ required: true }}
         render={({ field }) => (
           <TextField
             {...field}
@@ -78,6 +79,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
       <Controller
         name={FormField.password}
         control={control}
+        rules={{ required: true }}
         render={({ field }) => (
           <TextField
             {...field}

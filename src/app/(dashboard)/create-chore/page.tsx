@@ -1,14 +1,14 @@
 'use server';
 
-import { Box } from '@mui/material';
 import CreateChoreForm from './components/CreateChoreForm';
 
-const Chores = () => {
+const Page = () => {
   return (
-    <Box>
+    <section className="m-20">
+      <h1 className="mb-4">Create chore</h1>
       <CreateChoreForm />
-    </Box>
+    </section>
   );
 };
 
-export default Chores;
+export default Page;
