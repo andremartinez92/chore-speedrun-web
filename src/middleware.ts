@@ -48,7 +48,7 @@ export async function middleware(request: NextRequest) {
 
   // Fix bug where CSS styles are not loaded after the redirect
   if (request.nextUrl.pathname.startsWith('/_next')) {
-    return NextResponse.next();
+    return response;
   }
 
   const token = await getSessionToken(supabase);

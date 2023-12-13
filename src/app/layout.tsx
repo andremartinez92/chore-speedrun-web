@@ -1,4 +1,7 @@
 import { ApolloWrapper } from '@/lib/apollo/ApolloWrapper';
+// https://mui.com/material-ui/about-the-lab/#typescript
+import type {} from '@mui/lab/themeAugmentation';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
@@ -26,8 +29,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
       </Head>
+
       <ApolloWrapper>
-        <body className={textFont.className}>{children}</body>
+        <AppRouterCacheProvider>
+          <body className={textFont.className}>{children}</body>
+        </AppRouterCacheProvider>
       </ApolloWrapper>
     </html>
   );
