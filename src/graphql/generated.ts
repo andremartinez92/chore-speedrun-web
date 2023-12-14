@@ -74,14 +74,14 @@ export type Chore = Node & {
   created_at: Scalars['Datetime']['output'];
   eventCollection?: Maybe<EventConnection>;
   id: Scalars['UUID']['output'];
-  is_priority?: Maybe<Scalars['Boolean']['output']>;
+  is_priority: Scalars['Boolean']['output'];
   last_completed_at?: Maybe<Scalars['Datetime']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
-  profile?: Maybe<Profile>;
-  profile_id?: Maybe<Scalars['UUID']['output']>;
-  recurring_days?: Maybe<Scalars['Int']['output']>;
+  profile: Profile;
+  profile_id: Scalars['UUID']['output'];
+  recurring_days: Scalars['Int']['output'];
 };
 
 export type ChoreEventCollectionArgs = {
@@ -202,15 +202,15 @@ export type DatetimeFilter = {
 
 export type Event = Node & {
   __typename?: 'Event';
-  chore?: Maybe<Chore>;
-  chore_id?: Maybe<Scalars['UUID']['output']>;
+  chore: Chore;
+  chore_id: Scalars['UUID']['output'];
   created_at: Scalars['Datetime']['output'];
   id: Scalars['UUID']['output'];
-  name?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
-  profile?: Maybe<Profile>;
-  profile_id?: Maybe<Scalars['UUID']['output']>;
+  profile: Profile;
+  profile_id: Scalars['UUID']['output'];
   recordCollection?: Maybe<RecordConnection>;
 };
 
@@ -473,7 +473,7 @@ export type Profile = Node & {
   nodeId: Scalars['ID']['output'];
   recordCollection?: Maybe<RecordConnection>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
-  username?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
 };
 
 export type ProfileChoreCollectionArgs = {
@@ -633,14 +633,14 @@ export type QueryRecordCollectionArgs = {
 export type Record = Node & {
   __typename?: 'Record';
   created_at: Scalars['Datetime']['output'];
-  event?: Maybe<Event>;
-  event_id?: Maybe<Scalars['UUID']['output']>;
+  event: Event;
+  event_id: Scalars['UUID']['output'];
   id: Scalars['UUID']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
-  profile?: Maybe<Profile>;
-  profile_id?: Maybe<Scalars['UUID']['output']>;
-  time?: Maybe<Scalars['BigInt']['output']>;
+  profile: Profile;
+  profile_id: Scalars['UUID']['output'];
+  time: Scalars['BigInt']['output'];
 };
 
 export type RecordConnection = {
@@ -769,6 +769,19 @@ export type CreateChoreMutation = {
   } | null;
 };
 
+export type CreateEventMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  choreId: Scalars['UUID']['input'];
+}>;
+
+export type CreateEventMutation = {
+  __typename?: 'Mutation';
+  insertIntoEventCollection?: {
+    __typename?: 'EventInsertResponse';
+    affectedCount: number;
+  } | null;
+};
+
 export const CreateChoreDocument = gql`
   mutation CreateChore(
     $name: String!
@@ -832,4 +845,55 @@ export type CreateChoreMutationResult =
 export type CreateChoreMutationOptions = Apollo.BaseMutationOptions<
   CreateChoreMutation,
   CreateChoreMutationVariables
+>;
+export const CreateEventDocument = gql`
+  mutation CreateEvent($name: String!, $choreId: UUID!) {
+    insertIntoEventCollection(objects: [{ name: $name, chore_id: $choreId }]) {
+      affectedCount
+    }
+  }
+`;
+export type CreateEventMutationFn = Apollo.MutationFunction<
+  CreateEventMutation,
+  CreateEventMutationVariables
+>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      choreId: // value for 'choreId'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEventMutation,
+    CreateEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(
+    CreateEventDocument,
+    options
+  );
+}
+export type CreateEventMutationHookResult = ReturnType<
+  typeof useCreateEventMutation
+>;
+export type CreateEventMutationResult =
+  Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
+  CreateEventMutation,
+  CreateEventMutationVariables
 >;
