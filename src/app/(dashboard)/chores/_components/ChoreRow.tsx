@@ -5,8 +5,12 @@ import {
   useCompleteChoreMutation,
   useDeleteChoreMutation,
 } from '@/graphql/generated';
+import { getChoreRoute } from '@/routes';
+import { convertToGqlDate } from '@/utils/convertToGqlDate';
+import { Launch } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import Link from 'next/link';
 import { useState } from 'react';
 
 type ChoreRowProps = {
@@ -41,7 +45,7 @@ const ChoreRow = ({
     });
 
   return (
-    <TableRow key={id}>
+    <TableRow>
       <TableCell>
         <Checkbox
           aria-label={
@@ -51,15 +55,18 @@ const ChoreRow = ({
           }
           checked={isMarkedCompleted}
           disabled={isCompletingChore}
-          onChange={(e) =>
+          onChange={(e) => {
+            setIsMarkedCompleted(!isMarkedCompleted);
             completeChore({
               variables: {
                 choreId: id,
                 isCompleted: e.target.checked,
-                // lastCompletedAt: Date.now().toString(),
+                lastCompletedAt: isMarkedCompleted
+                  ? undefined
+                  : convertToGqlDate(new Date()),
               },
-            })
-          }
+            });
+          }}
         />
       </TableCell>
       <TableCell component="th" scope="row">
@@ -70,6 +77,16 @@ const ChoreRow = ({
       <TableCell>{isPriority ? '*' : '-'}</TableCell>
       <TableCell>
         <IconButton
+          color="inherit"
+          LinkComponent={Link}
+          href={getChoreRoute(id)}
+        >
+          <Launch />
+        </IconButton>
+      </TableCell>
+      <TableCell>
+        <IconButton
+          color="warning"
           aria-label={`Delete chore ${name}`}
           onClick={() => deleteChore()}
           disabled={isDeletingChore}

@@ -4,7 +4,7 @@ import Tabs from '@/components/Tabs';
 import { CREATE_CHORE_ROUTE } from '@/routes';
 import { Button } from '@mui/material';
 import Link from 'next/link';
-import ChoresTable from './components/ChoresTable';
+import ChoresTable from './_components/ChoresTable';
 
 const PAGE_TITLE_ID = 'chores-page-title';
 
@@ -38,8 +38,12 @@ export default function Page() {
           },
         ]}
       />
-      <Button variant="contained" onClick={(e) => e.preventDefault()}>
-        <Link href={CREATE_CHORE_ROUTE}>Create chore</Link>
+      <Button
+        variant="contained"
+        LinkComponent={Link}
+        href={CREATE_CHORE_ROUTE}
+      >
+        Create chore
       </Button>
     </section>
   );

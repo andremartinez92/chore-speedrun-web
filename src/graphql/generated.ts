@@ -783,6 +783,31 @@ export type GetChoresQuery = {
   } | null;
 };
 
+export type GetChoreEventsQueryVariables = Exact<{
+  choreId: Scalars['UUID']['input'];
+}>;
+
+export type GetChoreEventsQuery = {
+  __typename?: 'Query';
+  choreCollection?: {
+    __typename?: 'ChoreConnection';
+    edges: Array<{
+      __typename?: 'ChoreEdge';
+      node: {
+        __typename?: 'Chore';
+        name: string;
+        eventCollection?: {
+          __typename?: 'EventConnection';
+          edges: Array<{
+            __typename?: 'EventEdge';
+            node: { __typename?: 'Event'; id: string; name: string };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+};
+
 export type CreateEventMutationVariables = Exact<{
   name: Scalars['String']['input'];
   choreId: Scalars['UUID']['input'];
@@ -918,6 +943,91 @@ export type GetChoresSuspenseQueryHookResult = ReturnType<
 export type GetChoresQueryResult = Apollo.QueryResult<
   GetChoresQuery,
   GetChoresQueryVariables
+>;
+export const GetChoreEventsDocument = gql`
+  query GetChoreEvents($choreId: UUID!) {
+    choreCollection(filter: { id: { eq: $choreId } }) {
+      edges {
+        node {
+          name
+          eventCollection(orderBy: [{ name: AscNullsLast }]) {
+            edges {
+              node {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChoreEventsQuery__
+ *
+ * To run a query within a React component, call `useGetChoreEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChoreEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChoreEventsQuery({
+ *   variables: {
+ *      choreId: // value for 'choreId'
+ *   },
+ * });
+ */
+export function useGetChoreEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
+    GetChoreEventsDocument,
+    options
+  );
+}
+export function useGetChoreEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
+    GetChoreEventsDocument,
+    options
+  );
+}
+export function useGetChoreEventsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >(GetChoreEventsDocument, options);
+}
+export type GetChoreEventsQueryHookResult = ReturnType<
+  typeof useGetChoreEventsQuery
+>;
+export type GetChoreEventsLazyQueryHookResult = ReturnType<
+  typeof useGetChoreEventsLazyQuery
+>;
+export type GetChoreEventsSuspenseQueryHookResult = ReturnType<
+  typeof useGetChoreEventsSuspenseQuery
+>;
+export type GetChoreEventsQueryResult = Apollo.QueryResult<
+  GetChoreEventsQuery,
+  GetChoreEventsQueryVariables
 >;
 export const CreateEventDocument = gql`
   mutation CreateEvent($name: String!, $choreId: UUID!) {

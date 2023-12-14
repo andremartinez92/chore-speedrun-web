@@ -55,12 +55,14 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
     <TableContainer component={Paper}>
       <Table stickyHeader aria-label={props['aria-label']}>
         <TableHead>
-          <TableRow>
+          <TableRow className="min-w-2xl">
+            <TableCell></TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Last completed</TableCell>
             <TableCell>Recurring days</TableCell>
             <TableCell>Priority</TableCell>
-            <TableCell className="invisible">Delete</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
 

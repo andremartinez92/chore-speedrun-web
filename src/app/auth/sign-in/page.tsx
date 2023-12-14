@@ -2,8 +2,8 @@ import Tabs from '@/components/Tabs';
 import { readUserSession } from '@/lib/supabase/readUserSession';
 import { CHORES_ROUTE } from '@/routes';
 import { redirect } from 'next/navigation';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
+import LoginForm from './_components/LoginForm';
+import RegisterForm from './_components/RegisterForm';
 const PAGE_TITLE_ID = 'sign-in-title';
 
 const Page = async () => {
