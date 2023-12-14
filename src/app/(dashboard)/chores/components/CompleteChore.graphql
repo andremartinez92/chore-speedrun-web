@@ -1,0 +1,16 @@
+mutation CompleteChore(
+  $choreId: UUID!
+  $lastCompletedAt: Datetime
+  $isCompleted: Boolean!
+) {
+  updateChoreCollection(
+    filter: { id: { eq: $choreId } }
+    set: { is_completed: $isCompleted, last_completed_at: $lastCompletedAt }
+  ) {
+    affectedCount
+    records {
+      id
+      is_completed
+    }
+  }
+}

@@ -1,0 +1,5 @@
+mutation DeleteChore($choreId: UUID!) {
+  deleteFromChoreCollection(filter: { id: { eq: $choreId } }) {
+    affectedCount
+  }
+}

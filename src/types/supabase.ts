@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           created_at: string;
           id: string;
+          is_completed: boolean;
           is_priority: boolean;
           last_completed_at: string | null;
           name: string;
@@ -22,6 +23,7 @@ export interface Database {
         Insert: {
           created_at?: string;
           id?: string;
+          is_completed?: boolean;
           is_priority?: boolean;
           last_completed_at?: string | null;
           name: string;
@@ -31,6 +33,7 @@ export interface Database {
         Update: {
           created_at?: string;
           id?: string;
+          is_completed?: boolean;
           is_priority?: boolean;
           last_completed_at?: string | null;
           name?: string;

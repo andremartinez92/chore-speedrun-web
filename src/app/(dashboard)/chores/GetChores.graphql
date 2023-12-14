@@ -1,0 +1,17 @@
+query GetChores($isCompleted: Boolean!) {
+  choreCollection(
+    filter: { is_completed: { eq: $isCompleted } }
+    orderBy: [{ is_priority: AscNullsLast, last_completed_at: DescNullsFirst }]
+  ) {
+    edges {
+      node {
+        id
+        name
+        recurring_days
+        is_priority
+        last_completed_at
+        is_completed
+      }
+    }
+  }
+}

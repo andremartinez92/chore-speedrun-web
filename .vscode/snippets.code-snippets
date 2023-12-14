@@ -19,5 +19,10 @@
     "prefix": "icss",
     "body": "import css from './styles.module.css'",
     "description": "Import CSS modules"
+  },
+  "React Component": {
+    "prefix": "reactc",
+    "body": ["const $1 = () => {};", "", "export default $1;"],
+    "description": "React component snippet"
   }
 }
