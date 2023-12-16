@@ -1,6 +1,5 @@
+import NavBar from '@/features/ui/Navbar';
 import { ApolloWrapper } from '@/lib/apollo/ApolloWrapper';
-// https://mui.com/material-ui/about-the-lab/#typescript
-import NavBar from '@/components/Navbar';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { Metadata } from 'next';
 import { Roboto } from 'next/font/google';

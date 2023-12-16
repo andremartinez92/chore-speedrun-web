@@ -57,7 +57,7 @@ const ChoreRow = ({
           disabled={isCompletingChore}
           onChange={(e) => {
             setIsMarkedCompleted(!isMarkedCompleted);
-            completeChore({
+            void completeChore({
               variables: {
                 choreId: id,
                 isCompleted: e.target.checked,

@@ -1,10 +1,10 @@
 'use client';
 
-import Tabs from '@/components/Tabs';
+import ChoresTable from '@/features/chores/ChoresTable';
+import Tabs from '@/features/ui/Tabs';
 import { CREATE_CHORE_ROUTE } from '@/routes';
 import { Button } from '@mui/material';
 import Link from 'next/link';
-import ChoresTable from './_components/ChoresTable';
 
 const PAGE_TITLE_ID = 'chores-page-title';
 

@@ -14,6 +14,4 @@ export const EVENT_ROUTE = `${EVENTS_ROUTE}/[id]`;
 export const getEventRoute = (choreId: string) =>
   EVENT_ROUTE.replace('[id]', choreId);
 
-export const CREATE_EVENT_ROUTE = `${CHORE_ROUTE}/create-event`;
-export const getCreateEventRoute = (choreId: string) =>
-  CREATE_EVENT_ROUTE.replace('[id]', choreId);
+export const CREATE_EVENT_ROUTE = `/create-event`;

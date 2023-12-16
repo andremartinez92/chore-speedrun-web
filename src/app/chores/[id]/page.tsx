@@ -1,5 +1,6 @@
 'use client';
 
+import EventsTable from '@/features/events/EventsTable';
 import {
   GetChoreEventsDocument,
   GetChoreEventsQuery,
@@ -11,7 +12,6 @@ import { Button } from '@mui/material';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { useMemo } from 'react';
-import EventsTable from './_components/EventsTable';
 
 export default function Page({ params }: { params: { id: string } }) {
   const { data, loading } = useQuery<

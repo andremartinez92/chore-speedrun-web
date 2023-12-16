@@ -1,6 +1,6 @@
 'use server';
 
-import CreateChoreForm from './_components/CreateChoreForm';
+import CreateChoreForm from '@/features/chores/CreateChoreForm';
 
 const Page = () => {
   return (
