@@ -1,6 +1,6 @@
 'use client';
 
-import EventsTable from '@/features/events/EventsTable';
+import EventsTable from '@/features/events/events-table';
 import {
   GetChoreEventsDocument,
   GetChoreEventsQuery,

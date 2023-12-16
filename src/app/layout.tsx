@@ -1,5 +1,5 @@
-import NavBar from '@/features/ui/Navbar';
-import { ApolloWrapper } from '@/lib/apollo/ApolloWrapper';
+import NavBar from '@/features/ui/navbar';
+import { ApolloWrapper } from '@/lib/apollo/apollo-wrapper';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { Metadata } from 'next';
 import { Roboto } from 'next/font/google';

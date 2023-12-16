@@ -1,6 +1,6 @@
-import { readUserSession } from '@/lib/supabase/readUserSession';
+import { readUserSession } from '@/lib/supabase/read-user-session';
 import { AppBar, Box, Toolbar } from '@mui/material';
-import AuthActionButton from './AuthActionButton';
+import AuthActionButton from './auth-action-button';
 
 const NavBar = async () => {
   const { data } = await readUserSession();

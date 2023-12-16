@@ -1,7 +1,7 @@
-import LoginForm from '@/features/auth/LoginForm';
-import RegisterForm from '@/features/auth/RegisterForm';
-import Tabs from '@/features/ui/Tabs';
-import { readUserSession } from '@/lib/supabase/readUserSession';
+import LoginForm from '@/features/auth/login-form';
+import RegisterForm from '@/features/auth/register-form';
+import Tabs from '@/features/ui/tabs';
+import { readUserSession } from '@/lib/supabase/read-user-session';
 import { CHORES_ROUTE } from '@/routes';
 import { redirect } from 'next/navigation';
 

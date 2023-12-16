@@ -2,9 +2,8 @@
 
 import { Box, Tabs as MUITabs, Tab } from '@mui/material';
 import { ReactNode } from 'react';
-import CustomTabPanel from './CustomTabPanel';
-import { createA11yProps } from './createA11yProps';
-import { useTabs } from './useTabs';
+import CustomTabPanel from './custom-tab-panel';
+import { useTabs } from './use-tabs';
 
 export type TabData = {
   tabId: string;
@@ -12,6 +11,11 @@ export type TabData = {
   label: string;
   children: ReactNode;
 };
+
+const createA11yProps = (tabId: string, tabPanelId: string) => ({
+  id: tabId,
+  'aria-controls': tabPanelId,
+});
 
 const Tabs = ({ tabsData }: { tabsData: Array<TabData> }) => {
   const { currentTabIndex, handleChange } = useTabs();

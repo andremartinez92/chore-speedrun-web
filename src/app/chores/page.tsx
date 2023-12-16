@@ -1,7 +1,7 @@
 'use client';
 
-import ChoresTable from '@/features/chores/ChoresTable';
-import Tabs from '@/features/ui/Tabs';
+import ChoresTable from '@/features/chores/chores-table';
+import Tabs from '@/features/ui/tabs';
 import { CREATE_CHORE_ROUTE } from '@/routes';
 import { Button } from '@mui/material';
 import Link from 'next/link';

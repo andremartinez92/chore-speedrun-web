@@ -1,27 +1,32 @@
 'use client';
 
-import { useCreateEventMutation } from '@/graphql/generated';
-import { EVENT_ROUTE } from '@/routes';
-import { createInputErrorProps } from '@/utils/createInputErrorProps';
+import { useCreateChoreMutation } from '@/graphql/generated';
+import { CHORE_ROUTE } from '@/routes';
+import { createInputErrorProps } from '@/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 enum FormField {
   name = 'name',
-  choreId = 'choreId',
+  recurringDays = 'recurringDays',
+  isPriority = 'isPriority',
 }
 
 const validationSchema = z.object({
   [FormField.name]: z.string().min(1, { message: 'Name is required.' }).trim(),
-  [FormField.choreId]: z.string().min(1, { message: 'Chore is required.' }),
+  [FormField.recurringDays]: z.coerce
+    .number()
+    .int()
+    .lte(400, 'Must be lower than 400.'),
+  [FormField.isPriority]: z.boolean(),
 });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-const CreateEventForm = () => {
+const CreateChoreForm = () => {
   const { push } = useRouter();
   const {
     control,
@@ -32,24 +37,31 @@ const CreateEventForm = () => {
     resolver: zodResolver(validationSchema),
     defaultValues: {
       [FormField.name]: '',
+      [FormField.recurringDays]: 0,
+      [FormField.isPriority]: false,
     },
     mode: 'onBlur',
   });
 
-  const [createEvent] = useCreateEventMutation({
+  const [createChore] = useCreateChoreMutation({
     onCompleted: () => {
       console.log('created');
-      push(EVENT_ROUTE);
+      push(CHORE_ROUTE);
     },
     onError: (error) => setError('root', { message: error.message }),
   });
 
   const onSubmit: SubmitHandler<ValidationSchema> = async ({
     name,
-    choreId,
+    recurringDays,
+    isPriority,
   }) => {
-    await createEvent({
-      variables: { name, choreId },
+    await createChore({
+      variables: {
+        name,
+        recurringDays,
+        isPriority,
+      },
     });
   };
 
@@ -71,11 +83,36 @@ const CreateEventForm = () => {
         )}
       />
 
+      <Controller
+        name={FormField.recurringDays}
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label="Recurring days"
+            type="number"
+            {...createInputErrorProps(errors.recurringDays)}
+          />
+        )}
+      />
+
+      <FormControlLabel
+        label="Priority"
+        control={
+          <Controller
+            name={FormField.isPriority}
+            control={control}
+            render={({ field }) => <Checkbox {...field} />}
+          />
+        }
+      />
+
       <Button disabled={isSubmitting} type="submit" variant="contained">
-        Create event
+        Create chore
       </Button>
     </form>
   );
 };
 
-export default CreateEventForm;
+export default CreateChoreForm;

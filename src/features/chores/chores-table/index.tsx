@@ -18,7 +18,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { useMemo } from 'react';
-import ChoreRow from './ChoreRow';
+import ChoreRow from './chore-row';
 
 type Props = {
   isCompleted: boolean;

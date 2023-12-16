@@ -1,6 +1,6 @@
 'use server';
 
-import CreateEventForm from '@/features/events/CreateEventForm';
+import CreateEventForm from '@/features/events/create-event-form';
 
 const Page = () => {
   return (

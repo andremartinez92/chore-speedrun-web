@@ -2,7 +2,7 @@
 import { SIGN_IN_ROUTE } from '@/routes';
 import { Button } from '@mui/material';
 import { usePathname } from 'next/navigation';
-import SignOutButton from '../SignOutButton';
+import SignOutButton from '../sign-out-button';
 
 const AuthActionButton = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const path = usePathname();

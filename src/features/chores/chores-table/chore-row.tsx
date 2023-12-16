@@ -6,7 +6,7 @@ import {
   useDeleteChoreMutation,
 } from '@/graphql/generated';
 import { getChoreRoute } from '@/routes';
-import { convertToGqlDate } from '@/utils/convertToGqlDate';
+import { convertToGqlDate } from '@/utils/convert-to-gql-date';
 import { Launch } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, IconButton, TableCell, TableRow } from '@mui/material';

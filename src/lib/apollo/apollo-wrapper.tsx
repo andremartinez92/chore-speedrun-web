@@ -7,10 +7,10 @@ import {
   NextSSRApolloClient,
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
-import { clientAuthLink } from './clientAuthLink';
-import { createCache } from './createCache';
-import { errorLink } from './errorLink';
-import { serverAuthLink } from './serverAuthLink';
+import { clientAuthLink } from './client-auth-link';
+import { createCache } from './create-cache';
+import { errorLink } from './error-link';
+import { serverAuthLink } from './server-auth-link';
 
 function makeClient() {
   const httpLink = new HttpLink({
