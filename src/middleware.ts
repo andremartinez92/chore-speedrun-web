@@ -1,6 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
-import { getSessionToken } from './lib/supabase/getSessionToken';
+import { getSessionToken } from './lib/supabase/get-session-token';
 import { SIGN_IN_ROUTE } from './routes';
 
 export async function middleware(request: NextRequest) {

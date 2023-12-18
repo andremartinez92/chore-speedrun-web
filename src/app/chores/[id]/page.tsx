@@ -6,7 +6,7 @@ import {
   GetChoreEventsQuery,
   GetChoreEventsQueryVariables,
 } from '@/graphql/generated';
-import { CHORES_ROUTE, CREATE_EVENT_ROUTE } from '@/routes';
+import { CHORES_ROUTE, getCreateEventRoute } from '@/routes';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { Button } from '@mui/material';
 import Link from 'next/link';
@@ -30,17 +30,23 @@ export default function Page({ params }: { params: { id: string } }) {
     );
   }, [data]);
 
-  if (!data && !loading) {
+  if (!data?.choreCollection?.edges[0]?.node && !loading) {
     redirect(CHORES_ROUTE);
   }
 
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  const name = data?.choreCollection?.edges[0].node.name || '';
+
   return (
     <section>
-      <h1>{data?.choreCollection?.edges[0]?.node?.name}</h1>
+      <h1>{name}</h1>
       <EventsTable data={rowData} loading={loading} />
       <Button
         LinkComponent={Link}
-        href={CREATE_EVENT_ROUTE}
+        href={getCreateEventRoute({ choreId: params.id, choreName: name })}
         variant="contained"
       >
         Add Event

@@ -76,13 +76,14 @@ export type Chore = Node & {
   id: Scalars['UUID']['output'];
   is_completed: Scalars['Boolean']['output'];
   is_priority: Scalars['Boolean']['output'];
-  last_completed_at?: Maybe<Scalars['Datetime']['output']>;
+  last_completed_at?: Maybe<Scalars['Date']['output']>;
   name: Scalars['String']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   profile: Profile;
   profile_id: Scalars['UUID']['output'];
   recurring_days: Scalars['Int']['output'];
+  uncompleted_at: Scalars['Date']['output'];
 };
 
 export type ChoreEventCollectionArgs = {
@@ -121,7 +122,7 @@ export type ChoreFilter = {
   id?: InputMaybe<UuidFilter>;
   is_completed?: InputMaybe<BooleanFilter>;
   is_priority?: InputMaybe<BooleanFilter>;
-  last_completed_at?: InputMaybe<DatetimeFilter>;
+  last_completed_at?: InputMaybe<DateFilter>;
   name?: InputMaybe<StringFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
@@ -130,6 +131,7 @@ export type ChoreFilter = {
   or?: InputMaybe<Array<ChoreFilter>>;
   profile_id?: InputMaybe<UuidFilter>;
   recurring_days?: InputMaybe<IntFilter>;
+  uncompleted_at?: InputMaybe<DateFilter>;
 };
 
 export type ChoreInsertInput = {
@@ -137,10 +139,11 @@ export type ChoreInsertInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   is_completed?: InputMaybe<Scalars['Boolean']['input']>;
   is_priority?: InputMaybe<Scalars['Boolean']['input']>;
-  last_completed_at?: InputMaybe<Scalars['Datetime']['input']>;
+  last_completed_at?: InputMaybe<Scalars['Date']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   profile_id?: InputMaybe<Scalars['UUID']['input']>;
   recurring_days?: InputMaybe<Scalars['Int']['input']>;
+  uncompleted_at?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type ChoreInsertResponse = {
@@ -160,6 +163,7 @@ export type ChoreOrderBy = {
   name?: InputMaybe<OrderByDirection>;
   profile_id?: InputMaybe<OrderByDirection>;
   recurring_days?: InputMaybe<OrderByDirection>;
+  uncompleted_at?: InputMaybe<OrderByDirection>;
 };
 
 export type ChoreUpdateInput = {
@@ -167,10 +171,11 @@ export type ChoreUpdateInput = {
   id?: InputMaybe<Scalars['UUID']['input']>;
   is_completed?: InputMaybe<Scalars['Boolean']['input']>;
   is_priority?: InputMaybe<Scalars['Boolean']['input']>;
-  last_completed_at?: InputMaybe<Scalars['Datetime']['input']>;
+  last_completed_at?: InputMaybe<Scalars['Date']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   profile_id?: InputMaybe<Scalars['UUID']['input']>;
   recurring_days?: InputMaybe<Scalars['Int']['input']>;
+  uncompleted_at?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type ChoreUpdateResponse = {
@@ -760,6 +765,33 @@ export type UuidFilter = {
   neq?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+export type CompleteChoreMutationVariables = Exact<{
+  choreId: Scalars['UUID']['input'];
+  lastCompletedAt?: InputMaybe<Scalars['Date']['input']>;
+  isCompleted: Scalars['Boolean']['input'];
+}>;
+
+export type CompleteChoreMutation = {
+  __typename?: 'Mutation';
+  updateChoreCollection: {
+    __typename?: 'ChoreUpdateResponse';
+    affectedCount: number;
+    records: Array<{ __typename?: 'Chore'; id: string; is_completed: boolean }>;
+  };
+};
+
+export type DeleteChoreMutationVariables = Exact<{
+  choreId: Scalars['UUID']['input'];
+}>;
+
+export type DeleteChoreMutation = {
+  __typename?: 'Mutation';
+  deleteFromChoreCollection: {
+    __typename?: 'ChoreDeleteResponse';
+    affectedCount: number;
+  };
+};
+
 export type GetChoresQueryVariables = Exact<{
   isCompleted: Scalars['Boolean']['input'];
 }>;
@@ -780,6 +812,33 @@ export type GetChoresQuery = {
         is_completed: boolean;
       };
     }>;
+  } | null;
+};
+
+export type CreateChoreMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  recurringDays: Scalars['Int']['input'];
+  isPriority: Scalars['Boolean']['input'];
+}>;
+
+export type CreateChoreMutation = {
+  __typename?: 'Mutation';
+  insertIntoChoreCollection?: {
+    __typename?: 'ChoreInsertResponse';
+    affectedCount: number;
+  } | null;
+};
+
+export type CreateEventMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  choreId: Scalars['UUID']['input'];
+}>;
+
+export type CreateEventMutation = {
+  __typename?: 'Mutation';
+  insertIntoEventCollection?: {
+    __typename?: 'EventInsertResponse';
+    affectedCount: number;
   } | null;
 };
 
@@ -808,282 +867,10 @@ export type GetChoreEventsQuery = {
   } | null;
 };
 
-export type CreateEventMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-  choreId: Scalars['UUID']['input'];
-}>;
-
-export type CreateEventMutation = {
-  __typename?: 'Mutation';
-  insertIntoEventCollection?: {
-    __typename?: 'EventInsertResponse';
-    affectedCount: number;
-  } | null;
-};
-
-export type CompleteChoreMutationVariables = Exact<{
-  choreId: Scalars['UUID']['input'];
-  lastCompletedAt?: InputMaybe<Scalars['Datetime']['input']>;
-  isCompleted: Scalars['Boolean']['input'];
-}>;
-
-export type CompleteChoreMutation = {
-  __typename?: 'Mutation';
-  updateChoreCollection: {
-    __typename?: 'ChoreUpdateResponse';
-    affectedCount: number;
-    records: Array<{ __typename?: 'Chore'; id: string; is_completed: boolean }>;
-  };
-};
-
-export type DeleteChoreMutationVariables = Exact<{
-  choreId: Scalars['UUID']['input'];
-}>;
-
-export type DeleteChoreMutation = {
-  __typename?: 'Mutation';
-  deleteFromChoreCollection: {
-    __typename?: 'ChoreDeleteResponse';
-    affectedCount: number;
-  };
-};
-
-export type CreateChoreMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-  recurringDays: Scalars['Int']['input'];
-  isPriority: Scalars['Boolean']['input'];
-}>;
-
-export type CreateChoreMutation = {
-  __typename?: 'Mutation';
-  insertIntoChoreCollection?: {
-    __typename?: 'ChoreInsertResponse';
-    affectedCount: number;
-  } | null;
-};
-
-export const GetChoresDocument = gql`
-  query GetChores($isCompleted: Boolean!) {
-    choreCollection(
-      filter: { is_completed: { eq: $isCompleted } }
-      orderBy: [
-        { is_priority: AscNullsLast, last_completed_at: DescNullsFirst }
-      ]
-    ) {
-      edges {
-        node {
-          id
-          name
-          recurring_days
-          is_priority
-          last_completed_at
-          is_completed
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetChoresQuery__
- *
- * To run a query within a React component, call `useGetChoresQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetChoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetChoresQuery({
- *   variables: {
- *      isCompleted: // value for 'isCompleted'
- *   },
- * });
- */
-export function useGetChoresQuery(
-  baseOptions: Apollo.QueryHookOptions<GetChoresQuery, GetChoresQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetChoresQuery, GetChoresQueryVariables>(
-    GetChoresDocument,
-    options
-  );
-}
-export function useGetChoresLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetChoresQuery,
-    GetChoresQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetChoresQuery, GetChoresQueryVariables>(
-    GetChoresDocument,
-    options
-  );
-}
-export function useGetChoresSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetChoresQuery,
-    GetChoresQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetChoresQuery, GetChoresQueryVariables>(
-    GetChoresDocument,
-    options
-  );
-}
-export type GetChoresQueryHookResult = ReturnType<typeof useGetChoresQuery>;
-export type GetChoresLazyQueryHookResult = ReturnType<
-  typeof useGetChoresLazyQuery
->;
-export type GetChoresSuspenseQueryHookResult = ReturnType<
-  typeof useGetChoresSuspenseQuery
->;
-export type GetChoresQueryResult = Apollo.QueryResult<
-  GetChoresQuery,
-  GetChoresQueryVariables
->;
-export const GetChoreEventsDocument = gql`
-  query GetChoreEvents($choreId: UUID!) {
-    choreCollection(filter: { id: { eq: $choreId } }) {
-      edges {
-        node {
-          name
-          eventCollection(orderBy: [{ name: AscNullsLast }]) {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetChoreEventsQuery__
- *
- * To run a query within a React component, call `useGetChoreEventsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetChoreEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetChoreEventsQuery({
- *   variables: {
- *      choreId: // value for 'choreId'
- *   },
- * });
- */
-export function useGetChoreEventsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
-    GetChoreEventsDocument,
-    options
-  );
-}
-export function useGetChoreEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
-    GetChoreEventsDocument,
-    options
-  );
-}
-export function useGetChoreEventsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >(GetChoreEventsDocument, options);
-}
-export type GetChoreEventsQueryHookResult = ReturnType<
-  typeof useGetChoreEventsQuery
->;
-export type GetChoreEventsLazyQueryHookResult = ReturnType<
-  typeof useGetChoreEventsLazyQuery
->;
-export type GetChoreEventsSuspenseQueryHookResult = ReturnType<
-  typeof useGetChoreEventsSuspenseQuery
->;
-export type GetChoreEventsQueryResult = Apollo.QueryResult<
-  GetChoreEventsQuery,
-  GetChoreEventsQueryVariables
->;
-export const CreateEventDocument = gql`
-  mutation CreateEvent($name: String!, $choreId: UUID!) {
-    insertIntoEventCollection(objects: [{ name: $name, chore_id: $choreId }]) {
-      affectedCount
-    }
-  }
-`;
-export type CreateEventMutationFn = Apollo.MutationFunction<
-  CreateEventMutation,
-  CreateEventMutationVariables
->;
-
-/**
- * __useCreateEventMutation__
- *
- * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateEventMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
- *   variables: {
- *      name: // value for 'name'
- *      choreId: // value for 'choreId'
- *   },
- * });
- */
-export function useCreateEventMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateEventMutation,
-    CreateEventMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(
-    CreateEventDocument,
-    options
-  );
-}
-export type CreateEventMutationHookResult = ReturnType<
-  typeof useCreateEventMutation
->;
-export type CreateEventMutationResult =
-  Apollo.MutationResult<CreateEventMutation>;
-export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
-  CreateEventMutation,
-  CreateEventMutationVariables
->;
 export const CompleteChoreDocument = gql`
   mutation CompleteChore(
     $choreId: UUID!
-    $lastCompletedAt: Datetime
+    $lastCompletedAt: Date
     $isCompleted: Boolean!
   ) {
     updateChoreCollection(
@@ -1193,6 +980,88 @@ export type DeleteChoreMutationOptions = Apollo.BaseMutationOptions<
   DeleteChoreMutation,
   DeleteChoreMutationVariables
 >;
+export const GetChoresDocument = gql`
+  query GetChores($isCompleted: Boolean!) {
+    choreCollection(
+      filter: { is_completed: { eq: $isCompleted } }
+      orderBy: [
+        { is_priority: AscNullsLast, last_completed_at: DescNullsFirst }
+      ]
+    ) {
+      edges {
+        node {
+          id
+          name
+          recurring_days
+          is_priority
+          last_completed_at
+          is_completed
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChoresQuery__
+ *
+ * To run a query within a React component, call `useGetChoresQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChoresQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChoresQuery({
+ *   variables: {
+ *      isCompleted: // value for 'isCompleted'
+ *   },
+ * });
+ */
+export function useGetChoresQuery(
+  baseOptions: Apollo.QueryHookOptions<GetChoresQuery, GetChoresQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetChoresQuery, GetChoresQueryVariables>(
+    GetChoresDocument,
+    options
+  );
+}
+export function useGetChoresLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChoresQuery,
+    GetChoresQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetChoresQuery, GetChoresQueryVariables>(
+    GetChoresDocument,
+    options
+  );
+}
+export function useGetChoresSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetChoresQuery,
+    GetChoresQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetChoresQuery, GetChoresQueryVariables>(
+    GetChoresDocument,
+    options
+  );
+}
+export type GetChoresQueryHookResult = ReturnType<typeof useGetChoresQuery>;
+export type GetChoresLazyQueryHookResult = ReturnType<
+  typeof useGetChoresLazyQuery
+>;
+export type GetChoresSuspenseQueryHookResult = ReturnType<
+  typeof useGetChoresSuspenseQuery
+>;
+export type GetChoresQueryResult = Apollo.QueryResult<
+  GetChoresQuery,
+  GetChoresQueryVariables
+>;
 export const CreateChoreDocument = gql`
   mutation CreateChore(
     $name: String!
@@ -1256,4 +1125,140 @@ export type CreateChoreMutationResult =
 export type CreateChoreMutationOptions = Apollo.BaseMutationOptions<
   CreateChoreMutation,
   CreateChoreMutationVariables
+>;
+export const CreateEventDocument = gql`
+  mutation CreateEvent($name: String!, $choreId: UUID!) {
+    insertIntoEventCollection(objects: [{ name: $name, chore_id: $choreId }]) {
+      affectedCount
+    }
+  }
+`;
+export type CreateEventMutationFn = Apollo.MutationFunction<
+  CreateEventMutation,
+  CreateEventMutationVariables
+>;
+
+/**
+ * __useCreateEventMutation__
+ *
+ * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      choreId: // value for 'choreId'
+ *   },
+ * });
+ */
+export function useCreateEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateEventMutation,
+    CreateEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(
+    CreateEventDocument,
+    options
+  );
+}
+export type CreateEventMutationHookResult = ReturnType<
+  typeof useCreateEventMutation
+>;
+export type CreateEventMutationResult =
+  Apollo.MutationResult<CreateEventMutation>;
+export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
+  CreateEventMutation,
+  CreateEventMutationVariables
+>;
+export const GetChoreEventsDocument = gql`
+  query GetChoreEvents($choreId: UUID!) {
+    choreCollection(filter: { id: { eq: $choreId } }) {
+      edges {
+        node {
+          name
+          eventCollection(orderBy: [{ name: AscNullsLast }]) {
+            edges {
+              node {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetChoreEventsQuery__
+ *
+ * To run a query within a React component, call `useGetChoreEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChoreEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChoreEventsQuery({
+ *   variables: {
+ *      choreId: // value for 'choreId'
+ *   },
+ * });
+ */
+export function useGetChoreEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
+    GetChoreEventsDocument,
+    options
+  );
+}
+export function useGetChoreEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
+    GetChoreEventsDocument,
+    options
+  );
+}
+export function useGetChoreEventsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetChoreEventsQuery,
+    GetChoreEventsQueryVariables
+  >(GetChoreEventsDocument, options);
+}
+export type GetChoreEventsQueryHookResult = ReturnType<
+  typeof useGetChoreEventsQuery
+>;
+export type GetChoreEventsLazyQueryHookResult = ReturnType<
+  typeof useGetChoreEventsLazyQuery
+>;
+export type GetChoreEventsSuspenseQueryHookResult = ReturnType<
+  typeof useGetChoreEventsSuspenseQuery
+>;
+export type GetChoreEventsQueryResult = Apollo.QueryResult<
+  GetChoreEventsQuery,
+  GetChoreEventsQueryVariables
 >;

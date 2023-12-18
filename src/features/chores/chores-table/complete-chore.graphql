@@ -1,6 +1,6 @@
 mutation CompleteChore(
   $choreId: UUID!
-  $lastCompletedAt: Datetime
+  $lastCompletedAt: Date
   $isCompleted: Boolean!
 ) {
   updateChoreCollection(

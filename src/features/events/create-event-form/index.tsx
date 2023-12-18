@@ -1,11 +1,12 @@
 'use client';
 
+import ChoreSelect from '@/features/chores/chore-select';
 import { useCreateEventMutation } from '@/graphql/generated';
 import { EVENT_ROUTE } from '@/routes';
 import { createInputErrorProps } from '@/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -23,6 +24,9 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 
 const CreateEventForm = () => {
   const { push } = useRouter();
+  const searchParams = useSearchParams();
+  const choreId = searchParams.get('choreId');
+
   const {
     control,
     handleSubmit,
@@ -32,6 +36,7 @@ const CreateEventForm = () => {
     resolver: zodResolver(validationSchema),
     defaultValues: {
       [FormField.name]: '',
+      [FormField.choreId]: choreId || '',
     },
     mode: 'onBlur',
   });
@@ -68,6 +73,15 @@ const CreateEventForm = () => {
             label="Name"
             {...createInputErrorProps(errors.name)}
           />
+        )}
+      />
+
+      <Controller
+        name={FormField.choreId}
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <ChoreSelect field={field} error={errors.choreId} />
         )}
       />
 

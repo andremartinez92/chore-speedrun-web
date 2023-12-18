@@ -19,6 +19,7 @@ export interface Database {
           name: string;
           profile_id: string;
           recurring_days: number;
+          uncompleted_at: string;
         };
         Insert: {
           created_at?: string;
@@ -29,6 +30,7 @@ export interface Database {
           name: string;
           profile_id?: string;
           recurring_days: number;
+          uncompleted_at?: string;
         };
         Update: {
           created_at?: string;
@@ -39,6 +41,7 @@ export interface Database {
           name?: string;
           profile_id?: string;
           recurring_days?: number;
+          uncompleted_at?: string;
         };
         Relationships: [
           {
