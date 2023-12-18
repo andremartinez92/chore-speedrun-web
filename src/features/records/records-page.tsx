@@ -3,6 +3,7 @@
 import { useGetEventRecordsQuery } from '@/graphql/generated';
 import { displayTime } from '@/utils/time';
 import { Box, CircularProgress } from '@mui/material';
+import RecordsTable from './records-table';
 import Stopwatch from './stopwatch';
 
 type Props = {
@@ -18,6 +19,7 @@ const RecordsPage = ({ eventId }: Props) => {
 
   const eventName = event?.name;
   const bestTime = event?.recordCollection?.edges?.[0]?.node.time;
+  const records = event?.recordCollection?.edges.map((edge) => edge.node) || [];
 
   if (isLoading && !event) {
     return (
@@ -32,6 +34,7 @@ const RecordsPage = ({ eventId }: Props) => {
       <h1>{eventName}</h1>
       {bestTime && <div>{displayTime(+bestTime)}</div>}
       <Stopwatch eventId={eventId} />;
+      <RecordsTable data={records} />
     </section>
   );
 };

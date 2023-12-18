@@ -909,6 +909,18 @@ export type GetEventRecordsQuery = {
   } | null;
 };
 
+export type DeleteRecordMutationVariables = Exact<{
+  recordId: Scalars['UUID']['input'];
+}>;
+
+export type DeleteRecordMutation = {
+  __typename?: 'Mutation';
+  deleteFromRecordCollection: {
+    __typename?: 'RecordDeleteResponse';
+    affectedCount: number;
+  };
+};
+
 export type CreateRecordMutationVariables = Exact<{
   time: Scalars['BigInt']['input'];
   eventId: Scalars['UUID']['input'];
@@ -1452,6 +1464,56 @@ export type GetEventRecordsSuspenseQueryHookResult = ReturnType<
 export type GetEventRecordsQueryResult = Apollo.QueryResult<
   GetEventRecordsQuery,
   GetEventRecordsQueryVariables
+>;
+export const DeleteRecordDocument = gql`
+  mutation DeleteRecord($recordId: UUID!) {
+    deleteFromRecordCollection(filter: { id: { eq: $recordId } }) {
+      affectedCount
+    }
+  }
+`;
+export type DeleteRecordMutationFn = Apollo.MutationFunction<
+  DeleteRecordMutation,
+  DeleteRecordMutationVariables
+>;
+
+/**
+ * __useDeleteRecordMutation__
+ *
+ * To run a mutation, you first call `useDeleteRecordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRecordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRecordMutation, { data, loading, error }] = useDeleteRecordMutation({
+ *   variables: {
+ *      recordId: // value for 'recordId'
+ *   },
+ * });
+ */
+export function useDeleteRecordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRecordMutation,
+    DeleteRecordMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRecordMutation,
+    DeleteRecordMutationVariables
+  >(DeleteRecordDocument, options);
+}
+export type DeleteRecordMutationHookResult = ReturnType<
+  typeof useDeleteRecordMutation
+>;
+export type DeleteRecordMutationResult =
+  Apollo.MutationResult<DeleteRecordMutation>;
+export type DeleteRecordMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRecordMutation,
+  DeleteRecordMutationVariables
 >;
 export const CreateRecordDocument = gql`
   mutation CreateRecord($time: BigInt!, $eventId: UUID!) {

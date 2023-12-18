@@ -1,0 +1,5 @@
+mutation DeleteRecord($recordId: UUID!) {
+  deleteFromRecordCollection(filter: { id: { eq: $recordId } }) {
+    affectedCount
+  }
+}
