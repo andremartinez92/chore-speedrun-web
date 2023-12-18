@@ -24,6 +24,7 @@ type Props = {
   isCompleted: boolean;
   'aria-label': string;
 };
+
 const ChoresTable = ({ isCompleted, ...props }: Props) => {
   const { data, loading } = useQuery<GetChoresQuery, GetChoresQueryVariables>(
     GetChoresDocument,

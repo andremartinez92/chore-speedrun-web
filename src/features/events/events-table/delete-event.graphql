@@ -1,0 +1,5 @@
+mutation DeleteEvent($eventId: UUID!) {
+  deleteFromEventCollection(filter: { id: { eq: $eventId } }) {
+    affectedCount
+  }
+}

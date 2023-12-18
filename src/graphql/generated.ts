@@ -842,6 +842,18 @@ export type CreateEventMutation = {
   } | null;
 };
 
+export type DeleteEventMutationVariables = Exact<{
+  eventId: Scalars['UUID']['input'];
+}>;
+
+export type DeleteEventMutation = {
+  __typename?: 'Mutation';
+  deleteFromEventCollection: {
+    __typename?: 'EventDeleteResponse';
+    affectedCount: number;
+  };
+};
+
 export type GetChoreEventsQueryVariables = Exact<{
   choreId: Scalars['UUID']['input'];
 }>;
@@ -1176,6 +1188,56 @@ export type CreateEventMutationResult =
 export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
   CreateEventMutation,
   CreateEventMutationVariables
+>;
+export const DeleteEventDocument = gql`
+  mutation DeleteEvent($eventId: UUID!) {
+    deleteFromEventCollection(filter: { id: { eq: $eventId } }) {
+      affectedCount
+    }
+  }
+`;
+export type DeleteEventMutationFn = Apollo.MutationFunction<
+  DeleteEventMutation,
+  DeleteEventMutationVariables
+>;
+
+/**
+ * __useDeleteEventMutation__
+ *
+ * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useDeleteEventMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteEventMutation,
+    DeleteEventMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(
+    DeleteEventDocument,
+    options
+  );
+}
+export type DeleteEventMutationHookResult = ReturnType<
+  typeof useDeleteEventMutation
+>;
+export type DeleteEventMutationResult =
+  Apollo.MutationResult<DeleteEventMutation>;
+export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<
+  DeleteEventMutation,
+  DeleteEventMutationVariables
 >;
 export const GetChoreEventsDocument = gql`
   query GetChoreEvents($choreId: UUID!) {

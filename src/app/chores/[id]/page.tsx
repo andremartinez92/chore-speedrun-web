@@ -14,27 +14,26 @@ import { redirect } from 'next/navigation';
 import { useMemo } from 'react';
 
 export default function Page({ params }: { params: { id: string } }) {
-  const { data, loading } = useQuery<
+  const { data, loading: isLoading } = useQuery<
     GetChoreEventsQuery,
     GetChoreEventsQueryVariables
   >(GetChoreEventsDocument, { variables: { choreId: params.id } });
 
-  const rowData = useMemo(() => {
+  const events = data?.choreCollection?.edges[0]?.node?.eventCollection?.edges;
+  const tableData = useMemo(() => {
     return (
-      data?.choreCollection?.edges[0]?.node?.eventCollection?.edges.map(
-        ({ node }) => ({
-          id: node.id,
-          name: node.name,
-        })
-      ) || []
+      events?.map(({ node }) => ({
+        id: node.id,
+        name: node.name,
+      })) || []
     );
-  }, [data]);
+  }, [events]);
 
-  if (!data?.choreCollection?.edges[0]?.node && !loading) {
+  if (!data?.choreCollection?.edges[0]?.node && !isLoading) {
     redirect(CHORES_ROUTE);
   }
 
-  if (loading) {
+  if (isLoading) {
     return <h1>Loading...</h1>;
   }
 
@@ -43,10 +42,10 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <section>
       <h1>{name}</h1>
-      <EventsTable data={rowData} loading={loading} />
+      <EventsTable data={tableData} isLoading={isLoading} />
       <Button
         LinkComponent={Link}
-        href={getCreateEventRoute({ choreId: params.id, choreName: name })}
+        href={getCreateEventRoute({ choreId: params.id })}
         variant="contained"
       >
         Add Event
