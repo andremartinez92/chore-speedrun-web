@@ -879,6 +879,49 @@ export type GetChoreEventsQuery = {
   } | null;
 };
 
+export type GetEventRecordsQueryVariables = Exact<{
+  eventId: Scalars['UUID']['input'];
+}>;
+
+export type GetEventRecordsQuery = {
+  __typename?: 'Query';
+  eventCollection?: {
+    __typename?: 'EventConnection';
+    edges: Array<{
+      __typename?: 'EventEdge';
+      node: {
+        __typename?: 'Event';
+        name: string;
+        recordCollection?: {
+          __typename?: 'RecordConnection';
+          edges: Array<{
+            __typename?: 'RecordEdge';
+            node: {
+              __typename?: 'Record';
+              id: string;
+              time: string;
+              created_at: string;
+            };
+          }>;
+        } | null;
+      };
+    }>;
+  } | null;
+};
+
+export type CreateRecordMutationVariables = Exact<{
+  time: Scalars['BigInt']['input'];
+  eventId: Scalars['UUID']['input'];
+}>;
+
+export type CreateRecordMutation = {
+  __typename?: 'Mutation';
+  insertIntoRecordCollection?: {
+    __typename?: 'RecordInsertResponse';
+    affectedCount: number;
+  } | null;
+};
+
 export const CompleteChoreDocument = gql`
   mutation CompleteChore(
     $choreId: UUID!
@@ -1323,4 +1366,141 @@ export type GetChoreEventsSuspenseQueryHookResult = ReturnType<
 export type GetChoreEventsQueryResult = Apollo.QueryResult<
   GetChoreEventsQuery,
   GetChoreEventsQueryVariables
+>;
+export const GetEventRecordsDocument = gql`
+  query GetEventRecords($eventId: UUID!) {
+    eventCollection(filter: { id: { eq: $eventId } }) {
+      edges {
+        node {
+          name
+          recordCollection(orderBy: [{ time: AscNullsLast }]) {
+            edges {
+              node {
+                id
+                time
+                created_at
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetEventRecordsQuery__
+ *
+ * To run a query within a React component, call `useGetEventRecordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEventRecordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEventRecordsQuery({
+ *   variables: {
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useGetEventRecordsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetEventRecordsQuery,
+    GetEventRecordsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetEventRecordsQuery, GetEventRecordsQueryVariables>(
+    GetEventRecordsDocument,
+    options
+  );
+}
+export function useGetEventRecordsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetEventRecordsQuery,
+    GetEventRecordsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetEventRecordsQuery,
+    GetEventRecordsQueryVariables
+  >(GetEventRecordsDocument, options);
+}
+export function useGetEventRecordsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetEventRecordsQuery,
+    GetEventRecordsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetEventRecordsQuery,
+    GetEventRecordsQueryVariables
+  >(GetEventRecordsDocument, options);
+}
+export type GetEventRecordsQueryHookResult = ReturnType<
+  typeof useGetEventRecordsQuery
+>;
+export type GetEventRecordsLazyQueryHookResult = ReturnType<
+  typeof useGetEventRecordsLazyQuery
+>;
+export type GetEventRecordsSuspenseQueryHookResult = ReturnType<
+  typeof useGetEventRecordsSuspenseQuery
+>;
+export type GetEventRecordsQueryResult = Apollo.QueryResult<
+  GetEventRecordsQuery,
+  GetEventRecordsQueryVariables
+>;
+export const CreateRecordDocument = gql`
+  mutation CreateRecord($time: BigInt!, $eventId: UUID!) {
+    insertIntoRecordCollection(objects: [{ time: $time, event_id: $eventId }]) {
+      affectedCount
+    }
+  }
+`;
+export type CreateRecordMutationFn = Apollo.MutationFunction<
+  CreateRecordMutation,
+  CreateRecordMutationVariables
+>;
+
+/**
+ * __useCreateRecordMutation__
+ *
+ * To run a mutation, you first call `useCreateRecordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRecordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRecordMutation, { data, loading, error }] = useCreateRecordMutation({
+ *   variables: {
+ *      time: // value for 'time'
+ *      eventId: // value for 'eventId'
+ *   },
+ * });
+ */
+export function useCreateRecordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateRecordMutation,
+    CreateRecordMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateRecordMutation,
+    CreateRecordMutationVariables
+  >(CreateRecordDocument, options);
+}
+export type CreateRecordMutationHookResult = ReturnType<
+  typeof useCreateRecordMutation
+>;
+export type CreateRecordMutationResult =
+  Apollo.MutationResult<CreateRecordMutation>;
+export type CreateRecordMutationOptions = Apollo.BaseMutationOptions<
+  CreateRecordMutation,
+  CreateRecordMutationVariables
 >;

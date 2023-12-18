@@ -1,0 +1,18 @@
+query GetEventRecords($eventId: UUID!) {
+  eventCollection(filter: { id: { eq: $eventId } }) {
+    edges {
+      node {
+        name
+        recordCollection(orderBy: [{ time: AscNullsLast }]) {
+          edges {
+            node {
+              id
+              time
+              created_at
+            }
+          }
+        }
+      }
+    }
+  }
+}
