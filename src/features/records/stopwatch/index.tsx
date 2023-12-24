@@ -43,7 +43,7 @@ const Stopwatch = ({ eventId }: { eventId: string }) => {
 
   return (
     <Box>
-      <Box>{displayTime(elapsedTime)}</Box>
+      <Box className="text-5xl">{displayTime(elapsedTime)}</Box>
       <Box>
         <TimerButton
           onStart={onStart}
