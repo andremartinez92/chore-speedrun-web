@@ -1,8 +1,8 @@
 'use client';
 
 import { useCreateChoreMutation } from '@/graphql/generated';
+import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { CHORE_ROUTE } from '@/routes';
-import { createInputErrorProps } from '@/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useRouter } from 'next/navigation';

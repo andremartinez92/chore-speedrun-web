@@ -1,6 +1,6 @@
 'use client';
 
-import { createInputErrorProps } from '@/utils/create-input-error-props';
+import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';

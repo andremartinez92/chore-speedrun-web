@@ -2,8 +2,8 @@
 
 import ChoreSelect from '@/features/chores/chore-select';
 import { useCreateEventMutation } from '@/graphql/generated';
+import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { EVENT_ROUTE } from '@/routes';
-import { createInputErrorProps } from '@/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';

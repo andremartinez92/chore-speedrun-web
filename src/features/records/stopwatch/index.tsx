@@ -4,7 +4,7 @@ import {
   GetEventRecordsDocument,
   useCreateRecordMutation,
 } from '@/graphql/generated';
-import { displayTime } from '@/utils/time';
+import { displayTime } from '@/lib/utils/time';
 import { Box, Button } from '@mui/material';
 import useStopwatch, { TimerState } from './use-stopwatch';
 
@@ -42,8 +42,8 @@ const Stopwatch = ({ eventId }: { eventId: string }) => {
     );
 
   return (
-    <Box>
-      <Box className="text-5xl">{displayTime(elapsedTime)}</Box>
+    <Box className="flex flex-col items-center justify-center">
+      <Box className="text-9xl">{displayTime(elapsedTime)}</Box>
       <Box>
         <TimerButton
           onStart={onStart}

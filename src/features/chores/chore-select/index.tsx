@@ -1,7 +1,7 @@
 'use client';
 
 import { useGetChoresQuery } from '@/graphql/generated';
-import { createInputErrorProps } from '@/utils/create-input-error-props';
+import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';

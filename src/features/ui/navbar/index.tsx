@@ -1,3 +1,4 @@
+import { ModeToggle } from '@/features/ui/toggle-theme';
 import { readUserSession } from '@/lib/supabase/read-user-session';
 import { AppBar, Box, Toolbar } from '@mui/material';
 import AuthActionButton from './auth-action-button';
@@ -11,6 +12,7 @@ const NavBar = async () => {
       <AppBar position="static">
         <Toolbar className="flex justify-between">
           Chore Speedrun
+          <ModeToggle />
           <AuthActionButton isLoggedIn={isLoggedIn} />
         </Toolbar>
       </AppBar>

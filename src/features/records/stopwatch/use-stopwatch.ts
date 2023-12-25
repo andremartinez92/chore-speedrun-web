@@ -1,6 +1,6 @@
 'use client';
 
-import { getElapsedTime } from '@/utils/time';
+import { getElapsedTime } from '@/lib/utils/time';
 import { useRef, useState } from 'react';
 
 export enum TimerState {
@@ -61,6 +61,10 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onStop = () => {
+    if (timerState === TimerState.FINISHED) {
+      return;
+    }
+
     const now = new Date();
     let endTime: number;
 

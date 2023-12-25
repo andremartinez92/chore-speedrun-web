@@ -1,14 +1,16 @@
 import NavBar from '@/features/ui/navbar';
+import { ThemeProvider } from '@/features/ui/theme-provider';
 import { ApolloWrapper } from '@/lib/apollo/apollo-wrapper';
+import { cn } from '@/lib/utils/cn';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import Head from 'next/head';
 import './globals.css';
 
 const textFont = Roboto({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
+  variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
@@ -22,18 +24,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
-      </Head>
-
       <ApolloWrapper>
         <AppRouterCacheProvider>
-          <body className={textFont.className}>
-            <NavBar />
-            {children}
+          <body className={cn('font-sans', textFont.variable)}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NavBar />
+              {children}
+            </ThemeProvider>
           </body>
         </AppRouterCacheProvider>
       </ApolloWrapper>

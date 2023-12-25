@@ -4,7 +4,7 @@ import {
   GetEventRecordsDocument,
   useDeleteRecordMutation,
 } from '@/graphql/generated';
-import { displayTime } from '@/utils/time';
+import { displayTime } from '@/lib/utils/time';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, TableCell, TableRow } from '@mui/material';
 

@@ -1,8 +1,8 @@
 'use client';
 
 import { useGetEventRecordsQuery } from '@/graphql/generated';
-import { displayTime } from '@/utils/time';
-import { Box, CircularProgress } from '@mui/material';
+import { displayTime } from '@/lib/utils/time';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import RecordsTable from './records-table';
 import Stopwatch from './stopwatch';
 
@@ -31,7 +31,7 @@ const RecordsPage = ({ eventId }: Props) => {
 
   return (
     <section>
-      <h1>{eventName}</h1>
+      <Typography variant="h1">{eventName}</Typography>
       {bestTime && <div>{displayTime(+bestTime)}</div>}
       <Stopwatch eventId={eventId} />;
       <RecordsTable data={records} />

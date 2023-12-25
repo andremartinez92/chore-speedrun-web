@@ -3,7 +3,7 @@
 import ChoresTable from '@/features/chores/chores-table';
 import Tabs from '@/features/ui/tabs';
 import { CREATE_CHORE_ROUTE } from '@/routes';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Link from 'next/link';
 
 const PAGE_TITLE_ID = 'chores-page-title';
@@ -14,7 +14,9 @@ export default function Page() {
       className="flex flex-col items-center justify-center gap-20"
       aria-labelledby={PAGE_TITLE_ID}
     >
-      <h1 id={PAGE_TITLE_ID}>Chores</h1>
+      <Typography variant="h1" id={PAGE_TITLE_ID}>
+        Chores
+      </Typography>
       <Tabs
         tabsData={[
           {

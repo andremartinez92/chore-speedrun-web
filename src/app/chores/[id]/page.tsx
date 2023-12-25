@@ -8,7 +8,7 @@ import {
 } from '@/graphql/generated';
 import { CHORES_ROUTE, getCreateEventRoute } from '@/routes';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { useMemo } from 'react';
@@ -34,14 +34,14 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <div>Loading...</div>;
   }
 
   const name = data?.choreCollection?.edges[0].node.name || '';
 
   return (
     <section>
-      <h1>{name}</h1>
+      <Typography variant="h1">{name}</Typography>
       <EventsTable data={tableData} isLoading={isLoading} />
       <Button
         LinkComponent={Link}
