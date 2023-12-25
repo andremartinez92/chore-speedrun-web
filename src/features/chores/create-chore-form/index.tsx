@@ -1,10 +1,12 @@
 'use client';
 
+import { Button } from '@/features/ui/button';
+import { Input } from '@/features/ui/input';
 import { useCreateChoreMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
-import { CHORE_ROUTE } from '@/routes';
+import { getChoreRoute } from '@/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { Checkbox, FormControlLabel } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -44,9 +46,10 @@ const CreateChoreForm = () => {
   });
 
   const [createChore] = useCreateChoreMutation({
-    onCompleted: () => {
-      console.log('created');
-      push(CHORE_ROUTE);
+    onCompleted: (result) => {
+      const newChoreId = result.insertIntoChoreCollection?.records[0].id;
+
+      if (newChoreId) push(getChoreRoute(newChoreId));
     },
     onError: (error) => setError('root', { message: error.message }),
   });
@@ -75,7 +78,7 @@ const CreateChoreForm = () => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField
+          <Input
             {...field}
             label="Name"
             {...createInputErrorProps(errors.name)}
@@ -88,7 +91,7 @@ const CreateChoreForm = () => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField
+          <Input
             {...field}
             label="Recurring days"
             type="number"
@@ -108,7 +111,7 @@ const CreateChoreForm = () => {
         }
       />
 
-      <Button disabled={isSubmitting} type="submit" variant="contained">
+      <Button disabled={isSubmitting} type="submit">
         Create chore
       </Button>
     </form>

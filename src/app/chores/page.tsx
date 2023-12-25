@@ -22,25 +22,30 @@ export default function Page() {
       <Typography variant="h1" id={PAGE_TITLE_ID}>
         Chores
       </Typography>
-      <Tabs defaultValue={ChoreTabEnum.UNCOMPLETED}>
-        <TabsList>
-          <TabsTrigger value={ChoreTabEnum.UNCOMPLETED}>
-            Uncompleted
-          </TabsTrigger>
-          <TabsTrigger value={ChoreTabEnum.COMPLETED}>Completed</TabsTrigger>
-        </TabsList>
+      <div className="flex w-full justify-start">
+        <Tabs defaultValue={ChoreTabEnum.UNCOMPLETED}>
+          <TabsList>
+            <TabsTrigger value={ChoreTabEnum.UNCOMPLETED}>
+              Uncompleted
+            </TabsTrigger>
+            <TabsTrigger value={ChoreTabEnum.COMPLETED}>Completed</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value={ChoreTabEnum.UNCOMPLETED}>
-          <ChoresTable
-            isCompleted={false}
-            aria-label="Uncompleted chores table"
-          />
-        </TabsContent>
+          <TabsContent value={ChoreTabEnum.UNCOMPLETED}>
+            <ChoresTable
+              isCompleted={false}
+              aria-label="Uncompleted chores table"
+            />
+          </TabsContent>
 
-        <TabsContent value={ChoreTabEnum.COMPLETED}>
-          <ChoresTable isCompleted={true} aria-label="Completed chores table" />
-        </TabsContent>
-      </Tabs>
+          <TabsContent value={ChoreTabEnum.COMPLETED}>
+            <ChoresTable
+              isCompleted={true}
+              aria-label="Completed chores table"
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
 
       <Button
         variant="contained"

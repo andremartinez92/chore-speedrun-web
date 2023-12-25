@@ -1,11 +1,12 @@
 'use client';
 
 import ChoreSelect from '@/features/chores/chore-select';
+import { Button } from '@/features/ui/button';
+import { Input } from '@/features/ui/input';
 import { useCreateEventMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
-import { EVENT_ROUTE } from '@/routes';
+import { getEventRoute } from '@/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextField } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -42,9 +43,9 @@ const CreateEventForm = () => {
   });
 
   const [createEvent] = useCreateEventMutation({
-    onCompleted: () => {
-      console.log('created');
-      push(EVENT_ROUTE);
+    onCompleted: (result) => {
+      const newEventId = result.insertIntoEventCollection?.records[0].id;
+      if (newEventId) push(getEventRoute(newEventId));
     },
     onError: (error) => setError('root', { message: error.message }),
   });
@@ -68,7 +69,7 @@ const CreateEventForm = () => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField
+          <Input
             {...field}
             label="Name"
             {...createInputErrorProps(errors.name)}
@@ -85,7 +86,7 @@ const CreateEventForm = () => {
         )}
       />
 
-      <Button disabled={isSubmitting} type="submit" variant="contained">
+      <Button disabled={isSubmitting} type="submit">
         Create event
       </Button>
     </form>

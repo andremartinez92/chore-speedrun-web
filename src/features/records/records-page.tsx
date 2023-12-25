@@ -33,7 +33,7 @@ const RecordsPage = ({ eventId }: Props) => {
     <section>
       <Typography variant="h1">{eventName}</Typography>
       {bestTime && <div>{displayTime(+bestTime)}</div>}
-      <Stopwatch eventId={eventId} />;
+      <Stopwatch eventId={eventId} />
       <RecordsTable data={records} />
     </section>
   );

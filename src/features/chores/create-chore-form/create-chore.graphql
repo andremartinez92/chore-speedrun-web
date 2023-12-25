@@ -8,6 +8,8 @@ mutation CreateChore(
       { name: $name, recurring_days: $recurringDays, is_priority: $isPriority }
     ]
   ) {
-    affectedCount
+    records {
+      id
+    }
   }
 }

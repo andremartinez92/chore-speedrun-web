@@ -2,9 +2,10 @@
 
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, TextField } from '@mui/material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 import { signInWithEmailAndPassword } from './helpers';
 
 enum FormField {
@@ -67,7 +68,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField
+          <Input
             {...field}
             label="Email"
             type="email"
@@ -81,7 +82,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField
+          <Input
             {...field}
             label="Password"
             type="password"
@@ -90,7 +91,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         )}
       />
 
-      <Button disabled={isSubmitting} type="submit" variant="contained">
+      <Button disabled={isSubmitting} type="submit">
         Submit
       </Button>
     </form>

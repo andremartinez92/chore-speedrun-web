@@ -825,7 +825,7 @@ export type CreateChoreMutation = {
   __typename?: 'Mutation';
   insertIntoChoreCollection?: {
     __typename?: 'ChoreInsertResponse';
-    affectedCount: number;
+    records: Array<{ __typename?: 'Chore'; id: string }>;
   } | null;
 };
 
@@ -838,7 +838,7 @@ export type CreateEventMutation = {
   __typename?: 'Mutation';
   insertIntoEventCollection?: {
     __typename?: 'EventInsertResponse';
-    affectedCount: number;
+    records: Array<{ __typename?: 'Event'; id: string }>;
   } | null;
 };
 
@@ -1144,7 +1144,9 @@ export const CreateChoreDocument = gql`
         }
       ]
     ) {
-      affectedCount
+      records {
+        id
+      }
     }
   }
 `;
@@ -1196,7 +1198,9 @@ export type CreateChoreMutationOptions = Apollo.BaseMutationOptions<
 export const CreateEventDocument = gql`
   mutation CreateEvent($name: String!, $choreId: UUID!) {
     insertIntoEventCollection(objects: [{ name: $name, chore_id: $choreId }]) {
-      affectedCount
+      records {
+        id
+      }
     }
   }
 `;
