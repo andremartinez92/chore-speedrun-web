@@ -1,7 +1,8 @@
 'use client';
 import { SIGN_IN_ROUTE } from '@/routes';
-import { Button } from '@mui/material';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Button } from '../button';
 import SignOutButton from '../sign-out-button';
 
 const AuthActionButton = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
@@ -13,8 +14,8 @@ const AuthActionButton = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   if (!isLoggedIn) {
     return (
-      <Button href={SIGN_IN_ROUTE} color="inherit">
-        Sign in
+      <Button asChild>
+        <Link href={SIGN_IN_ROUTE}>Sign in</Link>
       </Button>
     );
   }
