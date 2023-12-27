@@ -1,10 +1,9 @@
 'use client';
 
+import { cn } from '@/lib/utils/cn';
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
 import { cva } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
-
-import { cn } from '@/lib/utils/cn';
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
 
 const NavigationMenu = forwardRef<

@@ -2,7 +2,7 @@
 
 import ChoreSelect from '@/features/chores/chore-select';
 import { Button } from '@/features/ui/button';
-import { Input } from '@/features/ui/input';
+import { InputWithLabel } from '@/features/ui/input-with-label';
 import { useCreateEventMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { getEventRoute } from '@/routes';
@@ -11,14 +11,17 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-enum FormField {
+enum FormFieldEnum {
   name = 'name',
   choreId = 'choreId',
 }
 
 const validationSchema = z.object({
-  [FormField.name]: z.string().min(1, { message: 'Name is required.' }).trim(),
-  [FormField.choreId]: z.string().min(1, { message: 'Chore is required.' }),
+  [FormFieldEnum.name]: z
+    .string()
+    .min(1, { message: 'Name is required.' })
+    .trim(),
+  [FormFieldEnum.choreId]: z.string().min(1, { message: 'Chore is required.' }),
 });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
@@ -36,8 +39,8 @@ const CreateEventForm = () => {
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
-      [FormField.name]: '',
-      [FormField.choreId]: choreId || '',
+      [FormFieldEnum.name]: '',
+      [FormFieldEnum.choreId]: choreId || '',
     },
     mode: 'onBlur',
   });
@@ -65,11 +68,11 @@ const CreateEventForm = () => {
       className="flex flex-col gap-8 max-w-md"
     >
       <Controller
-        name={FormField.name}
+        name={FormFieldEnum.name}
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <Input
+          <InputWithLabel
             {...field}
             label="Name"
             {...createInputErrorProps(errors.name)}
@@ -78,7 +81,7 @@ const CreateEventForm = () => {
       />
 
       <Controller
-        name={FormField.choreId}
+        name={FormFieldEnum.choreId}
         control={control}
         rules={{ required: true }}
         render={({ field }) => (

@@ -1,7 +1,7 @@
 import { ModeToggle } from '@/features/ui/toggle-theme';
 import { readUserSession } from '@/lib/supabase/read-user-session';
+import AuthActionButton from '../auth-action-button';
 import { NavigationMenu } from '../navigation-menu';
-import AuthActionButton from './auth-action-button';
 
 const NavBar = async () => {
   const { data } = await readUserSession();

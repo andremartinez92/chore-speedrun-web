@@ -1,29 +1,33 @@
 'use client';
 
 import { Button } from '@/features/ui/button';
-import { Input } from '@/features/ui/input';
+import { Checkbox } from '@/features/ui/checkbox';
+import { InputWithLabel } from '@/features/ui/input-with-label';
+import { Label } from '@/features/ui/label';
 import { useCreateChoreMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { getChoreRoute } from '@/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Checkbox, FormControlLabel } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-enum FormField {
+enum FormFieldEnum {
   name = 'name',
   recurringDays = 'recurringDays',
   isPriority = 'isPriority',
 }
 
 const validationSchema = z.object({
-  [FormField.name]: z.string().min(1, { message: 'Name is required.' }).trim(),
-  [FormField.recurringDays]: z.coerce
+  [FormFieldEnum.name]: z
+    .string()
+    .min(1, { message: 'Name is required.' })
+    .trim(),
+  [FormFieldEnum.recurringDays]: z.coerce
     .number()
     .int()
     .lte(400, 'Must be lower than 400.'),
-  [FormField.isPriority]: z.boolean(),
+  [FormFieldEnum.isPriority]: z.boolean(),
 });
 
 type ValidationSchema = z.infer<typeof validationSchema>;
@@ -38,9 +42,9 @@ const CreateChoreForm = () => {
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
-      [FormField.name]: '',
-      [FormField.recurringDays]: 0,
-      [FormField.isPriority]: false,
+      [FormFieldEnum.name]: '',
+      [FormFieldEnum.recurringDays]: 0,
+      [FormFieldEnum.isPriority]: false,
     },
     mode: 'onBlur',
   });
@@ -74,11 +78,11 @@ const CreateChoreForm = () => {
       className="flex flex-col gap-8 max-w-md"
     >
       <Controller
-        name={FormField.name}
+        name={FormFieldEnum.name}
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <Input
+          <InputWithLabel
             {...field}
             label="Name"
             {...createInputErrorProps(errors.name)}
@@ -87,11 +91,11 @@ const CreateChoreForm = () => {
       />
 
       <Controller
-        name={FormField.recurringDays}
+        name={FormFieldEnum.recurringDays}
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <Input
+          <InputWithLabel
             {...field}
             label="Recurring days"
             type="number"
@@ -100,15 +104,19 @@ const CreateChoreForm = () => {
         )}
       />
 
-      <FormControlLabel
-        label="Priority"
-        control={
-          <Controller
-            name={FormField.isPriority}
-            control={control}
-            render={({ field }) => <Checkbox {...field} />}
-          />
-        }
+      <Controller
+        control={control}
+        name={FormFieldEnum.isPriority}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={field.name}>Priority</Label>
+            <Checkbox
+              id={field.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+          </>
+        )}
       />
 
       <Button disabled={isSubmitting} type="submit">

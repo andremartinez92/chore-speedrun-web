@@ -1,8 +1,5 @@
 'use client';
 
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-
 import { Button } from '@/features/ui/button';
 import {
   DropdownMenu,
@@ -10,6 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/features/ui/dropdown-menu';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
