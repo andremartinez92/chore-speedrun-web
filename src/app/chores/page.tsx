@@ -1,9 +1,9 @@
 'use client';
 
 import ChoresTable from '@/features/chores/chores-table';
+import { Button } from '@/features/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/features/ui/tabs';
 import { CREATE_CHORE_ROUTE } from '@/routes';
-import { Button, Typography } from '@mui/material';
 import Link from 'next/link';
 
 enum ChoreTabEnum {
@@ -19,9 +19,7 @@ export default function Page() {
       className="flex flex-col items-center justify-center gap-20"
       aria-labelledby={PAGE_TITLE_ID}
     >
-      <Typography variant="h1" id={PAGE_TITLE_ID}>
-        Chores
-      </Typography>
+      <h1 id={PAGE_TITLE_ID}>Chores</h1>
       <div className="flex w-full justify-start">
         <Tabs defaultValue={ChoreTabEnum.UNCOMPLETED}>
           <TabsList>
@@ -47,12 +45,8 @@ export default function Page() {
         </Tabs>
       </div>
 
-      <Button
-        variant="contained"
-        LinkComponent={Link}
-        href={CREATE_CHORE_ROUTE}
-      >
-        Create chore
+      <Button asChild>
+        <Link href={CREATE_CHORE_ROUTE}>Create chore</Link>
       </Button>
     </section>
   );

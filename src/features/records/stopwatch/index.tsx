@@ -1,11 +1,11 @@
 'use client';
 
+import { Button } from '@/features/ui/button';
 import {
   GetEventRecordsDocument,
   useCreateRecordMutation,
 } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
-import { Box, Button } from '@mui/material';
 import useStopwatch, { TimerState } from './use-stopwatch';
 
 const TimerButton = ({
@@ -18,17 +18,9 @@ const TimerButton = ({
   isRunning: boolean;
 }) => {
   if (isRunning) {
-    return (
-      <Button variant="outlined" onClick={onPause}>
-        Pause
-      </Button>
-    );
+    return <Button onClick={onPause}>Pause</Button>;
   }
-  return (
-    <Button variant="outlined" onClick={onStart}>
-      Start
-    </Button>
-  );
+  return <Button onClick={onStart}>Start</Button>;
 };
 
 const Stopwatch = ({ eventId }: { eventId: string }) => {
@@ -42,22 +34,18 @@ const Stopwatch = ({ eventId }: { eventId: string }) => {
     );
 
   return (
-    <Box className="flex flex-col items-center justify-center">
-      <Box className="text-9xl">{displayTime(elapsedTime)}</Box>
-      <Box>
+    <div className="flex flex-col items-center justify-center">
+      <div className="text-9xl">{displayTime(elapsedTime)}</div>
+      <div>
         <TimerButton
           onStart={onStart}
           onPause={onPause}
           isRunning={timerState === TimerState.ON}
         />
-        <Button variant="outlined" onClick={onReset}>
-          Reset
-        </Button>
-        <Button variant="contained" onClick={onStop}>
-          Stop
-        </Button>
-      </Box>
-    </Box>
+        <Button onClick={onReset}>Reset</Button>
+        <Button onClick={onStop}>Stop</Button>
+      </div>
+    </div>
   );
 };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import EventsTable from '@/features/events/events-table';
+import { Button } from '@/features/ui/button';
 import {
   GetChoreEventsDocument,
   GetChoreEventsQuery,
@@ -8,7 +9,6 @@ import {
 } from '@/graphql/generated';
 import { CHORES_ROUTE, getCreateEventRoute } from '@/routes';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { Button, Typography } from '@mui/material';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { useMemo } from 'react';
@@ -41,14 +41,12 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     <section>
-      <Typography variant="h1">{name}</Typography>
+      <h1>{name}</h1>
       <EventsTable data={tableData} isLoading={isLoading} />
-      <Button
-        LinkComponent={Link}
-        href={getCreateEventRoute({ choreId: params.id })}
-        variant="contained"
-      >
-        Add Event
+      <Button asChild>
+        <Link href={getCreateEventRoute({ choreId: params.id })}>
+          Add Event
+        </Link>
       </Button>
     </section>
   );
