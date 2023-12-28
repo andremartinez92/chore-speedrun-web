@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  GetEventRecordsDocument,
+  GetChoreRecordsDocument,
   useDeleteRecordMutation,
 } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
@@ -18,7 +18,7 @@ const RecordRow = ({ id, time, createdAt }: RecordRowProps) => {
   const [deleteRecord, { loading: isDeletingRecord }] = useDeleteRecordMutation(
     {
       variables: { recordId: id },
-      refetchQueries: [GetEventRecordsDocument],
+      refetchQueries: [GetChoreRecordsDocument],
     }
   );
 

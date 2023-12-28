@@ -1,7 +1,0 @@
-mutation CreateEvent($name: String!, $choreId: UUID!) {
-  insertIntoEventCollection(objects: [{ name: $name, chore_id: $choreId }]) {
-    records {
-      id
-    }
-  }
-}

@@ -8,16 +8,3 @@ export const getChoreRoute = (choreId: string) =>
   CHORE_ROUTE.replace('[id]', choreId);
 
 export const CREATE_CHORE_ROUTE = '/create-chore';
-
-export const EVENTS_ROUTE = '/events';
-export const EVENT_ROUTE = `${EVENTS_ROUTE}/[id]`;
-export const getEventRoute = (choreId: string) =>
-  EVENT_ROUTE.replace('[id]', choreId);
-
-export const CREATE_EVENT_ROUTE = `/create-event`;
-export const getCreateEventRoute = (chore: { choreId: string } | undefined) => {
-  if (!chore) return CREATE_EVENT_ROUTE;
-
-  const queryParams = new URLSearchParams(chore);
-  return `${CREATE_EVENT_ROUTE}?${queryParams.toString()}`;
-};

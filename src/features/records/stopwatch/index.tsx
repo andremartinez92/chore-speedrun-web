@@ -2,7 +2,7 @@
 
 import { Button } from '@/features/ui/button';
 import {
-  GetEventRecordsDocument,
+  GetChoreRecordsDocument,
   useCreateRecordMutation,
 } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
@@ -23,14 +23,14 @@ const TimerButton = ({
   return <Button onClick={onStart}>Start</Button>;
 };
 
-const Stopwatch = ({ eventId }: { eventId: string }) => {
+const Stopwatch = ({ choreId }: { choreId: string }) => {
   const [createRecord] = useCreateRecordMutation({
-    refetchQueries: [GetEventRecordsDocument],
+    refetchQueries: [GetChoreRecordsDocument],
   });
 
   const { elapsedTime, onStart, onPause, onReset, onStop, timerState } =
     useStopwatch((time: number) =>
-      createRecord({ variables: { eventId, time: time.toString() } })
+      createRecord({ variables: { choreId, time: time.toString() } })
     );
 
   return (

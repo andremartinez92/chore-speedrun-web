@@ -1,27 +1,29 @@
 'use client';
 
-import { useGetEventRecordsQuery } from '@/graphql/generated';
+import { useGetChoreRecordsQuery } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { CHORES_ROUTE } from '@/routes';
+import { Box, CircularProgress } from '@mui/material';
+import { redirect } from 'next/navigation';
 import RecordsTable from './records-table';
 import Stopwatch from './stopwatch';
 
 type Props = {
-  eventId: string;
+  choreId: string;
 };
 
-const RecordsPage = ({ eventId }: Props) => {
-  const { data, loading: isLoading } = useGetEventRecordsQuery({
-    variables: { eventId },
+const RecordsPage = ({ choreId }: Props) => {
+  const { data, loading: isLoading } = useGetChoreRecordsQuery({
+    variables: { choreId },
   });
 
-  const event = data?.eventCollection?.edges[0]?.node;
+  const chore = data?.choreCollection?.edges[0]?.node;
 
-  const eventName = event?.name;
-  const bestTime = event?.recordCollection?.edges?.[0]?.node.time;
-  const records = event?.recordCollection?.edges.map((edge) => edge.node) || [];
+  const choreName = chore?.name;
+  const bestTime = chore?.recordCollection?.edges?.[0]?.node.time;
+  const records = chore?.recordCollection?.edges.map((edge) => edge.node) || [];
 
-  if (isLoading && !event) {
+  if (isLoading && !chore) {
     return (
       <Box>
         <CircularProgress />
@@ -29,11 +31,15 @@ const RecordsPage = ({ eventId }: Props) => {
     );
   }
 
+  if (!chore) {
+    redirect(CHORES_ROUTE);
+  }
+
   return (
     <section>
-      <Typography variant="h1">{eventName}</Typography>
+      <h1>{choreName}</h1>
       {bestTime && <div>{displayTime(+bestTime)}</div>}
-      <Stopwatch eventId={eventId} />
+      <Stopwatch choreId={choreId} />
       <RecordsTable data={records} />
     </section>
   );

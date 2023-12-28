@@ -1,5 +1,5 @@
-query GetEventRecords($eventId: UUID!) {
-  eventCollection(filter: { id: { eq: $eventId } }) {
+query GetChoreRecords($choreId: UUID!) {
+  choreCollection(filter: { id: { eq: $choreId } }) {
     edges {
       node {
         name

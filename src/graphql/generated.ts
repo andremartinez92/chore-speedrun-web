@@ -72,7 +72,6 @@ export type BooleanFilter = {
 export type Chore = Node & {
   __typename?: 'Chore';
   created_at: Scalars['Datetime']['output'];
-  eventCollection?: Maybe<EventConnection>;
   id: Scalars['UUID']['output'];
   is_completed: Scalars['Boolean']['output'];
   is_priority: Scalars['Boolean']['output'];
@@ -82,17 +81,18 @@ export type Chore = Node & {
   nodeId: Scalars['ID']['output'];
   profile: Profile;
   profile_id: Scalars['UUID']['output'];
+  recordCollection?: Maybe<RecordConnection>;
   recurring_days: Scalars['Int']['output'];
   uncompleted_at: Scalars['Date']['output'];
 };
 
-export type ChoreEventCollectionArgs = {
+export type ChoreRecordCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<EventFilter>;
+  filter?: InputMaybe<RecordFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<EventOrderBy>>;
+  orderBy?: InputMaybe<Array<RecordOrderBy>>;
 };
 
 export type ChoreConnection = {
@@ -210,104 +210,6 @@ export type DatetimeFilter = {
   neq?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
-export type Event = Node & {
-  __typename?: 'Event';
-  chore: Chore;
-  chore_id: Scalars['UUID']['output'];
-  created_at: Scalars['Datetime']['output'];
-  id: Scalars['UUID']['output'];
-  name: Scalars['String']['output'];
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  profile: Profile;
-  profile_id: Scalars['UUID']['output'];
-  recordCollection?: Maybe<RecordConnection>;
-};
-
-export type EventRecordCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<RecordFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<RecordOrderBy>>;
-};
-
-export type EventConnection = {
-  __typename?: 'EventConnection';
-  edges: Array<EventEdge>;
-  pageInfo: PageInfo;
-};
-
-export type EventDeleteResponse = {
-  __typename?: 'EventDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Event>;
-};
-
-export type EventEdge = {
-  __typename?: 'EventEdge';
-  cursor: Scalars['String']['output'];
-  node: Event;
-};
-
-export type EventFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<EventFilter>>;
-  chore_id?: InputMaybe<UuidFilter>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<UuidFilter>;
-  name?: InputMaybe<StringFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<EventFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<EventFilter>>;
-  profile_id?: InputMaybe<UuidFilter>;
-};
-
-export type EventInsertInput = {
-  chore_id?: InputMaybe<Scalars['UUID']['input']>;
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  id?: InputMaybe<Scalars['UUID']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  profile_id?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type EventInsertResponse = {
-  __typename?: 'EventInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Event>;
-};
-
-export type EventOrderBy = {
-  chore_id?: InputMaybe<OrderByDirection>;
-  created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  name?: InputMaybe<OrderByDirection>;
-  profile_id?: InputMaybe<OrderByDirection>;
-};
-
-export type EventUpdateInput = {
-  chore_id?: InputMaybe<Scalars['UUID']['input']>;
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  id?: InputMaybe<Scalars['UUID']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  profile_id?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type EventUpdateResponse = {
-  __typename?: 'EventUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Event>;
-};
-
 export enum FilterIs {
   NotNull = 'NOT_NULL',
   Null = 'NULL',
@@ -347,24 +249,18 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Deletes zero or more records from the `Chore` collection */
   deleteFromChoreCollection: ChoreDeleteResponse;
-  /** Deletes zero or more records from the `Event` collection */
-  deleteFromEventCollection: EventDeleteResponse;
   /** Deletes zero or more records from the `Profile` collection */
   deleteFromProfileCollection: ProfileDeleteResponse;
   /** Deletes zero or more records from the `Record` collection */
   deleteFromRecordCollection: RecordDeleteResponse;
   /** Adds one or more `Chore` records to the collection */
   insertIntoChoreCollection?: Maybe<ChoreInsertResponse>;
-  /** Adds one or more `Event` records to the collection */
-  insertIntoEventCollection?: Maybe<EventInsertResponse>;
   /** Adds one or more `Profile` records to the collection */
   insertIntoProfileCollection?: Maybe<ProfileInsertResponse>;
   /** Adds one or more `Record` records to the collection */
   insertIntoRecordCollection?: Maybe<RecordInsertResponse>;
   /** Updates zero or more records in the `Chore` collection */
   updateChoreCollection: ChoreUpdateResponse;
-  /** Updates zero or more records in the `Event` collection */
-  updateEventCollection: EventUpdateResponse;
   /** Updates zero or more records in the `Profile` collection */
   updateProfileCollection: ProfileUpdateResponse;
   /** Updates zero or more records in the `Record` collection */
@@ -375,12 +271,6 @@ export type Mutation = {
 export type MutationDeleteFromChoreCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ChoreFilter>;
-};
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromEventCollectionArgs = {
-  atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<EventFilter>;
 };
 
 /** The root type for creating and mutating data */
@@ -401,11 +291,6 @@ export type MutationInsertIntoChoreCollectionArgs = {
 };
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntoEventCollectionArgs = {
-  objects: Array<EventInsertInput>;
-};
-
-/** The root type for creating and mutating data */
 export type MutationInsertIntoProfileCollectionArgs = {
   objects: Array<ProfileInsertInput>;
 };
@@ -420,13 +305,6 @@ export type MutationUpdateChoreCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ChoreFilter>;
   set: ChoreUpdateInput;
-};
-
-/** The root type for creating and mutating data */
-export type MutationUpdateEventCollectionArgs = {
-  atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<EventFilter>;
-  set: EventUpdateInput;
 };
 
 /** The root type for creating and mutating data */
@@ -477,7 +355,6 @@ export type PageInfo = {
 export type Profile = Node & {
   __typename?: 'Profile';
   choreCollection?: Maybe<ChoreConnection>;
-  eventCollection?: Maybe<EventConnection>;
   id: Scalars['UUID']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -493,15 +370,6 @@ export type ProfileChoreCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ChoreOrderBy>>;
-};
-
-export type ProfileEventCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<EventFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<EventOrderBy>>;
 };
 
 export type ProfileRecordCollectionArgs = {
@@ -585,8 +453,6 @@ export type Query = {
   __typename?: 'Query';
   /** A pagable collection of type `Chore` */
   choreCollection?: Maybe<ChoreConnection>;
-  /** A pagable collection of type `Event` */
-  eventCollection?: Maybe<EventConnection>;
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>;
   /** A pagable collection of type `Profile` */
@@ -603,16 +469,6 @@ export type QueryChoreCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ChoreOrderBy>>;
-};
-
-/** The root type for querying data */
-export type QueryEventCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<EventFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<EventOrderBy>>;
 };
 
 /** The root type for querying data */
@@ -642,9 +498,9 @@ export type QueryRecordCollectionArgs = {
 
 export type Record = Node & {
   __typename?: 'Record';
+  chore: Chore;
+  chore_id: Scalars['UUID']['output'];
   created_at: Scalars['Datetime']['output'];
-  event: Event;
-  event_id: Scalars['UUID']['output'];
   id: Scalars['UUID']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -676,8 +532,8 @@ export type RecordEdge = {
 export type RecordFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<RecordFilter>>;
+  chore_id?: InputMaybe<UuidFilter>;
   created_at?: InputMaybe<DatetimeFilter>;
-  event_id?: InputMaybe<UuidFilter>;
   id?: InputMaybe<UuidFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
@@ -689,8 +545,8 @@ export type RecordFilter = {
 };
 
 export type RecordInsertInput = {
+  chore_id?: InputMaybe<Scalars['UUID']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  event_id?: InputMaybe<Scalars['UUID']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   profile_id?: InputMaybe<Scalars['UUID']['input']>;
   time?: InputMaybe<Scalars['BigInt']['input']>;
@@ -705,16 +561,16 @@ export type RecordInsertResponse = {
 };
 
 export type RecordOrderBy = {
+  chore_id?: InputMaybe<OrderByDirection>;
   created_at?: InputMaybe<OrderByDirection>;
-  event_id?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   profile_id?: InputMaybe<OrderByDirection>;
   time?: InputMaybe<OrderByDirection>;
 };
 
 export type RecordUpdateInput = {
+  chore_id?: InputMaybe<Scalars['UUID']['input']>;
   created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  event_id?: InputMaybe<Scalars['UUID']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   profile_id?: InputMaybe<Scalars['UUID']['input']>;
   time?: InputMaybe<Scalars['BigInt']['input']>;
@@ -829,36 +685,11 @@ export type CreateChoreMutation = {
   } | null;
 };
 
-export type CreateEventMutationVariables = Exact<{
-  name: Scalars['String']['input'];
+export type GetChoreRecordsQueryVariables = Exact<{
   choreId: Scalars['UUID']['input'];
 }>;
 
-export type CreateEventMutation = {
-  __typename?: 'Mutation';
-  insertIntoEventCollection?: {
-    __typename?: 'EventInsertResponse';
-    records: Array<{ __typename?: 'Event'; id: string }>;
-  } | null;
-};
-
-export type DeleteEventMutationVariables = Exact<{
-  eventId: Scalars['UUID']['input'];
-}>;
-
-export type DeleteEventMutation = {
-  __typename?: 'Mutation';
-  deleteFromEventCollection: {
-    __typename?: 'EventDeleteResponse';
-    affectedCount: number;
-  };
-};
-
-export type GetChoreEventsQueryVariables = Exact<{
-  choreId: Scalars['UUID']['input'];
-}>;
-
-export type GetChoreEventsQuery = {
+export type GetChoreRecordsQuery = {
   __typename?: 'Query';
   choreCollection?: {
     __typename?: 'ChoreConnection';
@@ -866,31 +697,6 @@ export type GetChoreEventsQuery = {
       __typename?: 'ChoreEdge';
       node: {
         __typename?: 'Chore';
-        name: string;
-        eventCollection?: {
-          __typename?: 'EventConnection';
-          edges: Array<{
-            __typename?: 'EventEdge';
-            node: { __typename?: 'Event'; id: string; name: string };
-          }>;
-        } | null;
-      };
-    }>;
-  } | null;
-};
-
-export type GetEventRecordsQueryVariables = Exact<{
-  eventId: Scalars['UUID']['input'];
-}>;
-
-export type GetEventRecordsQuery = {
-  __typename?: 'Query';
-  eventCollection?: {
-    __typename?: 'EventConnection';
-    edges: Array<{
-      __typename?: 'EventEdge';
-      node: {
-        __typename?: 'Event';
         name: string;
         recordCollection?: {
           __typename?: 'RecordConnection';
@@ -923,7 +729,7 @@ export type DeleteRecordMutation = {
 
 export type CreateRecordMutationVariables = Exact<{
   time: Scalars['BigInt']['input'];
-  eventId: Scalars['UUID']['input'];
+  choreId: Scalars['UUID']['input'];
 }>;
 
 export type CreateRecordMutation = {
@@ -1195,197 +1001,9 @@ export type CreateChoreMutationOptions = Apollo.BaseMutationOptions<
   CreateChoreMutation,
   CreateChoreMutationVariables
 >;
-export const CreateEventDocument = gql`
-  mutation CreateEvent($name: String!, $choreId: UUID!) {
-    insertIntoEventCollection(objects: [{ name: $name, chore_id: $choreId }]) {
-      records {
-        id
-      }
-    }
-  }
-`;
-export type CreateEventMutationFn = Apollo.MutationFunction<
-  CreateEventMutation,
-  CreateEventMutationVariables
->;
-
-/**
- * __useCreateEventMutation__
- *
- * To run a mutation, you first call `useCreateEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateEventMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createEventMutation, { data, loading, error }] = useCreateEventMutation({
- *   variables: {
- *      name: // value for 'name'
- *      choreId: // value for 'choreId'
- *   },
- * });
- */
-export function useCreateEventMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateEventMutation,
-    CreateEventMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateEventMutation, CreateEventMutationVariables>(
-    CreateEventDocument,
-    options
-  );
-}
-export type CreateEventMutationHookResult = ReturnType<
-  typeof useCreateEventMutation
->;
-export type CreateEventMutationResult =
-  Apollo.MutationResult<CreateEventMutation>;
-export type CreateEventMutationOptions = Apollo.BaseMutationOptions<
-  CreateEventMutation,
-  CreateEventMutationVariables
->;
-export const DeleteEventDocument = gql`
-  mutation DeleteEvent($eventId: UUID!) {
-    deleteFromEventCollection(filter: { id: { eq: $eventId } }) {
-      affectedCount
-    }
-  }
-`;
-export type DeleteEventMutationFn = Apollo.MutationFunction<
-  DeleteEventMutation,
-  DeleteEventMutationVariables
->;
-
-/**
- * __useDeleteEventMutation__
- *
- * To run a mutation, you first call `useDeleteEventMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteEventMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteEventMutation, { data, loading, error }] = useDeleteEventMutation({
- *   variables: {
- *      eventId: // value for 'eventId'
- *   },
- * });
- */
-export function useDeleteEventMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteEventMutation,
-    DeleteEventMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteEventMutation, DeleteEventMutationVariables>(
-    DeleteEventDocument,
-    options
-  );
-}
-export type DeleteEventMutationHookResult = ReturnType<
-  typeof useDeleteEventMutation
->;
-export type DeleteEventMutationResult =
-  Apollo.MutationResult<DeleteEventMutation>;
-export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<
-  DeleteEventMutation,
-  DeleteEventMutationVariables
->;
-export const GetChoreEventsDocument = gql`
-  query GetChoreEvents($choreId: UUID!) {
+export const GetChoreRecordsDocument = gql`
+  query GetChoreRecords($choreId: UUID!) {
     choreCollection(filter: { id: { eq: $choreId } }) {
-      edges {
-        node {
-          name
-          eventCollection(orderBy: [{ name: AscNullsLast }]) {
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetChoreEventsQuery__
- *
- * To run a query within a React component, call `useGetChoreEventsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetChoreEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetChoreEventsQuery({
- *   variables: {
- *      choreId: // value for 'choreId'
- *   },
- * });
- */
-export function useGetChoreEventsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
-    GetChoreEventsDocument,
-    options
-  );
-}
-export function useGetChoreEventsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetChoreEventsQuery, GetChoreEventsQueryVariables>(
-    GetChoreEventsDocument,
-    options
-  );
-}
-export function useGetChoreEventsSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<
-    GetChoreEventsQuery,
-    GetChoreEventsQueryVariables
-  >(GetChoreEventsDocument, options);
-}
-export type GetChoreEventsQueryHookResult = ReturnType<
-  typeof useGetChoreEventsQuery
->;
-export type GetChoreEventsLazyQueryHookResult = ReturnType<
-  typeof useGetChoreEventsLazyQuery
->;
-export type GetChoreEventsSuspenseQueryHookResult = ReturnType<
-  typeof useGetChoreEventsSuspenseQuery
->;
-export type GetChoreEventsQueryResult = Apollo.QueryResult<
-  GetChoreEventsQuery,
-  GetChoreEventsQueryVariables
->;
-export const GetEventRecordsDocument = gql`
-  query GetEventRecords($eventId: UUID!) {
-    eventCollection(filter: { id: { eq: $eventId } }) {
       edges {
         node {
           name
@@ -1405,69 +1023,69 @@ export const GetEventRecordsDocument = gql`
 `;
 
 /**
- * __useGetEventRecordsQuery__
+ * __useGetChoreRecordsQuery__
  *
- * To run a query within a React component, call `useGetEventRecordsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetEventRecordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetChoreRecordsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChoreRecordsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetEventRecordsQuery({
+ * const { data, loading, error } = useGetChoreRecordsQuery({
  *   variables: {
- *      eventId: // value for 'eventId'
+ *      choreId: // value for 'choreId'
  *   },
  * });
  */
-export function useGetEventRecordsQuery(
+export function useGetChoreRecordsQuery(
   baseOptions: Apollo.QueryHookOptions<
-    GetEventRecordsQuery,
-    GetEventRecordsQueryVariables
+    GetChoreRecordsQuery,
+    GetChoreRecordsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetEventRecordsQuery, GetEventRecordsQueryVariables>(
-    GetEventRecordsDocument,
+  return Apollo.useQuery<GetChoreRecordsQuery, GetChoreRecordsQueryVariables>(
+    GetChoreRecordsDocument,
     options
   );
 }
-export function useGetEventRecordsLazyQuery(
+export function useGetChoreRecordsLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetEventRecordsQuery,
-    GetEventRecordsQueryVariables
+    GetChoreRecordsQuery,
+    GetChoreRecordsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useLazyQuery<
-    GetEventRecordsQuery,
-    GetEventRecordsQueryVariables
-  >(GetEventRecordsDocument, options);
+    GetChoreRecordsQuery,
+    GetChoreRecordsQueryVariables
+  >(GetChoreRecordsDocument, options);
 }
-export function useGetEventRecordsSuspenseQuery(
+export function useGetChoreRecordsSuspenseQuery(
   baseOptions?: Apollo.SuspenseQueryHookOptions<
-    GetEventRecordsQuery,
-    GetEventRecordsQueryVariables
+    GetChoreRecordsQuery,
+    GetChoreRecordsQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useSuspenseQuery<
-    GetEventRecordsQuery,
-    GetEventRecordsQueryVariables
-  >(GetEventRecordsDocument, options);
+    GetChoreRecordsQuery,
+    GetChoreRecordsQueryVariables
+  >(GetChoreRecordsDocument, options);
 }
-export type GetEventRecordsQueryHookResult = ReturnType<
-  typeof useGetEventRecordsQuery
+export type GetChoreRecordsQueryHookResult = ReturnType<
+  typeof useGetChoreRecordsQuery
 >;
-export type GetEventRecordsLazyQueryHookResult = ReturnType<
-  typeof useGetEventRecordsLazyQuery
+export type GetChoreRecordsLazyQueryHookResult = ReturnType<
+  typeof useGetChoreRecordsLazyQuery
 >;
-export type GetEventRecordsSuspenseQueryHookResult = ReturnType<
-  typeof useGetEventRecordsSuspenseQuery
+export type GetChoreRecordsSuspenseQueryHookResult = ReturnType<
+  typeof useGetChoreRecordsSuspenseQuery
 >;
-export type GetEventRecordsQueryResult = Apollo.QueryResult<
-  GetEventRecordsQuery,
-  GetEventRecordsQueryVariables
+export type GetChoreRecordsQueryResult = Apollo.QueryResult<
+  GetChoreRecordsQuery,
+  GetChoreRecordsQueryVariables
 >;
 export const DeleteRecordDocument = gql`
   mutation DeleteRecord($recordId: UUID!) {
@@ -1520,8 +1138,8 @@ export type DeleteRecordMutationOptions = Apollo.BaseMutationOptions<
   DeleteRecordMutationVariables
 >;
 export const CreateRecordDocument = gql`
-  mutation CreateRecord($time: BigInt!, $eventId: UUID!) {
-    insertIntoRecordCollection(objects: [{ time: $time, event_id: $eventId }]) {
+  mutation CreateRecord($time: BigInt!, $choreId: UUID!) {
+    insertIntoRecordCollection(objects: [{ time: $time, chore_id: $choreId }]) {
       affectedCount
     }
   }
@@ -1545,7 +1163,7 @@ export type CreateRecordMutationFn = Apollo.MutationFunction<
  * const [createRecordMutation, { data, loading, error }] = useCreateRecordMutation({
  *   variables: {
  *      time: // value for 'time'
- *      eventId: // value for 'eventId'
+ *      choreId: // value for 'choreId'
  *   },
  * });
  */

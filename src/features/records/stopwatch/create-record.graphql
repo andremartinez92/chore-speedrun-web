@@ -1,5 +1,5 @@
-mutation CreateRecord($time: BigInt!, $eventId: UUID!) {
-  insertIntoRecordCollection(objects: [{ time: $time, event_id: $eventId }]) {
+mutation CreateRecord($time: BigInt!, $choreId: UUID!) {
+  insertIntoRecordCollection(objects: [{ time: $time, chore_id: $choreId }]) {
     affectedCount
   }
 }

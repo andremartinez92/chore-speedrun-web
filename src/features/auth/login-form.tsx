@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { InputWithLabel } from '../ui/input-with-label';
 import { signInWithEmailAndPassword } from './helpers';
 
 enum FormField {
@@ -68,7 +68,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <Input
+          <InputWithLabel
             {...field}
             label="Email"
             type="email"
@@ -82,7 +82,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <Input
+          <InputWithLabel
             {...field}
             label="Password"
             type="password"
