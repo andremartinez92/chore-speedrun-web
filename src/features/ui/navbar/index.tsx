@@ -9,7 +9,9 @@ const NavBar = async () => {
 
   return (
     <NavigationMenu className="sticky w-screen bg-primary flex justify-between">
-      <div className="text-lg font-semibold text-secondary">Chore Speedrun</div>
+      <div className="text-lg font-semibold text-primary-foreground">
+        Chore Speedrun
+      </div>
       <ModeToggle />
       <AuthActionButton isLoggedIn={isLoggedIn} />
     </NavigationMenu>
