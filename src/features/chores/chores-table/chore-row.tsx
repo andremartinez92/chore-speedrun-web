@@ -1,5 +1,8 @@
 'use client';
 
+import { Button } from '@/features/ui/button';
+import { Checkbox } from '@/features/ui/checkbox';
+import { TableCell, TableRow } from '@/features/ui/table';
 import {
   GetChoresDocument,
   useCompleteChoreMutation,
@@ -7,9 +10,7 @@ import {
 } from '@/graphql/generated';
 import { convertToGqlDate } from '@/lib/utils/convert-to-gql-date';
 import { getChoreRoute } from '@/routes';
-import { Launch } from '@mui/icons-material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Checkbox, IconButton, TableCell, TableRow } from '@mui/material';
+import { ExternalLink, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -55,12 +56,12 @@ const ChoreRow = ({
           }
           checked={isMarkedCompleted}
           disabled={isCompletingChore}
-          onChange={(e) => {
+          onCheckedChange={(checked) => {
             setIsMarkedCompleted(!isMarkedCompleted);
             void completeChore({
               variables: {
                 choreId: id,
-                isCompleted: e.target.checked,
+                isCompleted: checked === true, // checked can be 'indeterminate'
                 lastCompletedAt: isMarkedCompleted
                   ? undefined
                   : convertToGqlDate(new Date()),
@@ -69,30 +70,28 @@ const ChoreRow = ({
           }}
         />
       </TableCell>
-      <TableCell component="th" scope="row">
-        {name}
-      </TableCell>
+      <TableCell>{name}</TableCell>
       <TableCell>{lastCompletedAt}</TableCell>
       <TableCell>{recurringDays}</TableCell>
       <TableCell>{isPriority ? '*' : '-'}</TableCell>
       <TableCell>
-        <IconButton
-          color="inherit"
-          LinkComponent={Link}
-          href={getChoreRoute(id)}
-        >
-          <Launch />
-        </IconButton>
+        <Button size="icon" variant="outline" asChild>
+          <Link href={getChoreRoute(id)}>
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+        </Button>
       </TableCell>
       <TableCell>
-        <IconButton
-          color="warning"
+        <Button
+          className="text-destructive"
+          variant="outline"
+          size="icon"
           aria-label={`Delete chore ${name}`}
           onClick={() => deleteChore()}
           disabled={isDeletingChore}
         >
-          <DeleteIcon />
-        </IconButton>
+          <Trash2 className="h-4 w-4" />
+        </Button>
       </TableCell>
     </TableRow>
   );

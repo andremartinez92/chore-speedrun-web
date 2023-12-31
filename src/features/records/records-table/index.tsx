@@ -1,15 +1,14 @@
 'use client';
 
 import { Record } from '@/graphql/generated';
+
 import {
-  Paper,
   Table,
   TableBody,
-  TableCell,
-  TableContainer,
   TableHead,
+  TableHeader,
   TableRow,
-} from '@mui/material';
+} from '@/features/ui/table';
 import RecordRow from './record-row';
 
 type RecordTableData = Pick<Record, 'id' | 'time' | 'created_at'>;
@@ -24,23 +23,21 @@ const RecordsTable = ({ data }: Props) => {
   }));
 
   return (
-    <TableContainer component={Paper}>
-      <Table stickyHeader aria-label="Records table">
-        <TableHead>
-          <TableRow className="min-w-2xl">
-            <TableCell>Time</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
+    <Table aria-label="Records table">
+      <TableHeader>
+        <TableRow className="min-w-2xl">
+          <TableHead>Time</TableHead>
+          <TableHead>Date</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
 
-        <TableBody>
-          {newData.map((props) => {
-            return <RecordRow key={props.id} {...props} />;
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <TableBody>
+        {newData.map((props) => {
+          return <RecordRow key={props.id} {...props} />;
+        })}
+      </TableBody>
+    </Table>
   );
 };
 

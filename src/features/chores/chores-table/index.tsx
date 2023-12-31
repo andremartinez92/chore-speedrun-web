@@ -1,22 +1,18 @@
 'use client';
 
 import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/features/ui/table';
+import {
   GetChoresDocument,
   GetChoresQuery,
   GetChoresQueryVariables,
 } from '@/graphql/generated';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import {
-  Box,
-  CircularProgress,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
 import { useMemo } from 'react';
 import ChoreRow from './chore-row';
 
@@ -45,35 +41,29 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
   }, [data?.choreCollection]);
 
   if (loading) {
-    return (
-      <Box>
-        <CircularProgress />
-      </Box>
-    );
+    return <div>Loading...</div>;
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table stickyHeader aria-label={props['aria-label']}>
-        <TableHead>
-          <TableRow className="min-w-2xl">
-            <TableCell></TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Last completed</TableCell>
-            <TableCell>Recurring days</TableCell>
-            <TableCell>Priority</TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
+    <Table aria-label={props['aria-label']}>
+      <TableHeader>
+        <TableRow className="min-w-2xl">
+          <TableHead></TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Last completed</TableHead>
+          <TableHead>Recurring days</TableHead>
+          <TableHead>Priority</TableHead>
+          <TableHead></TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
 
-        <TableBody>
-          {tableData.map((props) => {
-            return <ChoreRow key={props.id} {...props} />;
-          })}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <TableBody>
+        {tableData.map((props) => {
+          return <ChoreRow key={props.id} {...props} />;
+        })}
+      </TableBody>
+    </Table>
   );
 };
 

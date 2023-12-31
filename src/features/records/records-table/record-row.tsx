@@ -1,12 +1,13 @@
 'use client';
 
+import { Button } from '@/features/ui/button';
+import { TableCell, TableRow } from '@/features/ui/table';
 import {
   GetChoreRecordsDocument,
   useDeleteRecordMutation,
 } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton, TableCell, TableRow } from '@mui/material';
+import { Trash2 } from 'lucide-react';
 
 type RecordRowProps = {
   id: string;
@@ -26,22 +27,20 @@ const RecordRow = ({ id, time, createdAt }: RecordRowProps) => {
 
   return (
     <TableRow>
-      <TableCell component="th" scope="row">
-        {timeToDisplay}
-      </TableCell>
-      <TableCell component="th" scope="row">
-        {new Date(createdAt).toLocaleDateString()}
-      </TableCell>
+      <TableCell>{timeToDisplay}</TableCell>
+      <TableCell>{new Date(createdAt).toLocaleDateString()}</TableCell>
 
       <TableCell>
-        <IconButton
-          color="warning"
+        <Button
+          className="text-destructive"
+          variant="outline"
+          size="icon"
           aria-label={`Delete record ${timeToDisplay}`}
           onClick={() => deleteRecord()}
           disabled={isDeletingRecord}
         >
-          <DeleteIcon />
-        </IconButton>
+          <Trash2 className="h-4 w-4" />
+        </Button>
       </TableCell>
     </TableRow>
   );

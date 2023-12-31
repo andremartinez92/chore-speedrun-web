@@ -3,7 +3,6 @@
 import { useGetChoreRecordsQuery } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
 import { CHORES_ROUTE } from '@/routes';
-import { Box, CircularProgress } from '@mui/material';
 import { redirect } from 'next/navigation';
 import RecordsTable from './records-table';
 import Stopwatch from './stopwatch';
@@ -24,11 +23,7 @@ const RecordsPage = ({ choreId }: Props) => {
   const records = chore?.recordCollection?.edges.map((edge) => edge.node) || [];
 
   if (isLoading && !chore) {
-    return (
-      <Box>
-        <CircularProgress />
-      </Box>
-    );
+    return <div>Loading...</div>;
   }
 
   if (!chore) {

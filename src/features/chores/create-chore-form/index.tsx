@@ -10,6 +10,7 @@ import { getChoreRoute } from '@/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 enum FormFieldEnum {
@@ -53,7 +54,10 @@ const CreateChoreForm = () => {
     onCompleted: (result) => {
       const newChoreId = result.insertIntoChoreCollection?.records[0].id;
 
-      if (newChoreId) push(getChoreRoute(newChoreId));
+      if (newChoreId) {
+        toast('Chore created.');
+        push(getChoreRoute(newChoreId));
+      }
     },
     onError: (error) => setError('root', { message: error.message }),
   });
