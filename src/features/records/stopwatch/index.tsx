@@ -34,9 +34,9 @@ const Stopwatch = ({ choreId }: { choreId: string }) => {
     );
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="text-9xl">{displayTime(elapsedTime)}</div>
-      <div>
+    <div className="flex flex-col items-center justify-center gap-5">
+      <div className="text-3xl">{displayTime(elapsedTime)}</div>
+      <div className="grid grid-cols-3 gap-4">
         <TimerButton
           onStart={onStart}
           onPause={onPause}

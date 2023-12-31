@@ -4,8 +4,8 @@ import { useGetChoreRecordsQuery } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
 import { CHORES_ROUTE } from '@/routes';
 import { redirect } from 'next/navigation';
-import RecordsTable from './records-table';
-import Stopwatch from './stopwatch';
+import RecordsTable from '../records-table';
+import Stopwatch from '../stopwatch';
 
 type Props = {
   choreId: string;
@@ -31,8 +31,13 @@ const RecordsPage = ({ choreId }: Props) => {
   }
 
   return (
-    <section>
-      <h1>{choreName}</h1>
+    <section
+      aria-labelledby="records-page"
+      className="flex flex-col gap-4 mt-8"
+    >
+      <h1 id="records-page" className="text-center">
+        {choreName}
+      </h1>
       {bestTime && <div>{displayTime(+bestTime)}</div>}
       <Stopwatch choreId={choreId} />
       <RecordsTable data={records} />
