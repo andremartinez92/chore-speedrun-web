@@ -6,7 +6,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '../ui/button';
 import { InputWithLabel } from '../ui/input-with-label';
-import { signInWithEmailAndPassword } from './helpers';
+import { signInWithEmailAndPassword } from './server-helpers';
 
 enum FormField {
   email = 'email',
