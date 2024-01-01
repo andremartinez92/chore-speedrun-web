@@ -10,6 +10,8 @@ import {
 } from '@/graphql/generated';
 import { convertToGqlDate } from '@/lib/utils/convert-to-gql-date';
 import { getChoreRoute } from '@/routes';
+import { parse } from 'date-fns';
+import differenceInDays from 'date-fns/differenceInDays';
 import { ExternalLink, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -71,9 +73,18 @@ const ChoreRow = ({
         />
       </TableCell>
       <TableCell>{name}</TableCell>
-      <TableCell>{lastCompletedAt}</TableCell>
-      <TableCell>{recurringDays}</TableCell>
-      <TableCell>{isPriority ? '*' : '-'}</TableCell>
+      <TableCell>
+        {lastCompletedAt
+          ? differenceInDays(
+              new Date(),
+              parse(lastCompletedAt, 'yyyy-MM-dd', new Date())
+            )
+          : '-'}
+      </TableCell>
+      <TableCell className="hidden lg:block">{recurringDays}</TableCell>
+      <TableCell className="hidden lg:block">
+        {isPriority ? '*' : '-'}
+      </TableCell>
       <TableCell>
         <Button size="icon" variant="outline" asChild>
           <Link href={getChoreRoute(id)}>

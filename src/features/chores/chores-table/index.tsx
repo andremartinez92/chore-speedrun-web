@@ -47,18 +47,18 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
   return (
     <Table aria-label={props['aria-label']}>
       <TableHeader>
-        <TableRow className="min-w-2xl">
+        <TableRow>
           <TableHead></TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>Last completed</TableHead>
-          <TableHead>Recurring days</TableHead>
-          <TableHead>Priority</TableHead>
+          <TableHead>Days ago</TableHead>
+          <TableHead className="hidden lg:block">Recurring days</TableHead>
+          <TableHead className="hidden lg:block">Priority</TableHead>
           <TableHead></TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
 
-      <TableBody>
+      <TableBody className="overflow-y-scroll max-h-[60dvh]">
         {tableData.map((props) => {
           return <ChoreRow key={props.id} {...props} />;
         })}
