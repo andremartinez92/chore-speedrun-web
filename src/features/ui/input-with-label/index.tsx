@@ -10,10 +10,10 @@ export interface InputWithLabelProps extends InputProps {
 const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
   ({ label, ...props }, ref) => {
     return (
-      <>
+      <div>
         <Label htmlFor={props.name}>{label}</Label>
         <Input {...props} ref={ref} />
-      </>
+      </div>
     );
   }
 );
