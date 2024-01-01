@@ -20,6 +20,11 @@ export default function Page() {
       aria-labelledby={PAGE_TITLE_ID}
     >
       <h1 id={PAGE_TITLE_ID}>Chores</h1>
+
+      <Button asChild>
+        <Link href={CREATE_CHORE_ROUTE}>Create chore</Link>
+      </Button>
+
       <div className="flex w-full justify-start">
         <Tabs defaultValue={ChoreTabEnum.UNCOMPLETED}>
           <TabsList>
@@ -44,10 +49,6 @@ export default function Page() {
           </TabsContent>
         </Tabs>
       </div>
-
-      <Button asChild>
-        <Link href={CREATE_CHORE_ROUTE}>Create chore</Link>
-      </Button>
     </section>
   );
 }

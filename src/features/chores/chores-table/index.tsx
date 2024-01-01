@@ -51,9 +51,8 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
           <TableHead></TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Days ago</TableHead>
-          <TableHead className="hidden lg:block">Recurring days</TableHead>
-          <TableHead className="hidden lg:block">Priority</TableHead>
-          <TableHead></TableHead>
+          <TableHead className="hidden lg:table-cell">Recurring days</TableHead>
+          <TableHead className="hidden lg:table-cell">Priority</TableHead>
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
