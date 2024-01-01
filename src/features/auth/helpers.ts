@@ -38,3 +38,15 @@ export async function signInWithEmailAndPassword(data: {
 
   return JSON.stringify(result);
 }
+
+export async function signInWithGoogle() {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: `${process.env.NEXT_PUBLIC_UI_URL}` },
+  });
+
+  console.log(result);
+
+  return JSON.stringify(result);
+}
