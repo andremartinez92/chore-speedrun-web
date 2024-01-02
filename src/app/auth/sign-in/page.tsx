@@ -14,9 +14,7 @@ const Page = async () => {
 
   return (
     <section aria-labelledby={PAGE_TITLE_ID} className="mt-8">
-      <h1 id={PAGE_TITLE_ID} className="text-5xl text-center">
-        Sign In
-      </h1>
+      <h1 id={PAGE_TITLE_ID}>Sign In</h1>
       <div className="mt-20 flex gap-72 items-center justify-center">
         <AuthTabs />
       </div>

@@ -16,7 +16,7 @@ const PAGE_TITLE_ID = 'chores-page-title';
 export default function Page() {
   return (
     <section
-      className="flex flex-col items-center justify-center gap-20"
+      className="flex flex-col items-center justify-center gap-8"
       aria-labelledby={PAGE_TITLE_ID}
     >
       <h1 id={PAGE_TITLE_ID}>Chores</h1>
@@ -25,8 +25,11 @@ export default function Page() {
         <Link href={CREATE_CHORE_ROUTE}>Create chore</Link>
       </Button>
 
-      <div className="flex w-full justify-start">
-        <Tabs defaultValue={ChoreTabEnum.UNCOMPLETED}>
+      <div className="flex w-full justify-center">
+        <Tabs
+          defaultValue={ChoreTabEnum.UNCOMPLETED}
+          className="flex flex-col items-center"
+        >
           <TabsList>
             <TabsTrigger value={ChoreTabEnum.UNCOMPLETED}>
               Uncompleted

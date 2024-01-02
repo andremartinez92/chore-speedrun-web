@@ -35,9 +35,7 @@ const RecordsPage = ({ choreId }: Props) => {
       aria-labelledby="records-page"
       className="flex flex-col gap-4 mt-8"
     >
-      <h1 id="records-page" className="text-center">
-        {choreName}
-      </h1>
+      <h1 id="records-page">{choreName}</h1>
       {bestTime && <div>{displayTime(+bestTime)}</div>}
       <Stopwatch choreId={choreId} />
       <RecordsTable data={records} />
