@@ -5,7 +5,13 @@ import { usePathname } from 'next/navigation';
 import { Button } from '../button';
 import SignOutButton from '../sign-out-button';
 
-const AuthActionButton = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+const AuthActionButton = ({
+  isLoggedIn,
+  className,
+}: {
+  isLoggedIn: boolean;
+  className?: string;
+}) => {
   const path = usePathname();
 
   if (!isLoggedIn && path.startsWith(SIGN_IN_ROUTE)) {
@@ -14,13 +20,13 @@ const AuthActionButton = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   if (!isLoggedIn) {
     return (
-      <Button asChild>
+      <Button className={className} asChild>
         <Link href={SIGN_IN_ROUTE}>Sign in</Link>
       </Button>
     );
   }
 
-  return <SignOutButton color="inherit" />;
+  return <SignOutButton className={className} />;
 };
 
 export default AuthActionButton;
