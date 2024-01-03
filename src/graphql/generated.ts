@@ -259,6 +259,7 @@ export type Mutation = {
   insertIntoProfileCollection?: Maybe<ProfileInsertResponse>;
   /** Adds one or more `Record` records to the collection */
   insertIntoRecordCollection?: Maybe<RecordInsertResponse>;
+  uncomplete_chores?: Maybe<Scalars['Opaque']['output']>;
   /** Updates zero or more records in the `Chore` collection */
   updateChoreCollection: ChoreUpdateResponse;
   /** Updates zero or more records in the `Profile` collection */
@@ -355,12 +356,12 @@ export type PageInfo = {
 export type Profile = Node & {
   __typename?: 'Profile';
   choreCollection?: Maybe<ChoreConnection>;
+  email: Scalars['String']['output'];
   id: Scalars['UUID']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   recordCollection?: Maybe<RecordConnection>;
   updated_at?: Maybe<Scalars['Datetime']['output']>;
-  username: Scalars['String']['output'];
 };
 
 export type ProfileChoreCollectionArgs = {
@@ -404,6 +405,7 @@ export type ProfileEdge = {
 export type ProfileFilter = {
   /** Returns true only if all its inner filters are true, otherwise returns false */
   and?: InputMaybe<Array<ProfileFilter>>;
+  email?: InputMaybe<StringFilter>;
   id?: InputMaybe<UuidFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
@@ -411,13 +413,12 @@ export type ProfileFilter = {
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<ProfileFilter>>;
   updated_at?: InputMaybe<DatetimeFilter>;
-  username?: InputMaybe<StringFilter>;
 };
 
 export type ProfileInsertInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProfileInsertResponse = {
@@ -429,15 +430,15 @@ export type ProfileInsertResponse = {
 };
 
 export type ProfileOrderBy = {
+  email?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   updated_at?: InputMaybe<OrderByDirection>;
-  username?: InputMaybe<OrderByDirection>;
 };
 
 export type ProfileUpdateInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   updated_at?: InputMaybe<Scalars['Datetime']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProfileUpdateResponse = {
@@ -621,6 +622,20 @@ export type UuidFilter = {
   neq?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+export type CreateChoreMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  recurringDays: Scalars['Int']['input'];
+  isPriority: Scalars['Boolean']['input'];
+}>;
+
+export type CreateChoreMutation = {
+  __typename?: 'Mutation';
+  insertIntoChoreCollection?: {
+    __typename?: 'ChoreInsertResponse';
+    records: Array<{ __typename?: 'Chore'; id: string }>;
+  } | null;
+};
+
 export type CompleteChoreMutationVariables = Exact<{
   choreId: Scalars['UUID']['input'];
   lastCompletedAt?: InputMaybe<Scalars['Date']['input']>;
@@ -632,7 +647,12 @@ export type CompleteChoreMutation = {
   updateChoreCollection: {
     __typename?: 'ChoreUpdateResponse';
     affectedCount: number;
-    records: Array<{ __typename?: 'Chore'; id: string; is_completed: boolean }>;
+    records: Array<{
+      __typename?: 'Chore';
+      id: string;
+      is_completed: boolean;
+      name: string;
+    }>;
   };
 };
 
@@ -671,18 +691,29 @@ export type GetChoresQuery = {
   } | null;
 };
 
-export type CreateChoreMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-  recurringDays: Scalars['Int']['input'];
-  isPriority: Scalars['Boolean']['input'];
+export type CreateRecordMutationVariables = Exact<{
+  time: Scalars['BigInt']['input'];
+  choreId: Scalars['UUID']['input'];
 }>;
 
-export type CreateChoreMutation = {
+export type CreateRecordMutation = {
   __typename?: 'Mutation';
-  insertIntoChoreCollection?: {
-    __typename?: 'ChoreInsertResponse';
-    records: Array<{ __typename?: 'Chore'; id: string }>;
+  insertIntoRecordCollection?: {
+    __typename?: 'RecordInsertResponse';
+    affectedCount: number;
   } | null;
+};
+
+export type DeleteRecordMutationVariables = Exact<{
+  recordId: Scalars['UUID']['input'];
+}>;
+
+export type DeleteRecordMutation = {
+  __typename?: 'Mutation';
+  deleteFromRecordCollection: {
+    __typename?: 'RecordDeleteResponse';
+    affectedCount: number;
+  };
 };
 
 export type GetChoreRecordsQueryVariables = Exact<{
@@ -698,6 +729,7 @@ export type GetChoreRecordsQuery = {
       node: {
         __typename?: 'Chore';
         name: string;
+        is_completed: boolean;
         recordCollection?: {
           __typename?: 'RecordConnection';
           edges: Array<{
@@ -715,31 +747,72 @@ export type GetChoreRecordsQuery = {
   } | null;
 };
 
-export type DeleteRecordMutationVariables = Exact<{
-  recordId: Scalars['UUID']['input'];
-}>;
+export const CreateChoreDocument = gql`
+  mutation CreateChore(
+    $name: String!
+    $recurringDays: Int!
+    $isPriority: Boolean!
+  ) {
+    insertIntoChoreCollection(
+      objects: [
+        {
+          name: $name
+          recurring_days: $recurringDays
+          is_priority: $isPriority
+        }
+      ]
+    ) {
+      records {
+        id
+      }
+    }
+  }
+`;
+export type CreateChoreMutationFn = Apollo.MutationFunction<
+  CreateChoreMutation,
+  CreateChoreMutationVariables
+>;
 
-export type DeleteRecordMutation = {
-  __typename?: 'Mutation';
-  deleteFromRecordCollection: {
-    __typename?: 'RecordDeleteResponse';
-    affectedCount: number;
-  };
-};
-
-export type CreateRecordMutationVariables = Exact<{
-  time: Scalars['BigInt']['input'];
-  choreId: Scalars['UUID']['input'];
-}>;
-
-export type CreateRecordMutation = {
-  __typename?: 'Mutation';
-  insertIntoRecordCollection?: {
-    __typename?: 'RecordInsertResponse';
-    affectedCount: number;
-  } | null;
-};
-
+/**
+ * __useCreateChoreMutation__
+ *
+ * To run a mutation, you first call `useCreateChoreMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChoreMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createChoreMutation, { data, loading, error }] = useCreateChoreMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      recurringDays: // value for 'recurringDays'
+ *      isPriority: // value for 'isPriority'
+ *   },
+ * });
+ */
+export function useCreateChoreMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateChoreMutation,
+    CreateChoreMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateChoreMutation, CreateChoreMutationVariables>(
+    CreateChoreDocument,
+    options
+  );
+}
+export type CreateChoreMutationHookResult = ReturnType<
+  typeof useCreateChoreMutation
+>;
+export type CreateChoreMutationResult =
+  Apollo.MutationResult<CreateChoreMutation>;
+export type CreateChoreMutationOptions = Apollo.BaseMutationOptions<
+  CreateChoreMutation,
+  CreateChoreMutationVariables
+>;
 export const CompleteChoreDocument = gql`
   mutation CompleteChore(
     $choreId: UUID!
@@ -754,6 +827,7 @@ export const CompleteChoreDocument = gql`
       records {
         id
         is_completed
+        name
       }
     }
   }
@@ -935,71 +1009,106 @@ export type GetChoresQueryResult = Apollo.QueryResult<
   GetChoresQuery,
   GetChoresQueryVariables
 >;
-export const CreateChoreDocument = gql`
-  mutation CreateChore(
-    $name: String!
-    $recurringDays: Int!
-    $isPriority: Boolean!
-  ) {
-    insertIntoChoreCollection(
-      objects: [
-        {
-          name: $name
-          recurring_days: $recurringDays
-          is_priority: $isPriority
-        }
-      ]
-    ) {
-      records {
-        id
-      }
+export const CreateRecordDocument = gql`
+  mutation CreateRecord($time: BigInt!, $choreId: UUID!) {
+    insertIntoRecordCollection(objects: [{ time: $time, chore_id: $choreId }]) {
+      affectedCount
     }
   }
 `;
-export type CreateChoreMutationFn = Apollo.MutationFunction<
-  CreateChoreMutation,
-  CreateChoreMutationVariables
+export type CreateRecordMutationFn = Apollo.MutationFunction<
+  CreateRecordMutation,
+  CreateRecordMutationVariables
 >;
 
 /**
- * __useCreateChoreMutation__
+ * __useCreateRecordMutation__
  *
- * To run a mutation, you first call `useCreateChoreMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateChoreMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateRecordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRecordMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createChoreMutation, { data, loading, error }] = useCreateChoreMutation({
+ * const [createRecordMutation, { data, loading, error }] = useCreateRecordMutation({
  *   variables: {
- *      name: // value for 'name'
- *      recurringDays: // value for 'recurringDays'
- *      isPriority: // value for 'isPriority'
+ *      time: // value for 'time'
+ *      choreId: // value for 'choreId'
  *   },
  * });
  */
-export function useCreateChoreMutation(
+export function useCreateRecordMutation(
   baseOptions?: Apollo.MutationHookOptions<
-    CreateChoreMutation,
-    CreateChoreMutationVariables
+    CreateRecordMutation,
+    CreateRecordMutationVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateChoreMutation, CreateChoreMutationVariables>(
-    CreateChoreDocument,
-    options
-  );
+  return Apollo.useMutation<
+    CreateRecordMutation,
+    CreateRecordMutationVariables
+  >(CreateRecordDocument, options);
 }
-export type CreateChoreMutationHookResult = ReturnType<
-  typeof useCreateChoreMutation
+export type CreateRecordMutationHookResult = ReturnType<
+  typeof useCreateRecordMutation
 >;
-export type CreateChoreMutationResult =
-  Apollo.MutationResult<CreateChoreMutation>;
-export type CreateChoreMutationOptions = Apollo.BaseMutationOptions<
-  CreateChoreMutation,
-  CreateChoreMutationVariables
+export type CreateRecordMutationResult =
+  Apollo.MutationResult<CreateRecordMutation>;
+export type CreateRecordMutationOptions = Apollo.BaseMutationOptions<
+  CreateRecordMutation,
+  CreateRecordMutationVariables
+>;
+export const DeleteRecordDocument = gql`
+  mutation DeleteRecord($recordId: UUID!) {
+    deleteFromRecordCollection(filter: { id: { eq: $recordId } }) {
+      affectedCount
+    }
+  }
+`;
+export type DeleteRecordMutationFn = Apollo.MutationFunction<
+  DeleteRecordMutation,
+  DeleteRecordMutationVariables
+>;
+
+/**
+ * __useDeleteRecordMutation__
+ *
+ * To run a mutation, you first call `useDeleteRecordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRecordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRecordMutation, { data, loading, error }] = useDeleteRecordMutation({
+ *   variables: {
+ *      recordId: // value for 'recordId'
+ *   },
+ * });
+ */
+export function useDeleteRecordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteRecordMutation,
+    DeleteRecordMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteRecordMutation,
+    DeleteRecordMutationVariables
+  >(DeleteRecordDocument, options);
+}
+export type DeleteRecordMutationHookResult = ReturnType<
+  typeof useDeleteRecordMutation
+>;
+export type DeleteRecordMutationResult =
+  Apollo.MutationResult<DeleteRecordMutation>;
+export type DeleteRecordMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRecordMutation,
+  DeleteRecordMutationVariables
 >;
 export const GetChoreRecordsDocument = gql`
   query GetChoreRecords($choreId: UUID!) {
@@ -1007,6 +1116,7 @@ export const GetChoreRecordsDocument = gql`
       edges {
         node {
           name
+          is_completed
           recordCollection(orderBy: [{ time: AscNullsLast }]) {
             edges {
               node {
@@ -1086,105 +1196,4 @@ export type GetChoreRecordsSuspenseQueryHookResult = ReturnType<
 export type GetChoreRecordsQueryResult = Apollo.QueryResult<
   GetChoreRecordsQuery,
   GetChoreRecordsQueryVariables
->;
-export const DeleteRecordDocument = gql`
-  mutation DeleteRecord($recordId: UUID!) {
-    deleteFromRecordCollection(filter: { id: { eq: $recordId } }) {
-      affectedCount
-    }
-  }
-`;
-export type DeleteRecordMutationFn = Apollo.MutationFunction<
-  DeleteRecordMutation,
-  DeleteRecordMutationVariables
->;
-
-/**
- * __useDeleteRecordMutation__
- *
- * To run a mutation, you first call `useDeleteRecordMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteRecordMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteRecordMutation, { data, loading, error }] = useDeleteRecordMutation({
- *   variables: {
- *      recordId: // value for 'recordId'
- *   },
- * });
- */
-export function useDeleteRecordMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteRecordMutation,
-    DeleteRecordMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    DeleteRecordMutation,
-    DeleteRecordMutationVariables
-  >(DeleteRecordDocument, options);
-}
-export type DeleteRecordMutationHookResult = ReturnType<
-  typeof useDeleteRecordMutation
->;
-export type DeleteRecordMutationResult =
-  Apollo.MutationResult<DeleteRecordMutation>;
-export type DeleteRecordMutationOptions = Apollo.BaseMutationOptions<
-  DeleteRecordMutation,
-  DeleteRecordMutationVariables
->;
-export const CreateRecordDocument = gql`
-  mutation CreateRecord($time: BigInt!, $choreId: UUID!) {
-    insertIntoRecordCollection(objects: [{ time: $time, chore_id: $choreId }]) {
-      affectedCount
-    }
-  }
-`;
-export type CreateRecordMutationFn = Apollo.MutationFunction<
-  CreateRecordMutation,
-  CreateRecordMutationVariables
->;
-
-/**
- * __useCreateRecordMutation__
- *
- * To run a mutation, you first call `useCreateRecordMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateRecordMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createRecordMutation, { data, loading, error }] = useCreateRecordMutation({
- *   variables: {
- *      time: // value for 'time'
- *      choreId: // value for 'choreId'
- *   },
- * });
- */
-export function useCreateRecordMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateRecordMutation,
-    CreateRecordMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateRecordMutation,
-    CreateRecordMutationVariables
-  >(CreateRecordDocument, options);
-}
-export type CreateRecordMutationHookResult = ReturnType<
-  typeof useCreateRecordMutation
->;
-export type CreateRecordMutationResult =
-  Apollo.MutationResult<CreateRecordMutation>;
-export type CreateRecordMutationOptions = Apollo.BaseMutationOptions<
-  CreateRecordMutation,
-  CreateRecordMutationVariables
 >;

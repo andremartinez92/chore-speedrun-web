@@ -3,6 +3,7 @@ query GetChoreRecords($choreId: UUID!) {
     edges {
       node {
         name
+        is_completed
         recordCollection(orderBy: [{ time: AscNullsLast }]) {
           edges {
             node {

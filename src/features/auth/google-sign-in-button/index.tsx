@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '../ui/button';
-import { signInWithGoogle } from './client-helpers';
+import { Button } from '@/features/ui/button';
+import { signInWithGoogle } from '@/lib/auth/sign-in-with-google';
 
 const GoogleSignInButton = () => {
   const handleClick = async () => {

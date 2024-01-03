@@ -1,8 +1,8 @@
 'use client';
 
+import { Button, ButtonProps } from '@/features/ui/button';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
-import { Button, ButtonProps } from '../button';
 
 type Props = Omit<ButtonProps, 'onClick'>;
 

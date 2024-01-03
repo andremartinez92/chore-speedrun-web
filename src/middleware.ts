@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 import { getSessionToken } from './lib/supabase/get-session-token';
-import { SIGN_IN_ROUTE } from './routes';
+import { AUTH_ROUTE, AUTH_SIGN_IN_ROUTE } from './routes';
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -53,8 +53,8 @@ export async function middleware(request: NextRequest) {
 
   const token = await getSessionToken(supabase);
 
-  if (!token && !request.nextUrl.pathname.startsWith('/auth')) {
-    return NextResponse.redirect(new URL(SIGN_IN_ROUTE, request.url));
+  if (!token && !request.nextUrl.pathname.startsWith(AUTH_ROUTE)) {
+    return NextResponse.redirect(new URL(AUTH_SIGN_IN_ROUTE, request.url));
   }
 
   return response;

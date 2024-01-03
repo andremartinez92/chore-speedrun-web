@@ -11,6 +11,7 @@ mutation CompleteChore(
     records {
       id
       is_completed
+      name
     }
   }
 }

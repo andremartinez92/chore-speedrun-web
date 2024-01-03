@@ -1,5 +1,6 @@
 'use client';
 
+import CompleteChoreButton from '@/features/chores/complete-chore-button';
 import { useGetChoreRecordsQuery } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
 import { CHORES_ROUTE } from '@/routes';
@@ -14,6 +15,7 @@ type Props = {
 const RecordsPage = ({ choreId }: Props) => {
   const { data, loading: isLoading } = useGetChoreRecordsQuery({
     variables: { choreId },
+    fetchPolicy: 'cache-and-network',
   });
 
   const chore = data?.choreCollection?.edges[0]?.node;
@@ -33,7 +35,7 @@ const RecordsPage = ({ choreId }: Props) => {
   return (
     <section
       aria-labelledby="records-page"
-      className="flex flex-col gap-4 mt-8"
+      className="flex flex-col gap-8 mt-8 items-center"
     >
       <h1 id="records-page" className="text-2xl">
         {choreName}
@@ -46,6 +48,11 @@ const RecordsPage = ({ choreId }: Props) => {
       </div>
 
       <Stopwatch choreId={choreId} />
+      <CompleteChoreButton
+        className="max-w-xs"
+        choreId={choreId}
+        disabled={chore.is_completed}
+      />
       <RecordsTable data={records} />
     </section>
   );

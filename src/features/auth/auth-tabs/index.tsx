@@ -1,9 +1,9 @@
 'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import GoogleSignInButton from './google-sign-in-button';
-import LoginForm from './login-form';
-import RegisterForm from './register-form';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/features/ui/tabs';
+import GoogleSignInButton from '../google-sign-in-button';
+import LoginForm from '../login-form';
+import RegisterForm from '../register-form';
 
 enum AuthTabEnum {
   LOGIN = 'LOGIN',
