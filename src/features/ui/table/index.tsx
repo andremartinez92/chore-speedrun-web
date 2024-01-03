@@ -76,7 +76,7 @@ const TableHead = forwardRef<
   <th
     ref={ref}
     className={cn(
-      'h-12 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
+      'h-12 px-2 text-left align-middle font-medium text-muted-foreground',
       'lg:px-4',
       className
     )}
@@ -89,15 +89,7 @@ const TableCell = forwardRef<
   HTMLTableCellElement,
   TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref) => (
-  <td
-    ref={ref}
-    className={cn(
-      'p-2 align-middle [&:has([role=checkbox])]:pr-0',
-      'lg:p-4',
-      className
-    )}
-    {...props}
-  />
+  <td ref={ref} className={cn('p-2 align-middle', className)} {...props} />
 ));
 TableCell.displayName = 'TableCell';
 

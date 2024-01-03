@@ -7,12 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/features/ui/table';
-import {
-  GetChoresDocument,
-  GetChoresQuery,
-  GetChoresQueryVariables,
-} from '@/graphql/generated';
-import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { useGetChoresQuery } from '@/graphql/generated';
 import { useMemo } from 'react';
 import ChoreRow from './chore-row';
 
@@ -22,10 +17,10 @@ type Props = {
 };
 
 const ChoresTable = ({ isCompleted, ...props }: Props) => {
-  const { data, loading } = useQuery<GetChoresQuery, GetChoresQueryVariables>(
-    GetChoresDocument,
-    { variables: { isCompleted }, fetchPolicy: 'cache-and-network' }
-  );
+  const { data, loading } = useGetChoresQuery({
+    variables: { isCompleted },
+    fetchPolicy: 'cache-and-network',
+  });
 
   const tableData = useMemo(() => {
     return (

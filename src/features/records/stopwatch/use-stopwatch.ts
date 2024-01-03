@@ -7,7 +7,6 @@ export enum TimerState {
   OFF = 'OFF',
   ON = 'ON',
   PAUSED = 'PAUSED',
-  FINISHED = 'FINISHED',
 }
 
 const useStopwatch = (onFinish: (time: number) => void) => {
@@ -25,7 +24,7 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onStart = () => {
-    if (timerState === TimerState.FINISHED) {
+    if (timerState === TimerState.OFF) {
       setElapsedTime(0);
     }
 
@@ -61,7 +60,7 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onStop = () => {
-    if (timerState === TimerState.FINISHED) {
+    if (timerState === TimerState.OFF) {
       return;
     }
 
@@ -79,7 +78,7 @@ const useStopwatch = (onFinish: (time: number) => void) => {
     }
 
     setElapsedTime(endTime);
-    setTimerState(TimerState.FINISHED);
+    setTimerState(TimerState.OFF);
     onFinish(endTime);
   };
 

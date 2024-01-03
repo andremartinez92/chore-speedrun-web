@@ -14,6 +14,7 @@ import { parse } from 'date-fns';
 import differenceInDays from 'date-fns/differenceInDays';
 import { Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type ChoreRowProps = {
@@ -33,6 +34,7 @@ const ChoreRow = ({
   lastCompletedAt = '',
   isCompleted,
 }: ChoreRowProps) => {
+  const { push } = useRouter();
   const [isMarkedCompleted, setIsMarkedCompleted] = useState(isCompleted);
   const [deleteChore, { loading: isDeletingChore }] = useDeleteChoreMutation({
     variables: { choreId: id },
@@ -50,30 +52,35 @@ const ChoreRow = ({
   return (
     <TableRow>
       <TableCell>
-        <Checkbox
-          aria-label={
-            isMarkedCompleted
-              ? 'Checkbox to mark chore uncompleted'
-              : 'Checkbox to mark chore completed'
-          }
-          checked={isMarkedCompleted}
-          disabled={isCompletingChore}
-          onCheckedChange={(checked) => {
-            setIsMarkedCompleted(!isMarkedCompleted);
-            void completeChore({
-              variables: {
-                choreId: id,
-                isCompleted: checked === true, // checked can be 'indeterminate'
-                lastCompletedAt: isMarkedCompleted
-                  ? undefined
-                  : convertToGqlDate(new Date()),
-              },
-            });
-          }}
-        />
+        <div className="flex">
+          <Checkbox
+            aria-label={
+              isMarkedCompleted
+                ? 'Checkbox to mark chore uncompleted'
+                : 'Checkbox to mark chore completed'
+            }
+            checked={isMarkedCompleted}
+            disabled={isCompletingChore}
+            onCheckedChange={(checked) => {
+              setIsMarkedCompleted(!isMarkedCompleted);
+              void completeChore({
+                variables: {
+                  choreId: id,
+                  isCompleted: checked === true, // checked can be 'indeterminate'
+                  lastCompletedAt: isMarkedCompleted
+                    ? undefined
+                    : convertToGqlDate(new Date()),
+                },
+              });
+            }}
+          />
+        </div>
       </TableCell>
-      <TableCell>
-        <Link className="table-cell" href={getChoreRoute(id)}>
+      <TableCell
+        className="cursor-pointer"
+        onClick={() => push(getChoreRoute(id))}
+      >
+        <Link href={getChoreRoute(id)} onClick={(e) => e.stopPropagation()}>
           {name}
         </Link>
       </TableCell>
