@@ -28,7 +28,7 @@ const RecordRow = ({ id, time, createdAt }: RecordRowProps) => {
   return (
     <TableRow>
       <TableCell>{timeToDisplay}</TableCell>
-      <TableCell>{new Date(createdAt).toLocaleDateString()}</TableCell>
+      <TableCell>{new Date(createdAt).toLocaleDateString('pt-PT')}</TableCell>
 
       <TableCell>
         <Button

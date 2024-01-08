@@ -1,5 +1,6 @@
 'use client';
 
+import useScreenWakeLock from '@/lib/hooks/use-screen-wake-lock';
 import { getElapsedTime } from '@/lib/utils/time';
 import { useRef, useState } from 'react';
 
@@ -10,6 +11,7 @@ export enum TimerState {
 }
 
 const useStopwatch = (onFinish: (time: number) => void) => {
+  const { wakeLockRelease, wakeLockRequest } = useScreenWakeLock();
   const [elapsedTime, setElapsedTime] = useState(0);
   const cumulativeTime = useRef<number>(0);
   const startDate = useRef<Date>(new Date());
@@ -24,6 +26,8 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onStart = () => {
+    void wakeLockRequest();
+
     if (timerState === TimerState.OFF) {
       setElapsedTime(0);
     }
@@ -45,6 +49,8 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onPause = () => {
+    void wakeLockRelease();
+
     clearIntervalTimer();
     const now = new Date();
     const timeTillNow = getElapsedTime(
@@ -60,6 +66,8 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onStop = () => {
+    void wakeLockRelease();
+
     if (timerState === TimerState.OFF) {
       return;
     }
@@ -83,6 +91,7 @@ const useStopwatch = (onFinish: (time: number) => void) => {
   };
 
   const onReset = () => {
+    void wakeLockRelease();
     clearIntervalTimer();
 
     setElapsedTime(0);
