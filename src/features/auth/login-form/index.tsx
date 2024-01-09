@@ -6,6 +6,7 @@ import { signInWithEmail } from '@/lib/auth/sign-in-with-email';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 enum FormField {
@@ -55,6 +56,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         message:
           'Error signing in. Please verify your email and password and try again.',
       });
+      toast(error.message);
     }
   };
 

@@ -6,6 +6,7 @@ import { signUpWithEmail } from '@/lib/auth/sign-up-with-email';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 enum FormField {
@@ -64,6 +65,7 @@ const RegisterForm = () => {
     const { error } = JSON.parse(result);
     if (error?.message) {
       setError('root', { message: error.message });
+      toast(error.message);
     }
   };
 
