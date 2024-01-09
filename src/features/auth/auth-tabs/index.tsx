@@ -2,7 +2,6 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/features/ui/tabs';
 import { useSearchParams } from 'next/navigation';
-import GoogleSignInButton from '../google-sign-in-button';
 import LoginForm from '../login-form';
 import RegisterForm from '../register-form';
 
@@ -32,10 +31,7 @@ const AuthTabs = () => {
       </TabsContent>
 
       <TabsContent value={AuthTabEnum.LOGIN}>
-        <div className="flex flex-col justify-center gap-4">
-          <LoginForm />
-          <GoogleSignInButton />
-        </div>
+        <LoginForm />
       </TabsContent>
     </Tabs>
   );
