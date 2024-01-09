@@ -1,6 +1,7 @@
 'use server';
 
 import createSupabaseServerClient from '@/lib/supabase/server';
+import { AUTH_LOGIN_ROUTE } from '@/routes';
 import { AuthError } from '@supabase/supabase-js';
 
 export async function signUpWithEmail({
@@ -21,6 +22,9 @@ export async function signUpWithEmail({
   const result = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_UI_URL}${AUTH_LOGIN_ROUTE}`,
+    },
   });
 
   return JSON.stringify(result);

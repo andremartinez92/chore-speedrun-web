@@ -66,6 +66,10 @@ const RegisterForm = () => {
     if (error?.message) {
       setError('root', { message: error.message });
       toast(error.message);
+    } else {
+      toast(
+        'User created successfully. Please check your email to confirm your account.'
+      );
     }
   };
 
