@@ -3,6 +3,10 @@ export const getElapsedTime = (
   olderDate: Date,
   cumulativeTime: number
 ) => {
+  if (olderDate > recentDate) {
+    throw 'Recent date cannot be lower than older date.';
+  }
+
   return recentDate.valueOf() - olderDate.valueOf() + cumulativeTime;
 };
 
