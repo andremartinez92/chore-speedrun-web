@@ -4,16 +4,17 @@ export const getElapsedTime = (
   cumulativeTime: number
 ) => {
   if (olderDate > recentDate) {
-    throw 'Recent date cannot be lower than older date.';
+    console.error('Recent date cannot be lower than older date.');
+    return cumulativeTime;
   }
 
   return recentDate.valueOf() - olderDate.valueOf() + cumulativeTime;
 };
 
-export const displayMilliseconds = (time: number) => {
-  const milliseconds = Math.floor((time / 10) % 100);
+export const displayCentiseconds = (time: number) => {
+  const centiseconds = Math.floor((time / 10) % 100);
   // Show 01, 02, ...
-  const displayText = ('0' + milliseconds).slice(-2);
+  const displayText = ('0' + centiseconds).slice(-2);
 
   return displayText;
 };
@@ -41,5 +42,5 @@ export const displayTime = (elapsedTime: number) => {
 
   return `${displayMinutes(elapsedTime)}:${displaySeconds(
     elapsedTime
-  )}:${displayMilliseconds(elapsedTime)}`;
+  )}:${displayCentiseconds(elapsedTime)}`;
 };
