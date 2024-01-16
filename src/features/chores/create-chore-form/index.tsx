@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '@/features/ui/button';
-import { Checkbox } from '@/features/ui/checkbox';
-import { InputWithLabel } from '@/features/ui/input-with-label';
-import { Label } from '@/features/ui/label';
+import { Button } from '@/components/button';
+import { Checkbox } from '@/components/checkbox';
+import { InputWithLabel } from '@/components/input-with-label';
+import { Label } from '@/components/label';
 import { useCreateChoreMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { getChoreRoute } from '@/routes';

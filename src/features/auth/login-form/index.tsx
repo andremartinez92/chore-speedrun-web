@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/features/ui/button';
-import { InputWithLabel } from '@/features/ui/input-with-label';
+import { Button } from '@/components/button';
+import { InputWithLabel } from '@/components/input-with-label';
 import { signInWithEmail } from '@/lib/auth/sign-in-with-email';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';

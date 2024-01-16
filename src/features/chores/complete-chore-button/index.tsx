@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, ButtonProps } from '@/features/ui/button';
+import { Button, ButtonProps } from '@/components/button';
 import {
   GetChoreRecordsDocument,
   GetChoresDocument,

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/features/ui/button';
+import { Button } from '@/components/button';
 import { signInWithGoogle } from '@/lib/auth/sign-in-with-google';
 import { ReactNode } from 'react';
 

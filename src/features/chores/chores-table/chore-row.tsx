@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/features/ui/button';
-import { Checkbox } from '@/features/ui/checkbox';
-import { TableCell, TableRow } from '@/features/ui/table';
+import { Button } from '@/components/button';
+import { Checkbox } from '@/components/checkbox';
+import { TableCell, TableRow } from '@/components/table';
 import {
   GetChoresDocument,
   useCompleteChoreMutation,

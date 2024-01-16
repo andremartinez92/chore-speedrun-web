@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/features/ui/table';
+} from '@/components/table';
 import RecordRow from './record-row';
 
 type RecordTableData = Pick<Record, 'id' | 'time' | 'created_at'>;

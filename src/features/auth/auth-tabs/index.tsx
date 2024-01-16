@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/features/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/tabs';
 import { useSearchParams } from 'next/navigation';
 import LoginForm from '../login-form';
 import RegisterForm from '../register-form';

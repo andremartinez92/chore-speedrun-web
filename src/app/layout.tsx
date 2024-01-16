@@ -1,6 +1,6 @@
-import NavBar from '@/features/ui/navbar';
-import { ThemeProvider } from '@/features/ui/theme-provider';
-import { Toaster } from '@/features/ui/toaster';
+import NavBar from '@/components/navbar';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/toaster';
 import { ApolloWrapper } from '@/lib/apollo/apollo-wrapper';
 import { cn } from '@/lib/utils/cn';
 import { Metadata } from 'next';

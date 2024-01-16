@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/features/ui/button';
+import { Button } from '@/components/button';
 import {
   GetChoreRecordsDocument,
   useCreateRecordMutation,

@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/features/ui/button';
+import { Button } from '@/components/button';
 import { AUTH_SIGN_IN_ROUTE } from '@/routes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

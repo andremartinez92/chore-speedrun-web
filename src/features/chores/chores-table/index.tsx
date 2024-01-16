@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/features/ui/table';
+} from '@/components/table';
 import { useGetChoresQuery } from '@/graphql/generated';
 import { useMemo } from 'react';
 import ChoreRow from './chore-row';

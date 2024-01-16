@@ -1,8 +1,8 @@
 'use client';
 
+import { Button } from '@/components/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/tabs';
 import ChoresTable from '@/features/chores/chores-table';
-import { Button } from '@/features/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/features/ui/tabs';
 import { CREATE_CHORE_ROUTE } from '@/routes';
 import Link from 'next/link';
 

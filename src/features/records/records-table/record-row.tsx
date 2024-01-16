@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/features/ui/button';
-import { TableCell, TableRow } from '@/features/ui/table';
+import { Button } from '@/components/button';
+import { TableCell, TableRow } from '@/components/table';
 import {
   GetChoreRecordsDocument,
   useDeleteRecordMutation,
