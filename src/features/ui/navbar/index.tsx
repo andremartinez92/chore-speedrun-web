@@ -1,9 +1,9 @@
+import { NavigationMenu } from '@/components/navigation-menu';
 import { ModeToggle } from '@/components/toggle-theme';
 import AuthActionButton from '@/features/auth/auth-action-button';
 import { readUserSession } from '@/lib/supabase/read-user-session';
 import { HOME_ROUTE } from '@/routes';
 import Link from 'next/link';
-import { NavigationMenu } from '../navigation-menu';
 
 const NavBar = async () => {
   const { data } = await readUserSession();
