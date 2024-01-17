@@ -2,6 +2,7 @@ import createSupabaseServerClient from '@/lib/supabase/server';
 import { AUTH_CODE_ERROR_ROUTE, HOME_ROUTE } from '@/routes';
 import { NextResponse } from 'next/server';
 
+// https://supabase.com/docs/guides/auth/server-side/oauth-with-pkce-flow-for-ssr
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
