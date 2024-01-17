@@ -12,6 +12,7 @@ import { createCache } from './create-cache';
 import { errorLink } from './error-link';
 import { serverAuthLink } from './server-auth-link';
 
+// https://github.com/apollographql/apollo-client-nextjs
 function makeClient() {
   const httpLink = new HttpLink({
     uri: GRAPHQL_URL,

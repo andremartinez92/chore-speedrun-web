@@ -11,6 +11,7 @@ export async function middleware(request: NextRequest) {
   });
 
   // Fix bug where CSS styles are not loaded after the redirect
+  // https://github.com/vercel/next.js/discussions/38208#discussioncomment-3058001
   if (request.nextUrl.pathname.startsWith('/_next')) {
     return response;
   }
