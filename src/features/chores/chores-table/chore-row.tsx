@@ -10,8 +10,7 @@ import {
 } from '@/graphql/generated';
 import { convertToGqlDate } from '@/lib/utils/convert-to-gql-date';
 import { getChoreRoute } from '@/routes';
-import { parse } from 'date-fns';
-import differenceInDays from 'date-fns/differenceInDays';
+import { differenceInDays, parse } from 'date-fns';
 import { Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
