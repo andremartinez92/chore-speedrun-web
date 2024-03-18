@@ -72,5 +72,6 @@
   },
   "resolutions": {
     "@types/react": "18.2.8"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
