@@ -1,9 +1,11 @@
 'use client';
 
+import LoadingSpinner from '@/components/loading-spinner';
 import CompleteChoreButton from '@/features/chores/complete-chore-button';
-import { useGetChoreRecordsQuery } from '@/graphql/generated';
+import { useGetChoreRecordsSuspenseQuery } from '@/graphql/generated';
 import { displayTime } from '@/lib/utils/time';
 import { CHORES_ROUTE } from '@/routes';
+import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
 import RecordsTable from '../records-table';
 import Stopwatch from '../stopwatch';
@@ -13,7 +15,7 @@ type Props = {
 };
 
 const RecordsPage = ({ choreId }: Props) => {
-  const { data, loading: isLoading } = useGetChoreRecordsQuery({
+  const { data } = useGetChoreRecordsSuspenseQuery({
     variables: { choreId },
     fetchPolicy: 'cache-and-network',
   });
@@ -23,10 +25,6 @@ const RecordsPage = ({ choreId }: Props) => {
   const choreName = chore?.name;
   const bestTime = chore?.recordCollection?.edges?.[0]?.node.time;
   const records = chore?.recordCollection?.edges.map((edge) => edge.node) || [];
-
-  if (isLoading && !chore) {
-    return <div>Loading...</div>;
-  }
 
   if (!chore) {
     redirect(CHORES_ROUTE);
@@ -58,4 +56,11 @@ const RecordsPage = ({ choreId }: Props) => {
   );
 };
 
-export default RecordsPage;
+export default dynamic(() => Promise.resolve(RecordsPage), {
+  loading: () => (
+    <div className="w-full h-full">
+      <LoadingSpinner />
+    </div>
+  ),
+  ssr: false,
+});

@@ -1,5 +1,5 @@
-import type { Config } from 'tailwindcss';
 import { fontFamily } from 'tailwindcss/defaultTheme';
+import { Config } from 'tailwindcss/types/config';
 
 const config = {
   darkMode: ['class'],
@@ -71,10 +71,16 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'fade-in-spin': {
+          from: { opacity: '0' },
+          '50%': { opacity: '0.2' },
+          to: { opacity: '0', transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in-spin': 'fade-in-spin 1s linear',
       },
     },
   },

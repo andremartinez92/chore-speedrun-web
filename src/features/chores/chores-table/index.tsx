@@ -1,5 +1,6 @@
 'use client';
 
+import LoadingSpinner from '@/components/loading-spinner';
 import {
   Table,
   TableBody,
@@ -7,7 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/table';
-import { useGetChoresQuery } from '@/graphql/generated';
+import { useGetChoresSuspenseQuery } from '@/graphql/generated';
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
 import ChoreRow from './chore-row';
 
@@ -17,7 +19,7 @@ type Props = {
 };
 
 const ChoresTable = ({ isCompleted, ...props }: Props) => {
-  const { data, loading } = useGetChoresQuery({
+  const { data } = useGetChoresSuspenseQuery({
     variables: { isCompleted },
     fetchPolicy: 'cache-and-network',
   });
@@ -34,10 +36,6 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
       })) || []
     );
   }, [data?.choreCollection]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Table aria-label={props['aria-label']}>
@@ -61,4 +59,11 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
   );
 };
 
-export default ChoresTable;
+export default dynamic(() => Promise.resolve(ChoresTable), {
+  loading: () => (
+    <div className="w-full h-full">
+      <LoadingSpinner />
+    </div>
+  ),
+  ssr: false,
+});

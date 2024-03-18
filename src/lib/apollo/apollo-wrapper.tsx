@@ -20,17 +20,20 @@ function makeClient() {
 
   return new NextSSRApolloClient({
     cache: createCache(),
-    link: ApolloLink.from([
-      // in a SSR environment, if you use multipart features like
-      // @defer, you need to decide how to handle these.
-      // This strips all interfaces with a `@defer` directive from your queries.
-      new SSRMultipartLink({
-        stripDefer: true,
-      }),
-      errorLink,
-      typeof window === 'undefined' ? serverAuthLink : clientAuthLink,
-      httpLink,
-    ]),
+    link:
+      typeof window === 'undefined'
+        ? ApolloLink.from([
+            // in a SSR environment, if you use multipart features like
+            // @defer, you need to decide how to handle these.
+            // This strips all interfaces with a `@defer` directive from your queries.
+            new SSRMultipartLink({
+              stripDefer: true,
+            }),
+            errorLink,
+            serverAuthLink,
+            httpLink,
+          ])
+        : ApolloLink.from([errorLink, clientAuthLink, httpLink]),
   });
 }
 
