@@ -10,12 +10,6 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  // Fix bug where CSS styles are not loaded after the redirect
-  // https://github.com/vercel/next.js/discussions/38208#discussioncomment-3058001
-  if (request.nextUrl.pathname.startsWith('/_next')) {
-    return response;
-  }
-
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -60,3 +54,15 @@ export async function middleware(request: NextRequest) {
 
   return response;
 }
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
+};
