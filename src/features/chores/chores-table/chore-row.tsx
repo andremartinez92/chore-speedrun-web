@@ -81,6 +81,7 @@ const ChoreRow = ({ data }: ChoreRowProps) => {
           />
         </div>
       </TableCell>
+
       <TableCell
         className="cursor-pointer"
         onClick={() => push(getChoreRoute(id))}
@@ -89,6 +90,7 @@ const ChoreRow = ({ data }: ChoreRowProps) => {
           {name}
         </Link>
       </TableCell>
+
       <TableCell>
         {lastCompletedAt
           ? differenceInDays(
@@ -97,10 +99,13 @@ const ChoreRow = ({ data }: ChoreRowProps) => {
             )
           : '-'}
       </TableCell>
+
       <TableCell className="hidden lg:table-cell">{recurringDays}</TableCell>
+
       <TableCell className="hidden lg:table-cell">
         {isPriority ? '*' : '-'}
       </TableCell>
+
       <TableCell>
         <Button
           className="text-destructive"

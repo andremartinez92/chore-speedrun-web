@@ -4,79 +4,19 @@ import { Button } from '@/components/button';
 import { Checkbox } from '@/components/checkbox';
 import { InputWithLabel } from '@/components/input-with-label';
 import { Label } from '@/components/label';
-import { useToast } from '@/components/toast/use-toast';
-import { useCreateChoreMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
-import { getChoreRoute } from '@/routes';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-enum FormFieldEnum {
-  name = 'name',
-  recurringDays = 'recurringDays',
-  isPriority = 'isPriority',
-}
-
-const validationSchema = z.object({
-  [FormFieldEnum.name]: z
-    .string()
-    .min(1, { message: 'Name is required.' })
-    .trim(),
-  [FormFieldEnum.recurringDays]: z.coerce
-    .number()
-    .int()
-    .lte(400, 'Must be lower than 400.'),
-  [FormFieldEnum.isPriority]: z.boolean(),
-});
-
-type ValidationSchema = z.infer<typeof validationSchema>;
+import { Controller } from 'react-hook-form';
+import useCreateChoreForm from './use-create-chore-form';
+import { CreateChoreFormFieldEnum } from './validation-schema';
 
 const CreateChoreForm = () => {
-  const { toast } = useToast();
-  const { push } = useRouter();
+  const { formProps, onSubmit } = useCreateChoreForm();
 
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
-    defaultValues: {
-      [FormFieldEnum.name]: '',
-      [FormFieldEnum.recurringDays]: 0,
-      [FormFieldEnum.isPriority]: false,
-    },
-    mode: 'onBlur',
-  });
-
-  const [createChore] = useCreateChoreMutation({
-    onCompleted: (result) => {
-      const newChoreId = result.insertIntoChoreCollection?.records[0].id;
-
-      if (newChoreId) {
-        toast({ title: 'Chore created.' });
-        push(getChoreRoute(newChoreId));
-      }
-    },
-    onError: (error) => setError('root', { message: error.message }),
-  });
-
-  const onSubmit: SubmitHandler<ValidationSchema> = async ({
-    name,
-    recurringDays,
-    isPriority,
-  }) => {
-    await createChore({
-      variables: {
-        name,
-        recurringDays,
-        isPriority,
-      },
-    });
-  };
+  } = formProps;
 
   return (
     <form
@@ -84,7 +24,7 @@ const CreateChoreForm = () => {
       className="flex flex-col gap-8 max-w-md"
     >
       <Controller
-        name={FormFieldEnum.name}
+        name={CreateChoreFormFieldEnum.name}
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
@@ -97,7 +37,7 @@ const CreateChoreForm = () => {
       />
 
       <Controller
-        name={FormFieldEnum.recurringDays}
+        name={CreateChoreFormFieldEnum.recurringDays}
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
@@ -112,7 +52,7 @@ const CreateChoreForm = () => {
 
       <Controller
         control={control}
-        name={FormFieldEnum.isPriority}
+        name={CreateChoreFormFieldEnum.isPriority}
         render={({ field }) => (
           <>
             <Label htmlFor={field.name}>Priority</Label>
