@@ -50,7 +50,10 @@ const RecordsPage = ({ choreId }: Props) => {
         className="max-w-xs"
         choreId={choreId}
         disabled={chore.is_completed}
-      />
+        isCompleted={chore.is_completed}
+      >
+        Complete chore
+      </CompleteChoreButton>
       <RecordsTable data={records} />
     </section>
   );

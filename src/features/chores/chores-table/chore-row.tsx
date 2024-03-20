@@ -3,10 +3,11 @@
 import { TableCell, TableRow } from '@/components/table';
 import { getChoreRoute } from '@/routes';
 import { differenceInDays, parse } from 'date-fns';
+import { CheckCircleIcon, Trash2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import ChoreCompleteCheckbox from './chore-complete-checkbox';
-import ChoreDeleteButton from './chore-delete-button';
+import CompleteChoreButton from '../complete-chore-button';
+import DeleteChoreButton from '../delete-chore-button';
 
 type ChoreRowProps = {
   data: {
@@ -41,7 +42,14 @@ const ChoreRow = ({ data }: ChoreRowProps) => {
     <TableRow>
       <TableCell>
         <div className="flex">
-          <ChoreCompleteCheckbox isCompleted={isCompleted} id={id} />
+          <CompleteChoreButton
+            variant="outline"
+            className={isCompleted ? 'text-destructive' : undefined}
+            isCompleted={isCompleted}
+            choreId={id}
+          >
+            <CheckCircleIcon className="h-4 w-4" />
+          </CompleteChoreButton>
         </div>
       </TableCell>
 
@@ -63,7 +71,15 @@ const ChoreRow = ({ data }: ChoreRowProps) => {
       </TableCell>
 
       <TableCell>
-        <ChoreDeleteButton id={id} name={name} />
+        <DeleteChoreButton
+          choreId={id}
+          name={name}
+          className="text-destructive"
+          variant="outline"
+          size="icon"
+        >
+          <Trash2Icon className="h-4 w-4" />
+        </DeleteChoreButton>
       </TableCell>
     </TableRow>
   );

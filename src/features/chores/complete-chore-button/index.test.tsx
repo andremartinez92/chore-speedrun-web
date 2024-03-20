@@ -33,7 +33,9 @@ describe('<CompleteChoreButton/>', () => {
     render(
       <>
         <MockedProvider mocks={[completeChoreMock]} addTypename={false}>
-          <CompleteChoreButton choreId={CHORE_ID} />
+          <CompleteChoreButton choreId={CHORE_ID} isCompleted={false}>
+            Complete chore
+          </CompleteChoreButton>
         </MockedProvider>
         <Toaster />
       </>
@@ -66,7 +68,9 @@ describe('<CompleteChoreButton/>', () => {
     render(
       <>
         <MockedProvider mocks={[completeChoreMock]} addTypename={false}>
-          <CompleteChoreButton choreId={CHORE_ID} />
+          <CompleteChoreButton choreId={CHORE_ID} isCompleted={false}>
+            Complete Chore
+          </CompleteChoreButton>
         </MockedProvider>
         <Toaster />
       </>

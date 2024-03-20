@@ -1,14 +1,15 @@
-import { Button } from '@/components/button';
+import { Button, ButtonProps } from '@/components/button';
 import { useToast } from '@/components/toast/use-toast';
 import { GetChoresDocument, useDeleteChoreMutation } from '@/graphql/generated';
-import { Trash2Icon } from 'lucide-react';
 
-type Props = { id: string; name: string };
-
-const ChoreDeleteButton = ({ id, name }: Props) => {
+type Props = Omit<ButtonProps, 'onClick'> & {
+  choreId: string;
+  name: string;
+};
+const DeleteChoreButton = ({ choreId, name, children, ...props }: Props) => {
   const { toast } = useToast();
   const [deleteChore, { loading: isDeletingChore }] = useDeleteChoreMutation({
-    variables: { choreId: id },
+    variables: { choreId },
     refetchQueries: [GetChoresDocument],
     onCompleted: () => {
       toast({ title: `Chore '${name}' deleted.` });
@@ -20,16 +21,14 @@ const ChoreDeleteButton = ({ id, name }: Props) => {
 
   return (
     <Button
-      className="text-destructive"
-      variant="outline"
-      size="icon"
       aria-label={`Delete chore ${name}`}
-      onClick={() => deleteChore()}
       disabled={isDeletingChore}
+      {...props}
+      onClick={() => deleteChore()}
     >
-      <Trash2Icon className="h-4 w-4" />
+      {children}
     </Button>
   );
 };
 
-export default ChoreDeleteButton;
+export default DeleteChoreButton;
