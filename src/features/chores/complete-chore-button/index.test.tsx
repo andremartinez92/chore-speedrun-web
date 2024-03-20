@@ -6,8 +6,8 @@ import { MockedProvider } from '@apollo/client/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GraphQLError } from 'graphql';
-import CompleteChoreButton from '..';
-import { completedChoreResponse } from '../../__mocks__/complete-chore';
+import CompleteChoreButton from '.';
+import { completedChoreResponse } from '../__mocks__/complete-chore';
 
 const CHORE_ID = completedChoreResponse.updateChoreCollection.records[0].id;
 
