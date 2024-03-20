@@ -27,12 +27,14 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
   const tableData = useMemo(() => {
     return (
       data?.choreCollection?.edges.map(({ node }) => ({
-        id: node.id,
-        recurringDays: node.recurring_days,
-        isPriority: node.is_priority,
-        isCompleted: node.is_completed,
-        lastCompletedAt: node.last_completed_at ?? undefined,
-        name: node.name,
+        data: {
+          id: node.id,
+          recurringDays: node.recurring_days,
+          isPriority: node.is_priority,
+          isCompleted: node.is_completed,
+          lastCompletedAt: node.last_completed_at ?? undefined,
+          name: node.name,
+        },
       })) || []
     );
   }, [data?.choreCollection]);
@@ -51,8 +53,8 @@ const ChoresTable = ({ isCompleted, ...props }: Props) => {
       </TableHeader>
 
       <TableBody className="overflow-y-scroll max-h-[60dvh]">
-        {tableData.map((props) => {
-          return <ChoreRow key={props.id} {...props} />;
+        {tableData.map(({ data }) => {
+          return <ChoreRow key={data.id} data={data} />;
         })}
       </TableBody>
     </Table>

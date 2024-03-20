@@ -4,13 +4,13 @@ import { Button } from '@/components/button';
 import { Checkbox } from '@/components/checkbox';
 import { InputWithLabel } from '@/components/input-with-label';
 import { Label } from '@/components/label';
+import { useToast } from '@/components/toast/use-toast';
 import { useCreateChoreMutation } from '@/graphql/generated';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { getChoreRoute } from '@/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
 enum FormFieldEnum {
@@ -34,7 +34,9 @@ const validationSchema = z.object({
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 const CreateChoreForm = () => {
+  const { toast } = useToast();
   const { push } = useRouter();
+
   const {
     control,
     handleSubmit,
@@ -55,7 +57,7 @@ const CreateChoreForm = () => {
       const newChoreId = result.insertIntoChoreCollection?.records[0].id;
 
       if (newChoreId) {
-        toast('Chore created.');
+        toast({ title: 'Chore created.' });
         push(getChoreRoute(newChoreId));
       }
     },

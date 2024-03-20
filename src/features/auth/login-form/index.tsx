@@ -2,11 +2,11 @@
 
 import { Button } from '@/components/button';
 import { InputWithLabel } from '@/components/input-with-label';
+import { useToast } from '@/components/toast/use-toast';
 import { signInWithEmail } from '@/lib/auth/sign-in-with-email';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
 enum FormField {
@@ -27,6 +27,8 @@ const validationSchema = z.object({
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 const LoginForm = ({ className = '' }: { className?: string }) => {
+  const { toast } = useToast();
+
   const {
     control,
     handleSubmit,
@@ -56,7 +58,7 @@ const LoginForm = ({ className = '' }: { className?: string }) => {
         message:
           'Error signing in. Please verify your email and password and try again.',
       });
-      toast(error.message);
+      toast({ title: error.message });
     }
   };
 

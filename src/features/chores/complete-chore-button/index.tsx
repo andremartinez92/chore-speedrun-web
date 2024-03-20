@@ -1,19 +1,21 @@
 'use client';
 
 import { Button, ButtonProps } from '@/components/button';
+import { useToast } from '@/components/toast/use-toast';
 import {
   GetChoreRecordsDocument,
   GetChoresDocument,
   useCompleteChoreMutation,
 } from '@/graphql/generated';
 import { convertToGqlDate } from '@/lib/utils/convert-to-gql-date';
-import { toast } from 'sonner';
 
 type Props = Omit<ButtonProps, 'children' | 'onClick'> & {
   choreId: string;
 };
 
 const CompleteChoreButton = ({ choreId, disabled, ...props }: Props) => {
+  const { toast } = useToast();
+
   const [completeChore, { loading: isLoading }] = useCompleteChoreMutation({
     variables: {
       choreId,
@@ -22,8 +24,11 @@ const CompleteChoreButton = ({ choreId, disabled, ...props }: Props) => {
     },
     refetchQueries: [GetChoresDocument, GetChoreRecordsDocument],
     onCompleted: (result) =>
-      toast(`${result.updateChoreCollection.records[0]?.name} completed!`),
-    onError: (error) => toast(`Error: ${error.message}`, { important: true }),
+      toast({
+        title: `${result.updateChoreCollection.records[0]?.name} completed!`,
+      }),
+    onError: (error) =>
+      toast({ title: `Error: ${error.message}`, variant: 'destructive' }),
   });
 
   return (

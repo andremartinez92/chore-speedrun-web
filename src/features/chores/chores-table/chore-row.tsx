@@ -17,28 +17,34 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 type ChoreRowProps = {
-  id: string;
-  name: string;
-  recurringDays: number;
-  isPriority: boolean;
-  lastCompletedAt?: string;
-  isCompleted: boolean;
+  data: {
+    id: string;
+    name: string;
+    recurringDays: number;
+    isPriority: boolean;
+    lastCompletedAt?: string;
+    isCompleted: boolean;
+  };
 };
 
-const ChoreRow = ({
-  id,
-  name,
-  recurringDays,
-  isPriority,
-  lastCompletedAt = '',
-  isCompleted,
-}: ChoreRowProps) => {
+const ChoreRow = ({ data }: ChoreRowProps) => {
+  const {
+    id,
+    name,
+    recurringDays,
+    isPriority,
+    lastCompletedAt = '',
+    isCompleted,
+  } = data;
+
   const { push } = useRouter();
   const [isMarkedCompleted, setIsMarkedCompleted] = useState(isCompleted);
+
   const [deleteChore, { loading: isDeletingChore }] = useDeleteChoreMutation({
     variables: { choreId: id },
     refetchQueries: [GetChoresDocument],
   });
+
   const [completeChore, { loading: isCompletingChore }] =
     useCompleteChoreMutation({
       refetchQueries: [GetChoresDocument],

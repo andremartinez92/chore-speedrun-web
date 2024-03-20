@@ -2,11 +2,11 @@
 
 import { Button } from '@/components/button';
 import { InputWithLabel } from '@/components/input-with-label';
+import { useToast } from '@/components/toast/use-toast';
 import { signUpWithEmail } from '@/lib/auth/sign-up-with-email';
 import { createInputErrorProps } from '@/lib/utils/create-input-error-props';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
 enum FormField {
@@ -36,6 +36,8 @@ const validationSchema = z
 type ValidationSchema = z.infer<typeof validationSchema>;
 
 const RegisterForm = () => {
+  const { toast } = useToast();
+
   const {
     control,
     handleSubmit,
@@ -65,11 +67,12 @@ const RegisterForm = () => {
     const { error } = JSON.parse(result);
     if (error?.message) {
       setError('root', { message: error.message });
-      toast(error.message);
+      toast({ title: error.message });
     } else {
-      toast(
-        'User created successfully. Please check your email to confirm your account.'
-      );
+      toast({
+        title: 'User created successfully.',
+        description: 'Please check your email to confirm your account.',
+      });
     }
   };
 
