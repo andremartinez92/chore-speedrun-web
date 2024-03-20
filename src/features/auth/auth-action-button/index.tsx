@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '@/components/button';
 import { AUTH_SIGN_IN_ROUTE } from '@/routes';
 import Link from 'next/link';
